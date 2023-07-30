@@ -55,3 +55,9 @@ Here are some properties of RSID values:
 -   if someone has a Word document that is a few years old, or they are representing it as being a few years old, but it’s using a more recent, unique font, it is suspicious
 -	It is alarming if you’ve got a five-page document that has an edit time of two minutes, or just one revision
 -	By comparing the similarities between the document's temporary TMP file and autosaved ASD files can help in finding out if there are copy pasted content in the document
+
+<h2>Tools to explore</h2>
+-	X-Ways v19.5 and FTK v6.4
+-	Olefile and ExifTool
+-   OfficeDissector
+-   https://github.com/abctemp90/Grouping_document_tool
