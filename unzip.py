@@ -19,14 +19,8 @@ class Application():
                 xml_content = zip.read('word/settings.xml')
         return xml_content
 
-    def document_content(self):
-        return self.document_content
-    
-    def settings_content(self):
-        return self.settings_content
-
     # def get_xml_tree(self, xml_string):
     #     return (etree.fromstring(xml_string))
 
 a = Application()
-print(a.settings_content)
+print(a.document_content)
