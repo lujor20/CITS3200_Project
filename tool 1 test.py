@@ -11,16 +11,17 @@ class Main:
                 self.openFile = csv.reader(file)
             self.filePath = path
             print("Success")
-            ##self.duplicate('copyCSV.txt')
+            self.duplicate('copyCSV.txt')
         except Exception as e:
-            print("path didnt work: {e}")
+            print(f"path didnt work: {e}")
 
+    ## create duplicate file
     def duplicate(self, dst):
         try:
             shutil.copy(self.filePath, dst)
             print("copy success")
-        except:
-            print("could not copy file")
+        except Exception as e:
+            print(f"could not copy file: {e}")
 
 
         
