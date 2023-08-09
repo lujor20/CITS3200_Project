@@ -2,7 +2,7 @@ import csv
 import shutil
 import os
 
-class main:
+class Main:
 
     ## initialising file as object
     def __init__(self, path):
@@ -11,7 +11,7 @@ class main:
                 self.openFile = csv.reader(file)
             self.filePath = path
             print("Success")
-            self.duplicate('copyCSV.txt')
+            ##self.duplicate('copyCSV.txt')
         except Exception as e:
             print("path didnt work: {e}")
 
@@ -25,7 +25,7 @@ class main:
 
         
 
-test = main('example LMS test log.csv')
+test = Main('example LMS test log.csv')
 
 
 print(os.getcwd())
