@@ -1,11 +1,6 @@
 # CITS3200_Project
 This is the GIT repository for all code and similar resources.
 
-<<<<<<< HEAD
-meeting number 2
-
-test
-=======
 <h1>CHEATING DETECTION TOOL</h1>
 
 Description:
@@ -69,4 +64,3 @@ Here are some properties of RSID values:
 <li>-	Olefile and ExifTool</li>
 <li>-   OfficeDissector</li>
 <li>-   https://github.com/abctemp90/Grouping_document_tool</li>
->>>>>>> e5b5945fa6a1bddd4fee5626b62f09c52611e9a2
