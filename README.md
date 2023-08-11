@@ -64,3 +64,57 @@ Here are some properties of RSID values:
 <li>-	Olefile and ExifTool</li>
 <li>-   OfficeDissector</li>
 <li>-   https://github.com/abctemp90/Grouping_document_tool</li>
+
+<h2>Clare Johnson's findings</h2>
+- OOXML format = various components of each document are stored separately --> it is possiblle to unpack the file to explore its metadata
+- RSID values generated do not appear to increment throughout the editing process, or that if they do, it is not as simple as incrementing on the basis of edits carried out over a timeline
+
+- document creation date that precedes an assignment handout date would suggest that the
+student has used a previously written assignment from someone else as the basis of their
+response
+
+- An editing time that does not correlate with the length of the document would
+suggest that text has been copied from another source.
+
+- This
+information can be found under the File menu by selecting Properties and then the Statistics
+tab,
+
+- The file containing most of the content is the document.xml file, and this file also contains
+the main RSID markup for the document, showing all the edit runs that still remain within the
+content and indicating how the document was built, as every edit that has taken place will sit
+inside an RSID tag.
+
+- when an edit is done at a separate time (different editing session), the words being edited will contain its own newly added RSID value (rsidR) - since in a genuine work, students will maeke many of these edits, the result of the document will contain many RSID values
+
+- Contract cheating case: large chunks of text with no additional RSID editing values
+
+- if student submits the contracted work in its original form, there might be a lot of RSID values looking like an original work, but the creator name and device will not tally with the student who submitted it
+
+- rsidR = the rsid value for which the run was written (will increase as more edits are made)
+- rsidRDefault = the default rsid value assigned to the document initially
+
+- sharing of document does not share rsid values, so a shared document when saved locally, will not have the rsid values that indicate multiple editing sessions
+
+
+- genuine work metric example: words: 106; unique rsidR values: 12; ratio of edits to words: 11.32%;
+- after sharing and small editing: words: 106; unique rsidR values: 3; ratio of edits to words: 2.83%
+
+- genuine work metric essay example: words: 3685; unique rsidR values: 88; ratio of edits to words: 2.39%;
+- student's submission: words: 4172; unique rsidR values: 15; ratio of edits to words: 0.36%
+
+- possible useful metrics: word count, unique rsidR values, ratio of unique edits to words, total number of edits (rsidR values), ratio of total edits to words, ratio of rsidR to total edits
+
+- Better metrics: average number of words per run, average number of words per rsidR edit value
+
+- False positive consideration: document with small number of edits could result from student separating their work into sections and then copy pasted everything to a master document to be submitted or they use an online tool for grammatical check and copy pasted the result into a final copy
+
+- genuine work has less <w:rFont> element since there would usually be no need to reformat the text to a different font
+- copy pasted content from the internt usually requires a considerable amount of reformatting to match the default document = more <w:rFont> element
+
+- false positive consideration: this may be a relic of language conversion, so if the student had written the document in a language other than english and then needed to translate it for submission, there may be <w:rFont> tags appearing
+
+- Possible future work: establishing a timeline of content creation based on the rsid values generated (since they seem to be random hex values)
+- areas considered worthy of further exploration: reporting on frequency of minor edits, which could be indicative of spelling corrections, grammatical alterations and name changes, consistent with changes to contracted work as well as testing the methods on copy-and-paste plagiarism
+
+- it might also be useful to highlight large blocks of undedited text to an assessor
