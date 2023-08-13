@@ -56,7 +56,7 @@ python3 rsid.py <docx file path>
 ```
 #### Example:
 ```
-python3 rsid.py test.docx
+python rsid.py test.docx
 ```
 
 # Useful Commands (Delete later)
