@@ -1,10 +1,11 @@
 # CITS3200_Project
 This is the GIT repository for all code and similar resources.
 
-<h1>CHEATING DETECTION TOOL</h1>
+<h1>Cheating Detection Tool</h1>
 
-Description:
- Tool 1: document analysis tool When a student submits an assignment in the form of a Microsoft Word Document that was actually written by someone else various aspects of the document's metadata potentially provide clues that may help substantiate an allegation of cheating. It is often the case that when students obtain an essay or similar written by another person they lightly edit the document, for example, adding their name and institution. At times, it is possible that document Properties are wiped or provide insufficient data to conclude how the work was written. However, forensic techniques exist that can dig deeper into documents when they are unzipped as XML files. See: this https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7324152.
+<h2>Description From Client</h2>
+ <h3>Tool 1: </h3>
+ document analysis tool When a student submits an assignment in the form of a Microsoft Word Document that was actually written by someone else various aspects of the document's metadata potentially provide clues that may help substantiate an allegation of cheating. It is often the case that when students obtain an essay or similar written by another person they lightly edit the document, for example, adding their name and institution. At times, it is possible that document Properties are wiped or provide insufficient data to conclude how the work was written. However, forensic techniques exist that can dig deeper into documents when they are unzipped as XML files. See: this https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7324152.
 
 There are various clues in that can be drawn from the XML file that indicate potential cheating as outlines here https://doi.org/10.1007/s10805-019-09358-w and here https://doi.org/10.1007/978-3-031-12680-2_12
 
@@ -12,7 +13,8 @@ What I am proposing as a tool for the students to develop is a program (site etc
 
 In short, the tool would unzip and automate the analysis of cheating-relevant information in word documents. A really sophisticated version would also conduct a web search for any identified author or website author to see whether these are known cheating providers.
 
-Tool 2 This idea is simpler than the first. When students take online tests in LMS (Blackboard)it is possible to download a log the test activity that includes IP addresses from where the test was accessed, date and time, etc. This log is downloadable as a comma delimited file (*.csv), that people typically open in Excel.
+<h3>Tool 2</h3> 
+This idea is simpler than the first. When students take online tests in LMS (Blackboard)it is possible to download a log the test activity that includes IP addresses from where the test was accessed, date and time, etc. This log is downloadable as a comma delimited file (*.csv), that people typically open in Excel.
 
 When students outsource test completion to third parties well-known large-scale cheating providers are often off-shore in Kenya, China, Ukraine, and India or Pakistan. The second tool I propose would automatically search the IP column in the online test log and flag (highlight) suspicious activities such as logins from Kenya, logins from multiple IP addresses for the same student on repeatable tests, logins from discrepant locations at times that would make travel between the locations impossible, logins at unusual times (e.g. 12am-5am). Incorporating IP lookups into this process should be able to show whether addresses are VPNs or not.
 
@@ -24,9 +26,57 @@ An excellent tool would rank suspicious activity by counting and indicating when
 <li>Preferred contact: Email</li>
 <li>Location: UWA</li>
 
+# To Run The Program
 
-<h1>Tool 1 Findings</h1>
-<h2>Forensics for Revision Identifiers</h2>
+### 1. Clone Remote Repository
+
+```
+git clone https://github.com/lujor20/CITS3200_Project.git
+```
+
+### 2. Create a virtual environment
+
+```
+python3 -m venv dev-env
+```
+
+### 3. Open the virtual environment
+#### Using Windows Powershell
+
+```
+dev-env\Scripts\Activate.ps1
+```
+
+#### Using Windows Command Prompt
+
+```
+dev-env\bin\activate.bat
+```
+
+#### Using Linux/MacOS
+
+```
+source dev-env/bin/activate
+```
+### 4. Install the Required libraries
+
+```
+pip install -r requirements.txt
+```
+
+### 5. Run the tool
+
+```
+python3 rsid.py <docx file path>
+```
+#### Example:
+
+```
+python3 rsid.py test.docx
+```
+
+# Tool 1 Findings
+## Forensics for Revision Identifiers 
 Revision Identifiers (RSID) is a 32-bit value represented by eight hex numbers which are stored in OOXML document (e.g. Microsoft Word - docx).
 RSID contains useful information such as traces left from the modification of the document which could serve as evidence to assess in cases of suspected cheating.
 Here are some properties of RSID values:
@@ -64,12 +114,3 @@ Here are some properties of RSID values:
 <li>Olefile and ExifTool</li>
 <li>OfficeDissector</li>
 <li>https://github.com/abctemp90/Grouping_document_tool</li>
-
-<h1>TO RUN</h1>
-1. Create a virtual environment
-```
-    $ # Create virtual environment
-    $ python3 -m venv dev-env
-```
-2. Open the virtual environment
-dev-env\Scripts\Activate.ps1
