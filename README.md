@@ -67,7 +67,9 @@ Here are some properties of RSID values:
 
 <h1>TO RUN</h1>
 1. Create a virtual environment
-```# Create virtual environment
-python3 -m venv dev-env```
+```
+# Create virtual environment
+    python3 -m venv dev-env
+```
 2. Open the virtual environment
 dev-env\Scripts\Activate.ps1
