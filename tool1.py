@@ -1,8 +1,6 @@
 import zipfile
 from bs4 import BeautifulSoup
-# from lxml import etree
-# import pandas as pd
-
+import sys
 class Extract():
     def __init__(self, filename):
         """Find and store xml content"""
@@ -20,9 +18,6 @@ class Extract():
                 xml_content = zip.read('word/settings.xml')
         return xml_content
 
-    # def get_xml_tree(self, xml_string):
-    #     return (etree.fromstring(xml_string))
-
 def parse_xml(content):
     """Create a function to parse the xml"""
     soup = BeautifulSoup(content, 'xml')
@@ -35,5 +30,15 @@ def parse_xml(content):
         except:
             print(default_rsidR)
 
-xml = Extract("hi.docx")
-parse_xml(xml.document_content)
+def main(sourcefile):
+    """Extracts the xml data"""
+    xml = Extract(sourcefile)
+    parse_xml(xml.document_content)
+
+if __name__=="__main__":
+    args = sys.argv
+    if len(args) != 2:
+        raise Exception("Usage: python rsid.py <docx file path>")
+    
+    sourcefile = args[1]
+    main(sourcefile)
