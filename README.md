@@ -60,7 +60,14 @@ Here are some properties of RSID values:
 <li>By comparing the similarities between the document's temporary TMP file and autosaved ASD files can help in finding out if there are copy pasted content in the document</li>
 
 <h2>Tools to explore</h2>
-<li>-	X-Ways v19.5 and FTK v6.4</li>
-<li>-	Olefile and ExifTool</li>
-<li>-   OfficeDissector</li>
-<li>-   https://github.com/abctemp90/Grouping_document_tool</li>
+<li>X-Ways v19.5 and FTK v6.4</li>
+<li>Olefile and ExifTool</li>
+<li>OfficeDissector</li>
+<li>https://github.com/abctemp90/Grouping_document_tool</li>
+
+<h1>TO RUN</h1>
+1. Create a virtual environment
+# Create virtual environment
+python3 -m venv dev-env
+2. Open the virtual environment
+dev-env\Scripts\Activate.ps1
