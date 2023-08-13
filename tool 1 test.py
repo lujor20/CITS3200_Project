@@ -23,7 +23,7 @@ class Main:
         except Exception as e:
             print(f"could not copy file: {e}")
 
- 
+
         
 
 test = Main('example LMS test log.csv')
