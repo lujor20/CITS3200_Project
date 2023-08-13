@@ -1,4 +1,5 @@
 import zipfile
+from bs4 import BeautifulSoup
 # from lxml import etree
 # import pandas as pd
 
@@ -22,5 +23,17 @@ class Extract():
     # def get_xml_tree(self, xml_string):
     #     return (etree.fromstring(xml_string))
 
+def parse_xml(content):
+    """Create a function to parse the xml"""
+    soup = BeautifulSoup(content, 'xml')
+    # Gets the text of a particular run
+    default_rsidR = soup.p['w:rsidR']
+    for run in soup.find_all('r'):
+        try:
+            print(run.t.string)
+            print(run['w:rsidR'])
+        except:
+            print(default_rsidR)
+
 xml = Extract("hi.docx")
-print(xml.document_content)
+parse_xml(xml.document_content)
