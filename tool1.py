@@ -43,9 +43,9 @@ def parse_xml_to_docx(content, docx):
         try:
             txt = str(run.t.string)
             rsid = run['w:rsidR']
-            docx.append_rsid(rsid, txt)
+            docx.append_txt(txt, rsid)
         except:
-            docx.append_rsid(default_rsidR, txt)
+            docx.append_txt(txt, default_rsidR)
 
 
 def main(sourcefile):
