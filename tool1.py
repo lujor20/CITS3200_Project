@@ -1,6 +1,9 @@
 import zipfile
 from bs4 import BeautifulSoup
 import sys
+
+from docx_meta import *
+
 class Extract():
     def __init__(self, filename):
         """Find and store xml content"""
@@ -25,10 +28,25 @@ def parse_xml(content):
     default_rsidR = soup.p['w:rsidR']
     for run in soup.find_all('r'):
         try:
-            print(run.t.string)
-            print(run['w:rsidR'])
+            txt = str(run.t.string)
+            rsid = run['w:rsidR']
+            print(rsid, "|" + txt + "|")
         except:
-            print(default_rsidR)
+            print(default_rsidR, "|" + txt + "|")
+
+def parse_xml_to_docx(content, docx):
+    """Create a function to parse the xml to docx class"""
+    soup = BeautifulSoup(content, 'xml')
+    # Gets the text of a particular run
+    default_rsidR = soup.p['w:rsidR']
+    for run in soup.find_all('r'):
+        try:
+            txt = str(run.t.string)
+            rsid = run['w:rsidR']
+            docx.append_rsid(rsid, txt)
+        except:
+            docx.append_rsid(default_rsidR, txt)
+
 
 def main(sourcefile):
     """Extracts the xml data"""
