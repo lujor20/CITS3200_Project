@@ -1,4 +1,5 @@
 import os
+import random
 from flask import render_template, jsonify
 from werkzeug.utils import secure_filename
 from . import tool1
@@ -21,12 +22,27 @@ def home():
 
     parse_xml_to_docx(xml.document_content, docx)
 
+    """
     for x in range(len(docx.txt_array)):
       print('{0:3d}|{1}|{2}'.format(x, docx.rsid_array[x], docx.txt_array[x]))
-
+    """
+    
     rsid_array = docx.rsid_array
     txt_array = docx.txt_array
-    return render_template('visualise.html', form=form, packed = zip(rsid_array, txt_array))
+
+    rsids = []
+    reds = []
+    greens = []
+    blues = []
+
+    for rsid in docx.rsid_dict:
+      rsids.append(rsid)
+      reds.append(random.randint(50, 250))
+      greens.append(random.randint(50, 250))
+      blues.append(random.randint(50, 250))
+    colours = zip(rsids, reds, greens, blues)
+
+    return render_template('visualise.html', form=form, packed = zip(rsid_array, txt_array), colours = colours)
 
   return render_template('visualise.html', form=form)
 

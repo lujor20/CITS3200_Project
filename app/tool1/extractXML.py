@@ -28,6 +28,10 @@ def parse_xml_to_docx(content, docx):
     for run in soup.find_all('r'):
         try:
             txt = str(run.t.string)
+        except:
+            continue
+            
+        try:
             rsid = run['w:rsidR']
             docx.append_txt(txt, rsid)
         except:
