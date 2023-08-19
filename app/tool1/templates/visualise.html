@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+
+<script>
+  urlGetRsid = "{{ url_for('tool1.get_rsid')}}";
+</script>
+
+<script src="../static/visualise.js"></script>
+{% endblock %}
+
+{% block body_content %}
+<doc>
+
+</doc>
+<section>
+  <h1>
+    Upload New File
+  </h1>
+  <form method='POST' action='/', enctype="multipart/form-data">
+    {{ form.csrf_token }}
+    {{ form.file.label }}
+    {{ form.file() }}
+    {% for error in form.file.errors%}
+    <p>[{{ error }}]</p>
+    {% endfor %}
+    {{form.submit() }}
+  </form>
+</section>
+<section>
+  <h1> Below will be the rendered document</h1>
+  <p>
+    {% for rsid, text in packed %}
+    <span class='{{rsid}}'>{{text}}</span>
+    {% endfor %}
+  </p>
+  
+</section>
+
+{% endblock %}

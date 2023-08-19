@@ -1,4 +1,4 @@
-class docx:
+class DOCX:
     def __init__(self, document_name):
         self.docx_name = document_name
 
@@ -13,7 +13,7 @@ class docx:
     def append_txt(self, txt, rsid_tag):
         """Add rsid to dict if not already in it"""
         if (rsid_tag not in self.rsid_dict):
-            rsid = rsid_class(rsid_tag)
+            rsid = RSID(rsid_tag)
             self.rsid_dict[rsid_tag] = rsid
         else:
             rsid = self.rsid_dict[rsid_tag]
@@ -21,14 +21,14 @@ class docx:
         """Process data"""
         index = len(self.txt_array) # Index of appended content
 
-        self.rsid_array.append(rsid)
+        self.rsid_array.append(rsid_tag)
         self.txt_array.append(txt)
 
         rsid.append_index(index)
 
 
 
-class rsid_class:
+class RSID:
 
     def __init__(self, tag):
         self.tag = tag
