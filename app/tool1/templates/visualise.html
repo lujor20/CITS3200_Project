@@ -25,7 +25,7 @@
   <h1>
     Upload New File
   </h1>
-  <form method='POST' action='/', enctype="multipart/form-data">
+  <form method='POST' action='/visualise', enctype="multipart/form-data">
     {{ form.csrf_token }}
     {{ form.file.label }}
     {{ form.file() }}

@@ -9,8 +9,8 @@ from .extractXML import *
 from .docx_meta import *
 
 #https://flask-wtf.readthedocs.io/en/1.0.x/form/
-@tool1.route('/', methods = ['GET', 'POST'])
-def home():
+@tool1.route('/visualise', methods = ['GET', 'POST'])
+def visualise():
   form = FileForm()
 
   if form.validate_on_submit():
