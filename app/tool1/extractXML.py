@@ -24,7 +24,7 @@ def parse_xml_to_docx(content, docx):
     """Create a function to parse the xml to docx class"""
     soup = BeautifulSoup(content, 'xml')
     # Gets the text of a particular run
-    default_rsidR = soup.p['w:rsidR']
+    
     for run in soup.find_all('r'):
         try:
             txt = str(run.t.string)
@@ -35,4 +35,5 @@ def parse_xml_to_docx(content, docx):
             rsid = run['w:rsidR']
             docx.append_txt(txt, rsid)
         except:
+            default_rsidR = run.parent['w:rsidR']
             docx.append_txt(txt, default_rsidR)
