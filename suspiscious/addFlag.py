@@ -6,7 +6,7 @@ class addFlag:
         sus = ["KE", "PK", "IN", "MA", "UA", "CN"]
         with open(file, newline='') as openfile: # opens the file 
             csvFile = csv.reader(openfile, delimiter=',', quotechar='|')# make he file accessible via csv library
-            with open('Excelformatting/ipwithflag.csv', 'w', newline='') as outputfile: # create a new file to write into
+            with open('suspiscious/ipwithflag.csv', 'w', newline='') as outputfile: # create a new file to write into
                 writer = csv.writer(outputfile, dialect= 'excel')# make new file accessible to write into with csv library
                 writer.writerow(headers)
                 counter = 0 
@@ -28,9 +28,8 @@ class addFlag:
                     elif (row[1] != "AU"):
                         for i in sus:
                             if (row[1] == i):
-                                flag = i
+                                flag = "suspiscious"
                         else:
-                            
                             flag = "international"
                             print(flag)
                     # add the flag to the end of the row
@@ -38,5 +37,5 @@ class addFlag:
                     # write to the new document
                     writer.writerow(row)
                     
-test = addFlag('Excelformatting/test.csv')
+test = addFlag('suspiscious/test.csv')
                         
