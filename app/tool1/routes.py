@@ -41,8 +41,7 @@ def visualise():
       greens.append(random.randint(50, 250))
       blues.append(random.randint(50, 250))
     colours = zip(rsids, reds, greens, blues)
-
-    return render_template('visualise.html', form=form, packed = zip(rsid_array, txt_array), colours = colours)
+    return render_template('visualise.html', form=form, packed = zip(rsid_array, txt_array), rsids = rsids, colours = colours)
 
   return render_template('visualise.html', form=form)
 
