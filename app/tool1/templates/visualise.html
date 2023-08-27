@@ -38,9 +38,13 @@
   </form>
 </section>
 
-<section onsubmit='bcolour_rsid()">
-    <label for='rsid_color'>test</label>
-    <input type="color" id='rsid_color' name='rsid_color' value='#ff0000'>
+<section onsubmit="bcolour_rsid()">
+    <label for="rsid_color"> test</label>
+    <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
+    <label for="select_rsid"> test</label>
+    <select name = "select_rsid" id="select_rsid">
+
+    </select>
     <button type="button" onclick="bcolour_rsid()">tester</button>
 </section>
 
@@ -54,4 +58,7 @@
   
 </section>
 
+<script>
+populate_select();
+</script>
 {% endblock %}
