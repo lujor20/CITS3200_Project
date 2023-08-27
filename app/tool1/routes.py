@@ -45,13 +45,6 @@ def visualise():
 
   return render_template('visualise.html', form=form)
 
-"""Function to serve request for RSID and Text."""
-@tool1.route("/get_rsid", methods = ['POST'])
-def get_rsid():
-  data = t1_visualiseTest.givedata()
-  return jsonify(data)
-
-
 
 
 
