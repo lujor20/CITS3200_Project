@@ -43,3 +43,4 @@ def cleanfile(inputfile):
         writer.writeheader()
         writer.writerows(duplicate_users)
 
+cleanfile('example LMS test log.csv')
