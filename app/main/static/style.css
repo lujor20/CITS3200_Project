@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.landing-body{
+    min-height: 100vh;
+    background: linear-gradient(#2b1055, #7597de);
+    overflow-x: hidden;
+}
+
+.parallax {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+}
+
+#clouds{
+    position: absolute;
+    z-index: 3;
+    width: 1500px;
+    top: calc(55% - 100px);
+    left: calc(50% + 10px);
+    transform: translate(-50%, -50%);
+    transition: transform 2000ms ease;
+}
+
+#clouds:hover{
+    transform: translate(-45%, -45%);
+}
+
+#stars{
+    position: absolute;
+    z-index: 2;
+    width: 1200px;
+    top: calc(50% - 40px);
+    left: calc(50% + 10px);
+    transform: translate(-50%, -50%);
+}
+
+#moon{
+    position: absolute;
+    z-index: 1;
+    width: 1400px;
+    top: calc(50% + 25px);
+    left: calc(50% + 10px);
+    transform: translate(-50%, -50%);
+}
+
+@keyframes slideInLeft{
+    from{
+        transform: translateX(-600px);
+    }
+
+    to{
+        transform: translateX(-150px);
+    }
+}
+
+#text {
+    animation-name: slideInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+    animation-fill-mode: both;
+}
+
+.parallax h1, .parallax h2{
+    position: absolute;
+    z-index: 4;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: auto;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 3.5rem;
+}
+
+.parallax h2{
+    top: 40%;
+    left:45%
+}
