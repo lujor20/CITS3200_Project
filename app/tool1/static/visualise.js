@@ -29,7 +29,7 @@ function bcolour_rsid() {
 function populate_select() {
   select = document.getElementById("select_rsid");
   console.log(select);
-  for (let x=1; x < rsids.length; x++) {
+  for (let x=0; x < rsids.length; x++) {
     option = document.createElement("option");
     option.value = x;
     option.innerHTML = rsids[x];

@@ -24,9 +24,7 @@
 
 {% block body_content %}
 <section>
-  <h1>
-    Upload New File
-  </h1>
+  <p><b>Upload New File</b></p>
   <form method='POST' action='/visualise', enctype="multipart/form-data">
     {{ form.csrf_token }}
     {{ form.file.label }}
@@ -49,7 +47,7 @@
 </section>
 
 <section>
-  <h1> Below will be the rendered document</h1>
+  <p> <b>Below will be the rendered document</b></p>
   <p>
     {% for rsid, text in packed %}
     <span class='_{{rsid}}' title='{{rsid}}'>{{text}}</span>
