@@ -1,58 +1,41 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
-*
-{
+
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    list-style: none;
+    text-decoration: none;
 }
 
-.landing-body{
-    min-height: 100vh;
-    background: linear-gradient(#261705, #935a14);
-    overflow-x: hidden;
+.navbar{
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    padding: 20px 9%;
+    background-color: #6C3428;
 }
 
-.parallax {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin-top: 1rem;
-    margin-bottom: 3rem;
+.navbar-brand{
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
 }
 
-#clouds{
-    position: absolute;
-    z-index: 3;
-    width: 1500px;
-    top: calc(55% - 100px);
-    left: calc(50% + 10px);
-    transform: translate(-50%, -50%);
-    transition: transform 2000ms ease;
+.navbar-nav{
+    margin-left: 60px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
-#clouds:hover{
-    transform: translate(-45%, -45%);
+.navbar-nav a:hover{
+    border-bottom: 2px solid white;
 }
 
-#stars{
-    position: absolute;
-    z-index: 2;
-    width: 1200px;
-    top: calc(50% - 40px);
-    left: calc(50% + 10px);
-    transform: translate(-50%, -50%);
-}
-
-#moon{
-    position: absolute;
-    z-index: 1;
-    width: 1400px;
-    top: calc(50% + 25px);
-    left: calc(50% + 10px);
-    transform: translate(-50%, -50%);
+.nav-link{
+    color: white;
 }
 
 @keyframes slideInLeft{
@@ -73,20 +56,116 @@
     animation-fill-mode: both;
 }
 
-.parallax h1, .parallax h2{
-    position: absolute;
-    z-index: 4;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    pointer-events: auto;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 3.5rem;
+.hero{
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(245.59deg, #FFC26F 0%, #C38154 28.53%, #862b0dbd 75.52%);
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    gap: 2rem;
+    margin-top: -5%;
 }
 
-.parallax h2{
-    top: 42%;
-    left:45%
+#investigator {
+    width: 200%;
+    margin-left: -30%;
+    margin-top: 10%;
+}
+
+section{
+    padding: 0 19%;
+}
+
+.hero-text{
+    margin-top: 10%;
+}
+
+.hero-text h5{
+    font-size: 14px;
+    font-weight: 400;
+    color:white;
+    margin-bottom: 40px;
+}
+
+.hero-text h1{
+    font-size: 90px;
+    line-height: 1;
+    color: white;
+    margin: 0 0 45px;
+}
+
+.hero-text h4{
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.hero-text p{
+    color: white;
+    font-size: 15px;
+    line-height: 1.9;
+    margin-bottom: 40px;
+    margin-top: -5%;
+}
+
+.hero-text a{
+    display: inline-block;
+    color: white;
+    background: #FFC26F;
+    border: 1px solid transparent;
+    padding: 12px 30px;
+    line-height: 1.4;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 30px;
+    text-transform: uppercase;
+    transition: all .55s ease;
+}
+
+.hero-text a:hover{
+    background: transparent;
+    border: 1px solid white;
+    transform: translateX(8px);
+}
+
+.hero-text a.ctaa{
+    background: transparent;
+    border: 1px solid white;
+    margin-left: 20px;
+}
+
+@media(max-width: 1535px){
+    nav{
+        padding: 15px 3%;
+        transition: .2s;
+    }
+}
+
+
+
+@media(max-width: 625px){
+    section{
+        padding: 0 3%;
+        transition: .2s;
+    }
+    .hero-text{
+        padding-top: 115px;
+    }
+    .hero-img{
+        text-align: center;
+    }
+    #investigator{
+        width: 650px;
+        height: auto;
+    }
+    .hero{
+        height: 100%;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+    }
+
 }

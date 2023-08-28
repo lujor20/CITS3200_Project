@@ -1,20 +1,25 @@
 {% extends "base.html" %}
 
 {% block head_content %}
-<link rel="stylesheet" type="text/css" href={{ url_for('main.static', filename="style.css") }}>
+
 <title>Cheating Detection Tool</title>
 {% endblock %}
 
 {% block body_content %}
 
-<section class="parallax">
-  <!--
-  <img src= {{ url_for('main.static', filename='clouds.png')}} id="clouds">
-  <img src={{ url_for('main.static', filename='stars.png')}} id="stars">
-  <img src={{ url_for('main.static', filename='moon.png')}} id="moon">
-  -->
-  <h1 id="text">CHEATING</h1>
-  <h2 id="text">DETECTION TOOL</h2>
+<section class="hero">
+  <div class="hero-text">
+    <h5>TEAM 21</h5>
+    <h4>CITS3200 - Professional Computing</h4>    
+    <h1>JOKITOT</h1>
+    <p>A cheating detection tool that analyses docx documents for its XML constituent parts and metadata</p>
+    <a href="/visualise"> Tool1 </a>
+    <a href="#" class="ctaa">Tool2</a>
+  </div>
+
+  <div class="hero-img">
+    <img src= {{ url_for('main.static', filename='investigator.png')}} id="investigator">
+  </div>
 </section>
 
 {% endblock %}
