@@ -25,16 +25,18 @@
 
 {% block body_content %}
 <section>
-  <p><b>Upload New File</b></p>
-  <form method='POST' action='/visualise', enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    {{ form.file.label }}
-    {{ form.file() }}
-    {% for error in form.file.errors%}
-    <p>[{{ error }}]</p>
-    {% endfor %}
-    {{form.submit() }}
-  </form>
+  <div class="form">
+    <p><b>Upload New File</b></p>
+    <form method='POST' action='/visualise', enctype="multipart/form-data">
+      {{ form.csrf_token }}
+      {{ form.file.label }}
+      {{ form.file() }}
+      {% for error in form.file.errors%}
+      <p>[{{ error }}]</p>
+      {% endfor %}
+      {{form.submit() }}
+    </form>
+</div>
 </section>
 
 <section onsubmit="bcolour_rsid()">
@@ -48,7 +50,6 @@
 </section>
 
 <section>
-  <p> <b>Below will be the rendered document</b></p>
   <p>
     {% for rsid, text in packed %}
     <span class='_{{rsid}}' title='{{rsid}}'>{{text}}</span>
