@@ -13,7 +13,7 @@
 <script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
 
 <link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "tool1_style.css") }}>
-<style>
+<style title = "rsid_css">
   {% for rsid, red, green, blue in colours -%}
   ._{{rsid}} {
     background-color: rgb({{red}}, {{green}}, {{blue}});
@@ -59,6 +59,7 @@
 </section>
 
 <script>
-populate_select();
+  find_rsid_style_index()
+  populate_select()
 </script>
 {% endblock %}
