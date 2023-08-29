@@ -2,3 +2,4 @@ dev-env
 xml_files
 **/__pycache__/
 *.code-workspace
+auth
