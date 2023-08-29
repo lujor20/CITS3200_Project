@@ -4,7 +4,7 @@
 
 <script>
   rsids = ["dummy"
-    {% for rsid in rsids -%}
+    {% for rsid in unique_rsids -%}
     ,"{{ rsid }}"
     {%- endfor %}
   ];
@@ -24,42 +24,47 @@
 {% endblock %}
 
 {% block body_content %}
-<section>
-  <div class="form">
-    <p><b>Upload New File</b></p>
-    <form method='POST' action='/visualise', enctype="multipart/form-data">
-      {{ form.csrf_token }}
-      {{ form.file.label }}
-      {{ form.file() }}
-      {% for error in form.file.errors%}
-      <p>[{{ error }}]</p>
-      {% endfor %}
-      {{form.submit() }}
-    </form>
-</div>
+<section class="grid-container">
+  <!-- Column 1 -->
+  <section class="menu">
+    <div class="form">
+      <p><b>Upload New File</b></p>
+      <form method='POST' action='/visualise', enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {{ form.file.label }}
+        {{ form.file() }}
+        {% for error in form.file.errors%}
+        <p>[{{ error }}]</p>
+        {% endfor %}
+        {{form.submit() }}
+      </form>
+    </div>
+    <div class = "form">
+      <form>
+        <label for="rsid_color">Select Colour</label>
+        <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
+        <label for="select_rsid">Select RSID</label>
+        <select name = "select_rsid" id="select_rsid">
+        </select>
+        <button type="button" onclick="bcolour_rsid()">Change Colour</button>
+      </form>
+   </div>
+  </section>
+
+  <!-- Column 2 -->
+  <section class="document_text">
+  {% for rsid, text, index in packed -%}
+    <p class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
+  {%- endfor %}
+  </section>
 </section>
 
-<section onsubmit="bcolour_rsid()">
-    <label for="rsid_color"> test</label>
-    <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
-    <label for="select_rsid"> test</label>
-    <select name = "select_rsid" id="select_rsid">
 
-    </select>
-    <button type="button" onclick="bcolour_rsid()">tester</button>
-</section>
 
-<section>
-  <p>
-    {% for rsid, text in packed %}
-    <span class='_{{rsid}}' title='{{rsid}}'>{{text}}</span>
-    {% endfor %}
-  </p>
-  
-</section>
 
 <script>
-  find_rsid_style_index()
-  populate_select()
+  find_rsid_style_index();
+  populate_select();
+  add_document_text_listeners();
 </script>
 {% endblock %}
