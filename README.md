@@ -80,7 +80,7 @@ python tool1.py test.docx
 
 ## Useful Commands (Delete later)
 
-+ Update requirements.txt `pip freeze > requirements.txt`
++ Update requirements.txt `pip freeze | Out-File -Encoding UTF8 requirements.txt`
 
 ## Tool 1 Findings
 
