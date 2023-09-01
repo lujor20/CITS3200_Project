@@ -19,4 +19,4 @@ RUN pip install -r requirements.txt
 COPY . /docker-test
 
 # Specify the command to run on container start
-CMD [ "flask" , "run" ]
+CMD [ "flask" , "run" , "--host=0.0.0.0"]
