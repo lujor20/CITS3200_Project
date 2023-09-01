@@ -2,12 +2,24 @@
 
 {% block head_content %}
 
+<title>Cheating Detection Tool</title>
 {% endblock %}
 
 {% block body_content %}
-<h1>
-  Homepage
-</h1>
-<a href='/visualise'>tool1</a>
-<a href='/tool2'>tool2</a>
+
+<section class="hero">
+  <div class="hero-text">
+    <h5>TEAM 21</h5>
+    <h4>CITS3200 - Professional Computing</h4>    
+    <h1>JOKITOT</h1>
+    <p>A cheating detection tool that analyses docx documents for its XML constituent parts and metadata</p>
+    <a href="/visualise"> Tool1 </a>
+    <a href="#" class="ctaa">Tool2</a>
+  </div>
+
+  <div class="hero-img">
+    <img src= {{ url_for('main.static', filename='investigator.png')}} id="investigator">
+  </div>
+</section>
+
 {% endblock %}

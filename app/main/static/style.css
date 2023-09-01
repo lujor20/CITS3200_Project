@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+.navbar{
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    padding: 20px 9%;
+    background-color: #6C3428;
+}
+
+.navbar-brand{
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+}
+
+.navbar-nav{
+    margin-left: 60px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.navbar-nav a:hover{
+    border-bottom: 2px solid white;
+}
+
+.nav-link{
+    color: white;
+}
+
+@keyframes slideInLeft{
+    from{
+        transform: translateX(-600px);
+    }
+
+    to{
+        transform: translateX(-150px);
+    }
+}
+
+#text {
+    animation-name: slideInLeft;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    animation-delay: 0s;
+    animation-fill-mode: both;
+}
+
+.hero{
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(245.59deg, #FFC26F 0%, #C38154 28.53%, #862b0dbd 75.52%);
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    gap: 2rem;
+    margin-top: -5%;
+}
+
+#investigator {
+    width: 200%;
+    margin-left: -30%;
+    margin-top: 10%;
+}
+
+section{
+    padding: 0 19%;
+}
+
+.hero-text{
+    margin-top: 10%;
+}
+
+.hero-text h5{
+    font-size: 14px;
+    font-weight: 400;
+    color:white;
+    margin-bottom: 40px;
+}
+
+.hero-text h1{
+    font-size: 90px;
+    line-height: 1;
+    color: white;
+    margin: 0 0 45px;
+}
+
+.hero-text h4{
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.hero-text p{
+    color: white;
+    font-size: 15px;
+    line-height: 1.9;
+    margin-bottom: 40px;
+    margin-top: -5%;
+}
+
+.hero-text a{
+    display: inline-block;
+    color: white;
+    background: #FFC26F;
+    border: 1px solid transparent;
+    padding: 12px 30px;
+    line-height: 1.4;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 30px;
+    text-transform: uppercase;
+    transition: all .55s ease;
+}
+
+.hero-text a:hover{
+    background: transparent;
+    border: 1px solid white;
+    transform: translateX(8px);
+}
+
+.hero-text a.ctaa{
+    background: transparent;
+    border: 1px solid white;
+    margin-left: 20px;
+}
+
+@media(max-width: 1535px){
+    nav{
+        padding: 15px 3%;
+        transition: .2s;
+    }
+}
+
+
+
+@media(max-width: 625px){
+    section{
+        padding: 0 3%;
+        transition: .2s;
+    }
+    .hero-text{
+        padding-top: 115px;
+    }
+    .hero-img{
+        text-align: center;
+    }
+    #investigator{
+        width: 650px;
+        height: auto;
+    }
+    .hero{
+        height: 100%;
+        gap: 1rem;
+        grid-template-columns: 1fr;
+    }
+
+}
