@@ -1,6 +1,6 @@
 {
     "flask": {
-        "image": ":cits3200project.flask-container.2",
+        "image": ":cits3200project.flask-container.3",
         "ports": {
             "5000": "HTTP"
         }
