@@ -82,6 +82,36 @@ python tool1.py test.docx
 
 + Update requirements.txt `pip freeze | Out-File -Encoding UTF8 requirements.txt`
 
+### To put everything on AWS lightsail
+
+```bash
+docker build -t flask-container .
+```
+
+```bash
+docker run -p 5000:5000 flask-container
+```
+
+```bash
+curl localhost:5000
+```
+
+```bash
+aws lightsail push-container-image --service-name cits3200project --label flask-container --image flask container
+```
+
+```bash
+aws lightsail create-container-service-deployment --service-name cits3200project --containers file://containers.json --public-endpoint file://public-endpoint.json
+```
+
+```bash
+aws lightsail get-container-services --service-name flask-service
+```
+
+```bash
+aws lightsail delete-container-service --service-name flask-service
+```
+
 ## Tool 1 Findings
 
 ### Forensics for Revision Identifiers
