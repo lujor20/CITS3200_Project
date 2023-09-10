@@ -26,4 +26,8 @@ def create_app(debug=False):
     from app.tool2 import routes
     app.register_blueprint(tool2_blueprint)
 
+    from app.tool1a import tool1a as tool1a_blueprint
+    from app.tool1a import routes
+    app.register_blueprint(tool1a_blueprint)
+
     return app

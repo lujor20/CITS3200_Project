@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+
+<script>
+  rsids = ["dummy"
+    {% for rsid in unique_rsids -%}
+    ,"{{ rsid }}"
+    {%- endfor %}
+  ];
+  rsids.shift();
+</script>
+<script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
+
+<link rel="stylesheet" type="text/css" href={{ url_for('tool1a.static', filename = "tool1_style.css") }}>
+<style title = "rsid_css">
+  {% for rsid, red, green, blue in colours -%}
+  ._{{rsid}} {
+    background-color: rgb({{red}}, {{green}}, {{blue}});
+  }
+  {%- endfor %}
+</style>
+
+<style>
+  .hidden {
+    background-color: rgba(0,0,0,0);
+  }
+</style>
+
+
+<title>Visualise</title>
+{% endblock %}
+
+{% block body_content %}
+<div>
+  <button id="import-button">Import document</button>
+
+  <div id="import-modal" class="modal">
+    <div class="import-content">
+      <span class="close">X</span>
+      <div class="form">
+        <p><b>Upload New File</b></p>
+        <form method='POST' action='/visualise1', enctype="multipart/form-data">
+          {{ form.csrf_token }}
+          {{ form.file.label }}
+          {{ form.file() }}
+          {% for error in form.file.errors%}
+          <p>[{{ error }}]</p>
+          {% endfor %}
+          {{form.submit() }}
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <button id="metadata-button">Display Metadata</button>
+  <div id="metadata-modal" class="modal">
+    <div class="metadata-content">
+      <span class="close">X</span>
+      <h1>Metadata</h1>
+      {% if metadata is defined %}
+      <div class = "metadata">
+        <table>
+          {% for key, value in metadata.items() %}
+              <tr>
+                <th>{{ key }}</th>
+                {% if value == "" or value == None%}
+                <td class = "missing">Not avaliable.</td>
+                {% else %}
+                <td>{{value}}</td>
+                {% endif %}
+              </tr>
+          {% endfor %}
+        </table>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+
+  <div style="display: inline-block;">
+    <form>
+      <label for="rsid_color">Select Colour</label>
+      <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
+      <label for="select_rsid">Select RSID</label>
+      <select name = "select_rsid" id="select_rsid">
+      </select>
+      <button type="button" onclick="bcolour_rsid()">Change Colour</button>
+      <button type="button" onclick="rsid_hide_all()">hide all</button>
+      <button type="button" onclick="rsid_unhide_all()">unhide all</button>
+    </form>
+  </div>
+
+</div>
+<div>
+  {% for rsid, text, index in packed -%}
+    <p style="display:inline;" class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
+  {%- endfor %}
+</div>
+
+
+
+<script>
+  init_visualise();
+
+  var importModal = document.getElementById("import-modal");
+  var metadataModal = document.getElementById("metadata-modal");
+
+  document.getElementById("import-button").onclick = function() {
+    importModal.style.display = "block";
+};
+
+  document.getElementById("metadata-button").onclick = function() {
+    metadataModal.style.display = "block";
+};
+
+document.getElementsByClassName("close")[0].onclick = function() {
+  importModal.style.display = "none";
+};
+
+document.getElementsByClassName("close")[1].onclick = function() {
+  metadataModal.style.display = "none";
+};
+
+</script>
+{% endblock %}
