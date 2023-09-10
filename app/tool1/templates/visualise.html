@@ -49,20 +49,26 @@
         </select>
         <button type="button" onclick="bcolour_rsid()">Change Colour</button>
       </form>
-   </div>
+    </div>
 
+    <!-- Table for Metadata -->
     {% if metadata is defined %}
-    <div class = "metadata">
+    <div class = "metadata_display">
       <h3>Metadata</h3>
-        <div class = "data">
-        {% for key, value in metadata.items() %}
-          {% if value == "" or value == None%}
-            <p>{{key}} : MISSING</p>
-          {% else %}
-            <p>{{key}} : |{{value}}|</p>
-          {% endif %}
-        {% endfor %}
-        </div>
+      <div class = "metadata">
+        <table>
+          {% for key, value in metadata.items() %}
+              <tr>
+                <th>{{ key }}</th>
+                {% if value == "" or value == None%}
+                <td class = "missing">Not avaliable.</td>
+                {% else %}
+                <td>{{value}}</td>
+                {% endif %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
     </div>
     {% endif %}
   </section>
