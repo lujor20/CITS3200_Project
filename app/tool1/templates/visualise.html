@@ -39,6 +39,7 @@
         {{form.submit() }}
       </form>
     </div>
+
     <div class = "form">
       <form>
         <label for="rsid_color">Select Colour</label>
@@ -49,6 +50,21 @@
         <button type="button" onclick="bcolour_rsid()">Change Colour</button>
       </form>
    </div>
+
+    {% if metadata is defined %}
+    <div class = "metadata">
+      <h3>Metadata</h3>
+        <div class = "data">
+        {% for key, value in metadata.items() %}
+          {% if value == "" or value == None%}
+            <p>{{key}} : MISSING</p>
+          {% else %}
+            <p>{{key}} : |{{value}}|</p>
+          {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
   </section>
 
   <!-- Column 2 -->

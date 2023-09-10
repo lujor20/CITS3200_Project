@@ -1,4 +1,28 @@
 class DOCX:
+    """
+    Variables for keyname in meta_dict
+    """
+    WORD_VERSION        = "Word Version"
+    TOTAL_TIME          = "Total Time Spent"
+    NUMBER_WORDS        = "Number of Words"
+    CREATED_BY          = "Created By"
+    LAST_MODIFIED_BY    = "Last Modified By"
+    DATE_CREATED        = "Date Created"
+    DATE_LAST_MODIFIED  = "Date Lasted Modified"
+    REVISIONS           = "revisions"
+    LAST_PRINTED        = "last printed"
+    TITLE               = "title"
+    SUBJECT             = "subject"
+    KEYWORDS            = "keywords"
+    CATEGORY            = "category"
+    COMMENTS            = "comments"
+    CONTENT_STATUS      = "content status"
+    IDENTIFIER          = "identifier"
+    KEYWORDS            = "keywords"
+    LANGUAGE            = "language"
+    VERSION             = "version"
+ 
+
     def __init__(self, document_name):
         self.docx_name = document_name
 
@@ -7,14 +31,18 @@ class DOCX:
         # Following two arrays hold their respective contents in the sequential order as found by the
         # tool1 extract process
 
-        # Array of txt in "runs" in document, in sequential order"
+        """
+        Following first two arrays display the corresponding "text" and "RSID" of each run
+        in sequential order.
+        Third array references the "index" of the unique RSID.
+        """
         self.txt_array = []
-        # Respective RSID of txt
         self.rsid_array = []
-        # Index of rsid in "list of unique rsids".
         self.rsid_index_array = []
-        
-        
+
+
+        """Other Document Metadata"""
+        self.metadata = {}
 
     def append_txt(self, txt, rsid_tag):
         """Add rsid to dict if not already in it"""
@@ -35,6 +63,13 @@ class DOCX:
         
         rsid.append_index(index2)
 
+    def set_settings_rsid(self, settings_rsid):
+        self.settings_rsid = settings_rsid
+
+    def append_metadata(self, key, value):
+        self.metadata[key] = value
+
+    
 
 
 class RSID:

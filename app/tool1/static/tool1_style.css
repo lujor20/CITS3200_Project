@@ -61,3 +61,8 @@ button{
   
   top: 2vh;
 }
+
+.data {
+  max-height: 50vh;
+  overflow: scroll;
+}
