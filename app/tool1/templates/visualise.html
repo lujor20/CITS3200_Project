@@ -13,6 +13,8 @@
 <script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
 
 <link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "tool1_style.css") }}>
+
+
 <style title = "rsid_css">
   {% for rsid, red, green, blue in colours -%}
   ._{{rsid}} {
@@ -20,6 +22,14 @@
   }
   {%- endfor %}
 </style>
+
+<style>
+  .hidden {
+    background-color: rgba(0,0,0,0);
+  }
+</style>
+
+
 <title>Visualise</title>
 {% endblock %}
 
@@ -45,10 +55,12 @@
         <label for="rsid_color">Select Colour</label>
         <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
         <label for="select_rsid">Select RSID</label>
-        <select name = "select_rsid" id="select_rsid">
-        </select>
+        <select name = "select_rsid" id="select_rsid"></select>
         <button type="button" onclick="bcolour_rsid()">Change Colour</button>
+        <button type="button" onclick="selected_rsid_toggle_hidden()">Hide this</button>
       </form>
+      <button type="button" onclick="rsid_hide_all()">hide all</button>
+      <button type="button" onclick="rsid_unhide_all()">unhide all</button>
     </div>
 
     <!-- Table for Metadata -->
