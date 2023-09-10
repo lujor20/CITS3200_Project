@@ -36,7 +36,6 @@ class Extract():
         self.extract_metadata(docx,self.sourcefile)
 
     def parse_xml(self, docx, document_content):
-        #print("|    RSID value and its corresponding text   |")
         runCount = 0
         """Create a function to parse the xml"""
         soup = BeautifulSoup(document_content, 'xml')
@@ -50,43 +49,28 @@ class Extract():
             except:
                 default_rsidR = run.parent['w:rsidR']
                 docx.append_txt(txt, default_rsidR)
-        
-        #print("Run count: ", runCount)
-        #print(" ")
 
 
     def extractSettingsXML(self, docx, settings_content):
-        #print("|    Unique RSIDs in Settings.xml   |")
         soup = BeautifulSoup(settings_content, 'xml')
-        #for run in soup.find_all('rsid'):
-        #    print(run['w:val'])
-        #print(" ")
         docx.set_settings_rsid(soup.find_all('rsid'))
 
 
 
     def extractAppXML(self, docx, app_content):
-        #print("|    Metadata from App.xml   |")
+
         soup = BeautifulSoup(app_content, 'xml')
         wordVersion = soup.AppVersion.string
         totalTime = soup.TotalTime.string
         numWords = soup.Words.string
         isDocumentShared = soup.SharedDoc.string
         
-        #print("Word Version: ", wordVersion)
-        #print("Total Time: ", totalTime)
-        #print("Number of words: ", numWords)
-        #print("The document is shared: ", isDocumentShared)
-        #print(" ")
-
         docx.append_metadata(docx.WORD_VERSION, wordVersion)
         docx.append_metadata(docx.TOTAL_TIME, totalTime)
         docx.append_metadata(docx.NUMBER_WORDS, numWords)
 
 
     def extract_metadata(self, docx, sourcefile):
-        #print("|    Metadata from core.xml  |")
-
         doc = Document(sourcefile)
         
         docx.append_metadata(docx.CREATED_BY, doc.core_properties.author)
@@ -105,29 +89,3 @@ class Extract():
         docx.append_metadata(docx.KEYWORDS, doc.core_properties.keywords)
         docx.append_metadata(docx.LANGUAGE, doc.core_properties.language)
         docx.append_metadata(docx.VERSION, doc.core_properties.version)
-
-        """
-        metadata = {
-            "Created By": doc.core_properties.author,
-            "Last Modified By": doc.core_properties.last_modified_by,
-            "Date Created": doc.core_properties.created,
-            "Date Last Modified": doc.core_properties.modified,
-            "Revisions": doc.core_properties.revision,
-            "Last Printed": doc.core_properties.last_printed,
-            "Title": doc.core_properties.title,
-            "Subject": doc.core_properties.subject,
-            "Keywords": doc.core_properties.keywords,
-            "Category": doc.core_properties.category,
-            "Comments": doc.core_properties.comments,
-            "Content Status": doc.core_properties.content_status,
-            "Identifier": doc.core_properties.identifier,
-            "Keywords": doc.core_properties.keywords,
-            "Language": doc.core_properties.language,
-            "Version": doc.core_properties.version,
-        }
-        """
-        """
-        for key, value in metadata.items():
-            print(f"{key}: {value}")
-        print(" ")
-        """
