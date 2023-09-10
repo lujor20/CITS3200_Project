@@ -76,8 +76,9 @@ button{
   max-width: none;
 }
 
-.metadata-content {
-  background-color: rgba(200, 200, 200, 0.1);
+.metadata-content,
+.import-content {
+  background-color: #6C3428;
   margin: auto;
   padding: 40px;
   border: 1px solid #888;

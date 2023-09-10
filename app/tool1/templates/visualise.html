@@ -24,9 +24,11 @@
 {% endblock %}
 
 {% block body_content %}
-<section class="grid-container">
-  <!-- Column 1 -->
-  <section class="menu">
+<button id="import-button">Import document</button>
+
+<div id="import-modal" class="modal">
+  <div class="import-content">
+    <span class="close">X</span>
     <div class="form">
       <p><b>Upload New File</b></p>
       <form method='POST' action='/visualise', enctype="multipart/form-data">
@@ -49,23 +51,22 @@
         <button type="button" onclick="bcolour_rsid()">Change Colour</button>
       </form>
     </div>
-    <button id="metadata-button">Display Metadata</button>
-    <div id="metadata-modal" class="modal">
-      <div class="metadata-content">
-        <span class="close">X</span>
-        <h1>Metadata</h1>
-      </div>
-    </div>
-  </section>
+  </div>
+</div>
 
-  <!-- Column 2 -->
-  <section class="document_text">
+<button id="metadata-button">Display Metadata</button>
+<div id="metadata-modal" class="modal">
+  <div class="metadata-content">
+    <span class="close">X</span>
+    <h1>Metadata</h1>
+  </div>
+</div>
+
+<div>
   {% for rsid, text, index in packed -%}
     <p class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
   {%- endfor %}
-  </section>
-</section>
-
+</div>
 
 
 
@@ -74,15 +75,22 @@
   populate_select();
   add_document_text_listeners();
 
+  var importModal = document.getElementById("import-modal");
   var metadataModal = document.getElementById("metadata-modal");
-  console.log(document.getElementById("metadata-button"));
+
+  document.getElementById("import-button").onclick = function() {
+    importModal.style.display = "block";
+};
 
   document.getElementById("metadata-button").onclick = function() {
-    console.log("hello");
     metadataModal.style.display = "block";
 };
 
 document.getElementsByClassName("close")[0].onclick = function() {
+  importModal.style.display = "none";
+};
+
+document.getElementsByClassName("close")[1].onclick = function() {
   metadataModal.style.display = "none";
 };
 
