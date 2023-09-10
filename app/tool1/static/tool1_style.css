@@ -62,6 +62,8 @@ button{
   top: 2vh;
 }
 
+#container p { display: inline }
+
 .modal {
   display: none;
   position: fixed;

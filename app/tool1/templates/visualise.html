@@ -24,47 +24,51 @@
 {% endblock %}
 
 {% block body_content %}
-<button id="import-button">Import document</button>
+<div>
+  <button id="import-button">Import document</button>
 
-<div id="import-modal" class="modal">
-  <div class="import-content">
-    <span class="close">X</span>
-    <div class="form">
-      <p><b>Upload New File</b></p>
-      <form method='POST' action='/visualise', enctype="multipart/form-data">
-        {{ form.csrf_token }}
-        {{ form.file.label }}
-        {{ form.file() }}
-        {% for error in form.file.errors%}
-        <p>[{{ error }}]</p>
-        {% endfor %}
-        {{form.submit() }}
-      </form>
-    </div>
-    <div class = "form">
-      <form>
-        <label for="rsid_color">Select Colour</label>
-        <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
-        <label for="select_rsid">Select RSID</label>
-        <select name = "select_rsid" id="select_rsid">
-        </select>
-        <button type="button" onclick="bcolour_rsid()">Change Colour</button>
-      </form>
+  <div id="import-modal" class="modal">
+    <div class="import-content">
+      <span class="close">X</span>
+      <div class="form">
+        <p><b>Upload New File</b></p>
+        <form method='POST' action='/visualise', enctype="multipart/form-data">
+          {{ form.csrf_token }}
+          {{ form.file.label }}
+          {{ form.file() }}
+          {% for error in form.file.errors%}
+          <p>[{{ error }}]</p>
+          {% endfor %}
+          {{form.submit() }}
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
-<button id="metadata-button">Display Metadata</button>
-<div id="metadata-modal" class="modal">
-  <div class="metadata-content">
-    <span class="close">X</span>
-    <h1>Metadata</h1>
+  <button id="metadata-button">Display Metadata</button>
+  <div id="metadata-modal" class="modal">
+    <div class="metadata-content">
+      <span class="close">X</span>
+      <h1>Metadata</h1>
+    </div>
   </div>
-</div>
 
+
+  <div style="display: inline-block;">
+    <form>
+      <label for="rsid_color">Select Colour</label>
+      <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
+      <label for="select_rsid">Select RSID</label>
+      <select name = "select_rsid" id="select_rsid">
+      </select>
+      <button type="button" onclick="bcolour_rsid()">Change Colour</button>
+    </form>
+  </div>
+
+</div>
 <div>
   {% for rsid, text, index in packed -%}
-    <p class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
+    <p style="display:inline;" class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
   {%- endfor %}
 </div>
 
