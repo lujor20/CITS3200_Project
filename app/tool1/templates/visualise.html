@@ -48,7 +48,14 @@
         </select>
         <button type="button" onclick="bcolour_rsid()">Change Colour</button>
       </form>
-   </div>
+    </div>
+    <button id="metadata-button">Display Metadata</button>
+    <div id="metadata-modal" class="modal">
+      <div class="instructions-content">
+        <span class="close">X</span>
+        <h1>Metadata</h1>
+      </div>
+    </div>
   </section>
 
   <!-- Column 2 -->
@@ -66,5 +73,18 @@
   find_rsid_style_index();
   populate_select();
   add_document_text_listeners();
+
+  var metadataModal = document.getElementById("metadata-modal");
+  console.log(document.getElementById("metadata-button"));
+
+  document.getElementById("metadata-button").onclick = function() {
+    console.log("hello");
+    metadataModal.style.display = "block";
+};
+
+document.getElementsByClassName("close")[0].onclick = function() {
+  metadataModal.style.display = "none";
+};
+
 </script>
 {% endblock %}
