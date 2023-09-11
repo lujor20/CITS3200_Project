@@ -69,13 +69,7 @@ pip install -r requirements.txt
 ### 5. Run the tool
 
 ```bash
-python3 rsid.py <docx file path>
-```
-
-#### Example
-
-```bash
-python tool1.py test.docx
+flask run
 ```
 
 ## Useful Commands (Delete later)
