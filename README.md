@@ -148,30 +148,11 @@ Here are some properties of RSID values:
 + OfficeDissector
 + <https://github.com/abctemp90/Grouping_document_tool>
 
-<h2>Analyzing Relevant XML Constituent Parts</h2>
-<li>Metadata information are usually stored in the folder docProps</li>
-<li>Two or more XML files are stored inside that folder:</li>
-<li>        app.xml - stores metadata information extracted from the Word application itself</li>
-<li>        core.xml - stores metadata from the document itself, such as the author name, last time it was printed, etc</li>
-<li>The file _rels/.rels contains information about the structure of the document. It contains paths to the metadata information as well as the main XML document that contains the content of the document itself</li>
-<li>An XML file called document.xml is the main document, containing most of the content of the document itself</li>
+## Clare Johnson's findings
 
-<h2>Suspicious Indicators</h2>
-<li>Word has a total time edited file property. If the total editing time improbably large, maybe the file has been handed down over a number of years</li>
-<li>AppVersion and OSVersion are data points that can be helpful in identifying discrepancies in a Word document. For example, if the OSVersion points to Windows 10, but none of the timestamps in the document are after 2013, you might want to take a closer look at that document</li>
-<li>if someone has a Word document that is a few years old, or they are representing it as being a few years old, but it’s using a more recent, unique font, it is suspicious</li>
-<li>It is alarming if you’ve got a five-page document that has an edit time of two minutes, or just one revision</li>
-<li>By comparing the similarities between the document's temporary TMP file and autosaved ASD files can help in finding out if there are copy pasted content in the document</li>
++ OOXML format = various components of each document are stored separately --> it is possiblle to unpack the file to explore its metadata
 
-<h2>Tools to explore</h2>
-<li>X-Ways v19.5 and FTK v6.4</li>
-<li>Olefile and ExifTool</li>
-<li>OfficeDissector</li>
-<li>https://github.com/abctemp90/Grouping_document_tool</li>
-
-<h2>Clare Johnson's findings</h2>
-- OOXML format = various components of each document are stored separately --> it is possiblle to unpack the file to explore its metadata
-- RSID values generated do not appear to increment throughout the editing process, or that if they do, it is not as simple as incrementing on the basis of edits carried out over a timeline
++ RSID values generated do not appear to increment throughout the editing process, or that if they do, it is not as simple as incrementing on the basis of edits carried out over a timeline
 
 + document creation date that precedes an assignment handout date would suggest that the
 student has used a previously written assignment from someone else as the basis of their
