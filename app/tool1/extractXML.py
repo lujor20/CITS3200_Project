@@ -4,6 +4,8 @@ import sys
 from docx import Document
 from docx_meta import *
 
+from html import escape
+
 
 class Extract():
 
@@ -39,16 +41,35 @@ class Extract():
         runCount = 0
         """Create a function to parse the xml"""
         soup = BeautifulSoup(document_content, 'xml')
-        # Gets the text of a particular run
-        for run in soup.find_all('r'):
-            runCount += 1
-            try:
-                txt = str(run.t.string)
-                rsid = run['w:rsidR']
-                docx.append_txt(txt, rsid)
-            except:
-                default_rsidR = run.parent['w:rsidR']
-                docx.append_txt(txt, default_rsidR)
+
+        """ Get the root of the document. """
+        body = soup.find("w:body")
+
+        # Iterate through each w:p
+        for child in body.children:
+            # Skip branches that don't represent paragraphs.
+            if child.name != "p":
+                print("skipping" + child.name)
+                continue 
+
+            default_rsid = child['w:rsidR']
+
+            # Iterate for each run
+            for gchild in child.children:
+                # Add runs to the the docx object
+                if gchild.name != "r":
+                    print("skipping" + gchild.name)
+                    continue
+
+                if "w:rsidR" not in gchild.attrs:
+                    rsid = default_rsid
+                else:
+                    rsid = gchild['w:rsidR']
+                
+                for ggchild in gchild.children:
+                    if ggchild.name == "t":
+                        txt = ggchild.string
+                        docx.append_txt(txt, rsid)
 
 
     def extractSettingsXML(self, docx, settings_content):
