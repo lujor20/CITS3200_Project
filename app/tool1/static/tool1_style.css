@@ -61,3 +61,26 @@ button{
   
   top: 2vh;
 }
+
+.metadata {
+  max-height: 30vh;
+  overflow: auto;
+}
+
+.metadata > table {
+  width: 100%;
+}
+
+.metadata > table tr {
+  max-width: 10px;
+}
+
+.metadata > table td, .metadata > table th {
+  padding: 0.3rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.metadata > table .missing {
+  font-style: italic;
+  
+}

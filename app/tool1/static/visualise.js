@@ -1,3 +1,19 @@
+// Variable that holds index of stylesheet that describes RSID
+let RSID_STYLE_SHEETSHEET_INDEX;
+
+let RSID_CSS_BACKGROUNDCOLOURS;
+let RSID_HIDDENS;
+
+function init_visualise() {
+  find_rsid_style_index();
+  populate_select();
+  add_document_text_listeners();
+  record_rsid_css_backgroundcolor();
+
+  RSID_HIDDENS = Array(document.styleSheets[RSID_STYLE_SHEETSHEET_INDEX].cssRules.length).fill(false);
+}
+
+
 // Convert "rgb(x, y, z)" to  respective hexvalue "#rrggbb" */
 function rgb_to_hex(string) {
 
@@ -9,7 +25,6 @@ function rgb_to_hex(string) {
     return string;
   }
   let rgb_array = string.split(",")
-  
   
   if (rgb_array.length != 3) { // Assume already hex, return
     return string;
@@ -23,19 +38,15 @@ function rgb_to_hex(string) {
 }
 
 
-
-// Variable that holds index of stylesheet that describes RSID
-let rsid_style_stylesheet_index;
-
 /**
- * Finds value of rsid_style_stylesheet_index
+ * Finds value of RSID_STYLE_SHEETSHEET_INDEX
  * Required to be called onload
  */
 // 
 function find_rsid_style_index() {
   for (let x=0; x < document.styleSheets.length; x++) {
     if (document.styleSheets[x].title === "rsid_css") {
-      rsid_style_stylesheet_index = x;
+      RSID_STYLE_SHEETSHEET_INDEX = x;
       break;
     }
   }
@@ -51,14 +62,14 @@ function bcolour_rsid() {
   let rsid_index = document.getElementById("select_rsid").value;
 
   // Change CSS
-  let cssRules = document.styleSheets[rsid_style_stylesheet_index].cssRules[rsid_index];
+  let cssRules = document.styleSheets[RSID_STYLE_SHEETSHEET_INDEX].cssRules[rsid_index];
   cssRules.style.backgroundColor = color;
-
-  // Debug information
-  let expected_rsid = rsids[rsid_index];
-  let actual_rsid = cssRules.selectorText;
-  console.log(expected_rsid.concat("with", actual_rsid, color));
+  RSID_CSS_BACKGROUNDCOLOURS[rsid_index] = color;
 };
+
+function set_rsid_css_bcolour(rsid_index, rsid_color) {
+
+}
 
 /**
  * Function that populates the select tag "select_rsid" with all options.
@@ -77,9 +88,6 @@ function populate_select() {
   }
 };
 
-function select_rsid() {
-
-};
 /** Adds event listeners that allows users to select click on text
  * to select it's corresponding RSID
  * Required to be called onload
@@ -104,15 +112,74 @@ function add_document_text_listeners() {
         select_rsid.value = selected_rsid_index;
 
         // Change "rsid_color"
-        let cssRules = document.styleSheets[rsid_style_stylesheet_index].cssRules[selected_rsid_index];
+        let cssRules = document.styleSheets[RSID_STYLE_SHEETSHEET_INDEX].cssRules[selected_rsid_index];
         let select_colour = document.getElementById("rsid_color");
         select_colour.value = rgb_to_hex(cssRules.style.backgroundColor);
-      })
+      });
+
+      document_text_rsid[y].addEventListener('dblclick', function() {
+        let selected_rsid_index = this.getAttribute("data-rsid_index");
+        rsid_toggle_hidden(selected_rsid_index);
+        console.log("dblclick");
+      });
     }
   }
-
 };
 
+/**
+ * Following functions initialises RSID_CSS_BACKGROUNDCOLOUR;
+ * it records the intial values within for the RSID stylesheet.
+ * 
+ * Currently redundant
+ */
+function record_rsid_css_backgroundcolor () {
+  let rsid_cssRules = document.styleSheets[RSID_STYLE_SHEETSHEET_INDEX].cssRules
 
+  RSID_CSS_BACKGROUNDCOLOURS = Array(rsid_cssRules.length);
+  for (let index = 0; index < rsid_cssRules.length; index++) {
+    RSID_CSS_BACKGROUNDCOLOURS[index] = rsid_cssRules[index].style.backgroundColor;
+  }
+}
 
+function rsid_toggle_hidden (rsid_index) {
 
+  rsid_tag = rsids[rsid_index]
+  rsid_tag = "_".concat(rsid_tag);
+  runs = document.getElementsByClassName(rsid_tag);
+
+  // Toggle to hidden
+  if (RSID_HIDDENS[rsid_index] == false) {
+    RSID_HIDDENS[rsid_index] = true;
+    for (let x = 0; x < runs.length; x++) {
+      runs[x].classList.add("hidden");
+    }
+  }
+  // Toggle to visible
+  else {
+    RSID_HIDDENS[rsid_index] = false;
+    for (let x = 0; x < runs.length; x++) {
+      runs[x].classList.remove("hidden");
+    }
+  }
+}
+
+function selected_rsid_toggle_hidden() {
+  let rsid_index = document.getElementById("select_rsid").value;
+  rsid_toggle_hidden(rsid_index);
+}
+
+function rsid_hide_all() {
+  for (let x = 0; x < RSID_HIDDENS.length; x++) {
+    if (RSID_HIDDENS[x] == false) {
+      rsid_toggle_hidden(x)
+    }
+  }
+}
+
+function rsid_unhide_all() {
+  for (let x = 0; x < RSID_HIDDENS.length; x++) {
+    if (RSID_HIDDENS[x] == true) {
+      rsid_toggle_hidden(x)
+    }
+  }
+}
