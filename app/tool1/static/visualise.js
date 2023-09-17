@@ -183,3 +183,19 @@ function rsid_unhide_all() {
     }
   }
 }
+
+function pdfChangeStyle(){
+  document.getElementsByTagName("nav")[0].style.display = "none";
+  document.getElementsByTagName("section")[0].classList.remove("grid-container");
+  document.getElementsByTagName("section")[1].classList.remove("menu");
+  document.getElementById("upload").style.display = "none";
+  document.getElementById("colour").style.display = "none";
+  document.getElementById("pdf").style.display = "none";
+  window.print();
+  document.getElementsByTagName("nav")[0].style.display = "block";
+  document.getElementsByTagName("section")[0].classList.add("grid-container");
+  document.getElementsByTagName("section")[1].classList.add("menu");
+  document.getElementById("upload").style.display = "block";
+  document.getElementById("colour").style.display = "block";
+  document.getElementById("pdf").style.display = "block";
+}
