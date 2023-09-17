@@ -91,7 +91,7 @@ curl localhost:5000
 ```
 
 ```bash
-aws lightsail push-container-image --service-name cits3200project --label flask-container --image flask container
+aws lightsail push-container-image --service-name cits3200project --label flask-container --image flask-container
 ```
 
 ```bash
