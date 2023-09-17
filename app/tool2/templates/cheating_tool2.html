@@ -1,154 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheating Tool2</title>
-    <style>
-        body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        margin: 20px;
-        }
-
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-        }
-
-        #dropzone {
-            border: 3px dashed #a69999;
-            padding: 30px;
-            height: 60px;
-            background-color: #ecf0f1;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        th {
-            background-color: #34495e;
-            color: white;
-            padding: 8px;
-            text-align: left;
-        }
-
-        td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-
-        input[type="file"] {
-            margin-bottom: 10px;
-        }
-
-        input[type="submit"] {
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #27ae60;
-        }
-
-        .suspicious_ip {
-            background-color: red;
-            color: white;
-        }
-
-        button {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            width: 150px;
-            display: block;
-            margin: 0 auto;
-        }
-
-        button:hover {
-            background-color: #c0392b;
-        }
-    </style>
+    <title>Cheating Tool 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
 </head>
-
 <body>
-    <h1>CHEATING TOOL2</h1>
+    <h1>CHEATING TOOL 2</h1>
+    <!-- Dropzone -->
     <div id="dropzone">
         <p>Drop CSV file here</p>
     </div>
+    <!-- Filter -->
+    <select id="filter">
+        <option value="all">All</option>
+        <option value="DOMESTIC">DOMESTIC</option>
+        <option value="INTERNATIONAL">INTERNATIONAL</option>
+        <option value="SUSPICIOUS">SUSPICIOUS</option>
+    </select>
+    <!-- Search bar -->
+    <input type="text" id="searchBar" placeholder="Search by username">
+    <button id="searchButton">Search</button>
+    <button id="resetButton">Reset</button>
+    <!-- Table -->
     <table id="csvTable">
         <tr>
-            <th>IP Address</th>
             <th>Username</th>
+            <th>IP Address</th>
             <th>Country</th>
+            <th>Flag</th>
         </tr>
     </table>
+    <!-- Modal -->
+    <div id="detailsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;">
+        <div style="width: 70%; margin: 5% auto; background: #fff; padding: 20px; border-radius: 5px; overflow-y: auto; max-height: 80vh;">
+            <span class="close-button" style="float: right; cursor: pointer;" onclick="closeModal()">&times;</span>
+            <h2>User Details</h2>
+            <p><strong>Username:</strong> <span class="username"></span></p>
+            <p><strong>IP Address:</strong> <span class="ip"></span></p>
+            <p><strong>Latitude:</strong> <span class="latitude"></span></p>
+            <p><strong>Longitude:</strong> <span class="longitude"></span></p>
+            <div id="mapContainer" style="height: 400px; max-width: 100%; overflow: hidden;"></div>
+        </div>
+    </div>
+    <!-- Download -->
+    <button id="downloadButton">Download</button>
     <button id="clearButton">Clean</button>
-
-    <script>
-        const dropzone = document.getElementById('dropzone');
-        const csvTable = document.getElementById('csvTable');
-        const clearButton = document.getElementById('clearButton');
-
-        dropzone.addEventListener('dragover', function(event) {
-            event.preventDefault();
-            dropzone.style.borderColor = 'blue';
-            dropzone.style.backgroundColor = '#b9b6b6';
-        });
-
-        dropzone.addEventListener('dragleave', function(event) {
-            event.preventDefault();
-            dropzone.style.borderColor = '#a69999';
-            dropzone.style.backgroundColor = 'white';
-        });
-
-        dropzone.addEventListener('drop', function(event) {
-            event.preventDefault();
-            dropzone.style.borderColor = '#a69999';
-            dropzone.style.backgroundColor = 'white';
-
-            const file = event.dataTransfer.files[0];
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const contents = event.target.result;
-
-                fetch('/', {
-                    method: 'POST',
-                    body: contents
-                }).then(response => response.json())
-                .then(data => {
-                    csvTable.innerHTML = '<tr><th>IP Address</th><th>Username</th><th>Country</th></tr>';
-                    data.forEach(row => {
-                        const newRow = csvTable.insertRow();
-                        newRow.insertCell().textContent = row['Last Edited by: IP Address'];
-                        newRow.insertCell().textContent = row['Username'];
-                        newRow.insertCell().textContent = row['Country'];
-                    });
-                });
-            };
-            reader.readAsText(file);
-        });
-
-        clearButton.addEventListener('click', function() {
-            csvTable.innerHTML = '<tr><th>IP Address</th><th>Username</th><th>Country</th></tr>';
-        });
-    </script>
 </body>
-
 </html>

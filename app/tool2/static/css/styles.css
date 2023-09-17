@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+#dropzone {
+    border: 3px dashed #a69999;
+    padding: 30px;
+    height: 60px;
+    background-color: #ecf0f1;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    background-color: #34495e;
+    color: white;
+    padding: 8px;
+    text-align: left;
+}
+
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background-color: #adc6e7;
+}
+
+#downloadButton{
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+}
+
+#downloadButton:hover{
+    background-color: #27ae60;
+}
+
+#clearButton {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+}
+
+#clearButton:hover {
+    background-color: #c0392b;
+}
+
+#searchBar, #searchButton {
+    display: inline-block;  /* make them appear on the same line */
+    vertical-align: middle; /* align them vertically in the middle */
+}
+
+#filter{
+    float: right;
+}
+
+
