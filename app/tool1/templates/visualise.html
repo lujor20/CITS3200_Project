@@ -87,9 +87,14 @@
 
   <!-- Column 2 -->
   <section class="document_text">
-  {% for rsid, text, index in packed -%}
-    <p class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
-  {%- endfor %}
+  {% for paragraph in docx_content %}
+  <div class = "paragraph">
+    {% for text, rsid, index in paragraph -%}
+      <p class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
+    {%- endfor %}
+  </div>
+  {% endfor %}
+  
   </section>
 </section>
 

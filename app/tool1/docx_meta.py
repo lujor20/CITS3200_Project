@@ -26,42 +26,30 @@ class DOCX:
     def __init__(self, document_name):
         self.docx_name = document_name
 
-        self.rsid_dict = {}
-
-        # Following two arrays hold their respective contents in the sequential order as found by the
-        # tool1 extract process
-
-        """
-        Following first two arrays display the corresponding "text" and "RSID" of each run
-        in sequential order.
-        Third array references the "index" of the unique RSID.
-        """
-        self.txt_array = []
-        self.rsid_array = []
-        self.rsid_index_array = []
+        self.unique_rsid = {}
+        self.paragraphs = {}
 
 
-        """Other Document Metadata"""
         self.metadata = {}
 
-    def append_txt(self, txt, rsid_tag):
-        """Add rsid to dict if not already in it"""
-        if (rsid_tag not in self.rsid_dict):
-            index = len(self.rsid_dict)
-            rsid = RSID(rsid_tag, index)
-            self.rsid_dict[rsid_tag] = rsid
+    def append_txt(self, paragraph_id, txt, rsid_tag):
+        """Get corresponding paragraph"""
+        if (paragraph_id not in self.paragraphs):
+            paragraph = PARAGRAPH(paragraph_id)
+            self.paragraphs[paragraph_id] = paragraph
         else:
-            index = self.rsid_dict[rsid_tag].index
-            rsid = self.rsid_dict[rsid_tag]
+            paragraph = self.paragraphs[paragraph_id]
+
+        """Get rsid index"""
+        if (rsid_tag not in self.unique_rsid):
+            index = len(self.unique_rsid)
+            rsid = RSID(rsid_tag, index)
+            self.unique_rsid[rsid_tag] = rsid
+        else:
+            index = self.unique_rsid[rsid_tag].index
         
         """Process data"""
-        index2 = len(self.txt_array) # Index in CLASS "RSID" to content
-
-        self.rsid_array.append(rsid_tag)
-        self.rsid_index_array.append(index)
-        self.txt_array.append(txt)
-        
-        rsid.append_index(index2)
+        paragraph.append_txt2(txt, rsid_tag, index)
 
     def set_settings_rsid(self, settings_rsid):
         self.settings_rsid = settings_rsid
@@ -69,15 +57,33 @@ class DOCX:
     def append_metadata(self, key, value):
         self.metadata[key] = value
 
+    def get_zips(self):
+        zips = []
+        for key, paragraph in self.paragraphs.items():
+            zip1 = paragraph.get_zip()
+            zips.append(zip1)
+        return zips
+
     
 
 
 class RSID:
-
     def __init__(self, tag, index):
         self.tag = tag
-        self.index_array = []
         self.index = index
 
-    def append_index(self, index):
-        self.index_array.append(index)
+
+class PARAGRAPH:
+    def __init__(self, id):
+        self.id = id
+        self.txt_array = []
+        self.rsid_array = []
+        self.rsid_index_array = []
+
+    def append_txt2(self, txt, rsid, rsid_index):
+        self.txt_array.append(txt)
+        self.rsid_array.append(rsid)
+        self.rsid_index_array.append(rsid_index)
+
+    def get_zip(self):
+        return zip(self.txt_array, self.rsid_array, self.rsid_index_array)

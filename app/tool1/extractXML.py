@@ -52,7 +52,9 @@ class Extract():
                 print("skipping" + child.name)
                 continue 
 
+            print(child.attrs)
             default_rsid = child['w:rsidR']
+            paragraph_id = child['w14:paraId']
 
             # Iterate for each run
             for gchild in child.children:
@@ -69,7 +71,7 @@ class Extract():
                 for ggchild in gchild.children:
                     if ggchild.name == "t":
                         txt = ggchild.string
-                        docx.append_txt(txt, rsid)
+                        docx.append_txt(paragraph_id,txt, rsid)
 
 
     def extractSettingsXML(self, docx, settings_content):
