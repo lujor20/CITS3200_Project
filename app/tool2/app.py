@@ -1,5 +1,8 @@
 from flask import Flask, request, render_template, jsonify
 from IPtoLocation import process_csv_data, shutdown_context, process_detail_data, generate_map
+from runDemo.integrated import integrated
+from flask import Flask, render_template, send_file
+import os
 
 
 app = Flask(__name__)
@@ -23,6 +26,12 @@ def get_user_details():
 @app.route('/favicon.ico')
 def favicon():
     return app.send_static_file('favicon.ico')
+
+@app.route('/run_demo', methods=['GET','POST'])
+def run_demo():
+    file_path = os.path.join('runDemo', 'ipwithflag.csv')
+    integrated()
+    return send_file(file_path)
 
 
 if __name__ == '__main__':
