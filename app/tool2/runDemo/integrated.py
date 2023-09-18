@@ -16,11 +16,11 @@ class integrated:
 
     def initial(self):
         # call flagging module using the cleaned output file and passing through flagging.py with action as "initial"
-        with open("test.csv", newline='') as csvfile:
+        with open("runDemo/test.csv", newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             print("initial flagging")
             
-            object = flag.flagging("test.csv", "initial")
+            object = flag.flagging("runDemo/test.csv", "initial")
         # report successful initial flagging
 
     def international():
