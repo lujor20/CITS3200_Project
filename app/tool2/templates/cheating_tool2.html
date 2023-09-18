@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <title>Cheating Tool 2</title>
-    <link rel="stylesheet" href="{{ url_for('tool2.static', filename='css/styles.css') }}">
-    <script src="{{ url_for('tool2.static', filename='js/scripts.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
 </head>
 <body>
     <h1>CHEATING TOOL 2</h1>
@@ -22,6 +22,7 @@
     <input type="text" id="searchBar" placeholder="Search by username">
     <button id="searchButton">Search</button>
     <button id="resetButton">Reset</button>
+    <button id="runDemo">Demo</button>
     <!-- Table -->
     <table id="csvTable">
         <tr>
@@ -46,6 +47,5 @@
     <!-- Download -->
     <button id="downloadButton">Download</button>
     <button id="clearButton">Clean</button>
-    <button id="runDemo">Demo</button>
 </body>
 </html>

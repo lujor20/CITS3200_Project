@@ -1,7 +1,8 @@
-import Cits3200etl as etl
 import csv
-import flagging as flag
+from . import flagging as flag
+import os
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 class integrated:
 
@@ -16,11 +17,13 @@ class integrated:
 
     def initial(self):
         # call flagging module using the cleaned output file and passing through flagging.py with action as "initial"
-        with open("runDemo/test.csv", newline='') as csvfile:
+        csv_path = os.path.join(dir_path, "test.csv")
+        with open( csv_path, newline='') as csvfile:
+            
             reader = csv.DictReader(csvfile)
             print("initial flagging")
             
-            object = flag.flagging("runDemo/test.csv", "initial")
+            flag.flagging( csv_path, "initial")
         # report successful initial flagging
 
     def international():
@@ -35,4 +38,4 @@ class integrated:
         # report successful distance flagging
         pass
 
-test = integrated()
+#test = integrated()
