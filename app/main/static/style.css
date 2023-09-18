@@ -79,6 +79,12 @@ section{
     padding: 0 19%;
 }
 
+.contacts{
+    padding-top: 20px;
+    padding-bottom: 30px;
+    background: linear-gradient(245.59deg, #FFC26F 0%, #C38154 28.53%, #862b0dbd 75.52%);
+}
+
 .hero-text{
     margin-top: 10%;
 }
