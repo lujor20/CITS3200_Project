@@ -4,7 +4,6 @@ import sys
 from docx import Document
 from docx_meta import *
 
-
 class Extract():
 
     """ Upon initialisation, prepares file for extraction """
@@ -36,10 +35,10 @@ class Extract():
         self.extract_metadata(docx,self.sourcefile)
 
     def parse_xml(self, docx, document_content):
-        runCount = 0
         """Create a function to parse the xml"""
         soup = BeautifulSoup(document_content, 'xml')
         # Gets the text of a particular run
+        runCount = 0
         for run in soup.find_all('r'):
             runCount += 1
             try:
@@ -49,12 +48,19 @@ class Extract():
             except:
                 default_rsidR = run.parent['w:rsidR']
                 docx.append_txt(txt, default_rsidR)
+        
+        docx.append_metadata("Run Count: ", runCount)
 
 
     def extractSettingsXML(self, docx, settings_content):
         soup = BeautifulSoup(settings_content, 'xml')
         docx.set_settings_rsid(soup.find_all('rsid'))
 
+        uniqueRun = 0
+        for run in soup.find_all('rsid'):
+            uniqueRun += 1
+        
+        docx.append_metadata("Unique Run: ", uniqueRun)
 
 
     def extractAppXML(self, docx, app_content):
@@ -68,6 +74,7 @@ class Extract():
         docx.append_metadata(docx.WORD_VERSION, wordVersion)
         docx.append_metadata(docx.TOTAL_TIME, totalTime)
         docx.append_metadata(docx.NUMBER_WORDS, numWords)
+        docx.append_metadata(docx.IS_SHARED, isDocumentShared)
 
 
     def extract_metadata(self, docx, sourcefile):
