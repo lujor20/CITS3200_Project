@@ -11,43 +11,49 @@ from .docx_meta import *
 #https://flask-wtf.readthedocs.io/en/1.0.x/form/
 @tool1.route('/visualise', methods = ['GET', 'POST'])
 def visualise():
-  form = FileForm()
+    form = FileForm()
 
-  if form.validate_on_submit():
-    file = form.file.data
-    filename = secure_filename(file.filename)
+    if form.validate_on_submit():
 
-    docx = DOCX(filename)
-    xml = Extract(file)
+        # Extract and process uploaded .docx file
+        file = form.file.data
+        filename = secure_filename(file.filename)
 
-    parse_xml_to_docx(xml.document_content, docx)
+        docx = DOCX(filename)
+        xml = Extract(file)
 
-    """
-    for x in range(len(docx.txt_array)):
-      print('{0:3d}|{1}|{2}'.format(x, docx.rsid_array[x], docx.txt_array[x]))
-    """
-    
-    rsid_array = docx.rsid_array
-    txt_array = docx.txt_array
+        xml.extract_to_docx(docx)
 
-    rsids = []
-    reds = []
-    greens = []
-    blues = []
+        """
+        for x in range(len(docx.txt_array)):
+        print('{0:3d}|{1}|{2}'.format(x, docx.rsid_array[x], docx.txt_array[x]))
+        """
+        
+        # Prepare data for presentation.
+        rsid_array = docx.rsid_array
+        txt_array = docx.txt_array
+        unique_rsids = docx.rsid_dict.keys()
+        rsid_index = docx.rsid_index_array
+        
+        reds = []
+        greens = []
+        blues = []
 
-    for rsid in docx.rsid_dict:
-      rsids.append(rsid)
-      reds.append(random.randint(50, 250))
-      greens.append(random.randint(50, 250))
-      blues.append(random.randint(50, 250))
-    colours = zip(rsids, reds, greens, blues)
-    return render_template('visualise.html', form=form, packed = zip(rsid_array, txt_array), rsids = rsids, colours = colours)
+        for rsid in unique_rsids:
+            reds.append(random.randint(50, 250))
+            greens.append(random.randint(50, 250))
+            blues.append(random.randint(50, 250))
+            colours = zip(unique_rsids, reds, greens, blues)
 
-  return render_template('visualise.html', form=form)
+        print(docx.metadata)
+        return render_template('visualise.html', form=form, packed = zip(rsid_array, txt_array, rsid_index),
+            unique_rsids = unique_rsids, colours = colours, metadata = docx.metadata)
+
+    return render_template('visualise.html', form=form)
 
 
 
 
 
-  
+
 

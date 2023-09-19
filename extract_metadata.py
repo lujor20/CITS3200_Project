@@ -6,13 +6,22 @@ def extract_metadata(docx_path):
     doc = Document(docx_path)
     
     metadata = {
+        "Created By": doc.core_properties.author,
+        "Last Modified By": doc.core_properties.last_modified_by,
+        "Date Created": doc.core_properties.created,
+        "Date Last Modified": doc.core_properties.modified,
+        "Revisions": doc.core_properties.revision,
+        "Last Printed": doc.core_properties.last_printed,
         "Title": doc.core_properties.title,
-        "Author": doc.core_properties.author,
         "Subject": doc.core_properties.subject,
         "Keywords": doc.core_properties.keywords,
-        "Last Modified By": doc.core_properties.last_modified_by,
-        "Created": doc.core_properties.created,
-        "Modified": doc.core_properties.modified,
+        "Category": doc.core_properties.category,
+        "Comments": doc.core_properties.comments,
+        "Content Status": doc.core_properties.content_status,
+        "Identifier": doc.core_properties.identifier,
+        "Keywords": doc.core_properties.keywords,
+        "Language": doc.core_properties.language,
+        "Version": doc.core_properties.version,
     }
     
     return metadata

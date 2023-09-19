@@ -11,6 +11,7 @@ def get_country(ip):
     else:
         return None
 result['Country'] = result['Last Edited by: IP Address'].apply(get_country)
-reader.close()
+
 unique_countries = result['Country'].unique()
+reader.close()
 print("Unique countries in the data:", unique_countries)

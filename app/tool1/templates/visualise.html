@@ -4,7 +4,7 @@
 
 <script>
   rsids = ["dummy"
-    {% for rsid in rsids -%}
+    {% for rsid in unique_rsids -%}
     ,"{{ rsid }}"
     {%- endfor %}
   ];
@@ -13,51 +13,93 @@
 <script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
 
 <link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "tool1_style.css") }}>
-<style>
+
+
+<style title = "rsid_css">
   {% for rsid, red, green, blue in colours -%}
   ._{{rsid}} {
     background-color: rgb({{red}}, {{green}}, {{blue}});
   }
   {%- endfor %}
 </style>
+
+<style>
+  .hidden {
+    background-color: rgba(0,0,0,0);
+  }
+</style>
+
+
 <title>Visualise</title>
 {% endblock %}
 
 {% block body_content %}
-<section>
-  <p><b>Upload New File</b></p>
-  <form method='POST' action='/visualise', enctype="multipart/form-data">
-    {{ form.csrf_token }}
-    {{ form.file.label }}
-    {{ form.file() }}
-    {% for error in form.file.errors%}
-    <p>[{{ error }}]</p>
-    {% endfor %}
-    {{form.submit() }}
-  </form>
+<section class="grid-container">
+  <!-- Column 1 -->
+  <section class="menu">
+    <div class="form" id="upload">
+      <p><b>Upload New File</b></p>
+      <form method='POST' action='/visualise', enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        {{ form.file.label }}
+        {{ form.file() }}
+        {% for error in form.file.errors%}
+        <p>[{{ error }}]</p>
+        {% endfor %}
+        {{form.submit() }}
+      </form>
+    </div>
+
+    <div class = "form" id="colour">
+      <form>
+        <label for="rsid_color">Select Colour</label>
+        <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
+        <label for="select_rsid">Select RSID</label>
+        <select name = "select_rsid" id="select_rsid"></select>
+        <button type="button" onclick="bcolour_rsid()">Change Colour</button>
+        <button type="button" onclick="selected_rsid_toggle_hidden()">Hide this</button>
+      </form>
+      <button type="button" onclick="rsid_hide_all()">hide all</button>
+      <button type="button" onclick="rsid_unhide_all()">unhide all</button>
+    </div>
+    <div id="pdf">
+      <button type="button" onclick="pdfChangeStyle()">Download PDF</button>
+    </div>
+
+    <!-- Table for Metadata -->
+    {% if metadata is defined %}
+    <div class = "metadata_display">
+      <h3>Metadata</h3>
+      <div class = "metadata">
+        <table>
+          {% for key, value in metadata.items() %}
+              <tr>
+                <th>{{ key }}</th>
+                {% if value == "" or value == None%}
+                <td class = "missing">Not avaliable.</td>
+                {% else %}
+                <td>{{value}}</td>
+                {% endif %}
+              </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+    {% endif %}
+  </section>
+
+  <!-- Column 2 -->
+  <section class="document_text">
+  {% for rsid, text, index in packed -%}
+    <p class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
+  {%- endfor %}
+  </section>
 </section>
 
-<section onsubmit="bcolour_rsid()">
-    <label for="rsid_color"> test</label>
-    <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
-    <label for="select_rsid"> test</label>
-    <select name = "select_rsid" id="select_rsid">
 
-    </select>
-    <button type="button" onclick="bcolour_rsid()">tester</button>
-</section>
 
-<section>
-  <p> <b>Below will be the rendered document</b></p>
-  <p>
-    {% for rsid, text in packed %}
-    <span class='_{{rsid}}' title='{{rsid}}'>{{text}}</span>
-    {% endfor %}
-  </p>
-  
-</section>
 
 <script>
-populate_select();
+  init_visualise()
 </script>
 {% endblock %}
