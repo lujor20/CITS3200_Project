@@ -1,7 +1,7 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: rgba(200, 200, 200);
-    margin: 20px;
+.tool2{
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 20px;
 }
 
 h1 {
@@ -12,10 +12,23 @@ h1 {
 #dropzone {
     border: 3px dashed #a69999;
     padding: 30px;
-    height: 60px;
+    height: 200px;
     background-color: #ecf0f1;
-    text-align: center;
     margin-bottom: 20px;
+}
+
+#drop-text{
+    text-align: center;
+    padding-top: 60px;
+}
+
+.navigation-buttons{
+    margin: 10px;
+}
+
+.nav-buttons{
+    border-radius: 5px;
+    padding: 5px;
 }
 
 table {

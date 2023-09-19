@@ -24,6 +24,10 @@
     color: white;
 }
 
+.navbar-brand:hover{
+    color:#FFC26F
+}
+
 .navbar-nav{
     margin-left: 90px;
     font-size: 20px;
@@ -36,6 +40,10 @@
 
 .nav-link{
     color: white;
+}
+
+.nav-link:hover{
+    color: #FFC26F
 }
 
 .nav-item {
