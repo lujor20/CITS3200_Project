@@ -93,4 +93,13 @@ tr:hover {
     float: right;
 }
 
+.international-flag {
+    color: rgb(53, 56, 227);  
+}
+
+.suspicious-flag {
+    color: red;   
+}
+
+
 

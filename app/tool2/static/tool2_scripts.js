@@ -54,7 +54,15 @@ dropzone.addEventListener('drop', function(event) {
                 newRow.insertCell().textContent = row['Username'];
                 newRow.insertCell().textContent = row['Last Edited by: IP Address'];
                 newRow.insertCell().textContent = row['Country'];
-                newRow.insertCell().textContent = row['Flag'];
+
+                const flagCell = newRow.insertCell();
+                flagCell.textContent = row['Flag'];
+                if (row['Flag'] === 'INTERNATIONAL') {
+                    flagCell.classList.add('international-flag');
+                } else if (row['Flag'] === 'SUSPICIOUS') {
+                    flagCell.classList.add('suspicious-flag');
+                }
+
                 newRow.addEventListener('click', onRowClick);
             });
         });
@@ -244,8 +252,11 @@ function showDetailsInModal(data) {
     //user details
     document.querySelector('.username').textContent = data.Username;
     document.querySelector('.ip').textContent = data['Last Edited by: IP Address'];
+    document.querySelector('.country').textContent = data.Country;
+    document.querySelector('.city').textContent = data.City;
     document.querySelector('.latitude').textContent = data.Latitude;
     document.querySelector('.longitude').textContent = data.Longitude;
+    document.querySelector('.flag').textContent = data.Flag;
 
     // add map into model
     if(data.map_html) {
