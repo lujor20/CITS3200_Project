@@ -145,6 +145,64 @@ resetButton.addEventListener('click', function() {
     searchBar.value = "";  // Clear the searchBar content
 });
 
+// Demo Button
+runDemo.addEventListener('click', function() {
+    fetch("/run_demo")  // Assuming you have set up a route called '/run-demo' on Flask to handle this request and return CSV data.
+    .then(response => response.text())
+    .then(data => {
+        // Update table with CSV data
+        updateTableWithCSVData(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+function parseCSV(csvText) {
+    const rows = csvText.trim().split("\n");
+    const headers = rows[0].split(",");
+    const data = [];
+
+    for(let i = 1; i < rows.length; i++) {
+        const rowData = rows[i].split(",");
+        const record = {};
+        headers.forEach((header, index) => {
+            record[header] = rowData[index];
+        });
+        data.push(record);
+    }
+    return data;
+}
+
+function updateTableWithCSVData(csvText) {
+    const data = parseCSV(csvText);
+    const table = document.getElementById("csvTable");
+
+    // Clear old data:
+    table.innerHTML = `<tr>
+        <th>IP</th>
+        <th>Country</th>
+        <th>City</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Flag</th>
+    </tr>`;
+
+    // Append new data to the table:
+    data.forEach(row => {
+        const tr = document.createElement("tr");
+
+        Object.values(row).forEach(cellData => {
+            const td = document.createElement("td");
+            td.innerText = cellData;
+            tr.appendChild(td);
+        });
+
+        table.appendChild(tr);
+    });
+}
+
+
 //click row
 function onRowClick(event) {
     const row = event.currentTarget;
