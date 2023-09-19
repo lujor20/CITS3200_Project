@@ -43,7 +43,7 @@ dropzone.addEventListener('drop', function(event) {
     reader.onload = function(event) {
         const contents = event.target.result;
 
-        fetch('/', {
+        fetch('/tool2', {
             method: 'POST',
             body: contents
         }).then(response => response.json())

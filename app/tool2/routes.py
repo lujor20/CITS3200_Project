@@ -5,7 +5,7 @@ from .runDemo import integrated
 from . import tool2
 
 # quick ip recognize
-@tool2.route('/', methods=['GET','POST'])
+@tool2.route('/tool2', methods=['GET','POST'])
 def index():
     if request.method == 'POST':
         csv_data = request.data.decode('utf-8')
@@ -22,21 +22,10 @@ def get_user_details():
     detailed_data['map'] = map_html
     return jsonify(detailed_data)
 
-#@tool2.route('/favicon.ico')
-#def favicon():
-    #return tool2.send_static_file('favicon.ico')
-
 @tool2.route('/tool2/run_demo', methods=['GET','POST'])
 def run_demo():
     file_path = os.path.join('runDemo', 'ipwithflag.csv')
     integrated_instance = integrated.integrated()
     return send_file(file_path)
 
-#@tool2.teardown_appcontext
-#def handle_teardown(exception=None):
-    #shutdown_context(exception)
 
-#if __name__ == '__main__':
-    #app = Flask(__name__)
-    #app.register_blueprint(tool2)
-    #app.run(debug=True)
