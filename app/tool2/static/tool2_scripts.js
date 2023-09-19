@@ -244,8 +244,11 @@ function showDetailsInModal(data) {
     //user details
     document.querySelector('.username').textContent = data.Username;
     document.querySelector('.ip').textContent = data['Last Edited by: IP Address'];
+    document.querySelector('.country').textContent = data.Country;
+    document.querySelector('.city').textContent = data.City;
     document.querySelector('.latitude').textContent = data.Latitude;
     document.querySelector('.longitude').textContent = data.Longitude;
+    document.querySelector('.flag').textContent = data.Flag;
 
     // add map into model
     if(data.map_html) {

@@ -40,6 +40,7 @@ def get_location_type(country):
         return 'SUSPICIOUS'
     else:
         return 'INTERNATIONAL'
+    
 def process_csv_data(csv_data):
     data = pd.read_csv(StringIO(csv_data))
     result = data[['Last Edited by: IP Address', 'Username']].copy()
@@ -82,12 +83,14 @@ def process_detail_data(row_data):
     """
     ip = row_data.get('Last Edited by: IP Address')
     response = get_full_details_ip2geotools(ip)
+    flag = get_location_type(get_country(ip))
 
     # Update the original row data with new details
-    row_data['Latitude'] = response['Latitude']
-    row_data['Longitude'] = response['Longitude']
     row_data['Country'] = response['Country']
     row_data['City'] = response['City']
+    row_data['Latitude'] = response['Latitude']
+    row_data['Longitude'] = response['Longitude']
+    row_data['Flag'] = flag
 
     map_html = generate_map(response['Latitude'], response['Longitude'])
     row_data['map_html'] = map_html
