@@ -43,7 +43,7 @@ dropzone.addEventListener('drop', function(event) {
     reader.onload = function(event) {
         const contents = event.target.result;
 
-        fetch('/tool2', {
+        fetch('/', {
             method: 'POST',
             body: contents
         }).then(response => response.json())
@@ -147,7 +147,7 @@ resetButton.addEventListener('click', function() {
 
 // Demo Button
 runDemo.addEventListener('click', function() {
-    fetch("/tool2/run_demo")  // Assuming you have set up a route called '/run-demo' on Flask to handle this request and return CSV data.
+    fetch("/run_demo")  // Assuming you have set up a route called '/run-demo' on Flask to handle this request and return CSV data.
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -215,7 +215,7 @@ function onRowClick(event) {
     const username = row.cells[0].textContent;
     const ip = row.cells[1].textContent;
 
-    fetch('/tool2/get_user_details', {
+    fetch('/get_user_details', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

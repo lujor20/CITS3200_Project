@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Cheating Tool 2</title>
-    <link rel="stylesheet" href="{{ url_for('tool2.static', filename='css/styles.css') }}">
-    <script src="{{ url_for('tool2.static', filename='js/scripts.js') }}" defer></script>
-</head>
+{% extends "base.html" %}
+
+{% block head_content %}
+<title>ipLocated</title>
+<link rel="stylesheet" href="{{ url_for('tool2.static', filename='tool2_styles.css') }}">
+<script src="{{ url_for('tool2.static', filename='tool2_scripts.js') }}" defer></script>
+
+{% endblock %}
+{% block body_content %}
 <body>
-    <h1>CHEATING TOOL 2</h1>
     <!-- Dropzone -->
     <div id="dropzone">
         <p>Drop CSV file here</p>
@@ -48,4 +49,5 @@
     <button id="downloadButton">Download</button>
     <button id="clearButton">Clean</button>
 </body>
-</html>
+{% endblock %}
+
