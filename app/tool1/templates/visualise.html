@@ -10,6 +10,7 @@
   ];
   rsids.shift();
 </script>
+
 <script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
 
 <link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "tool1_style.css") }}>
@@ -34,6 +35,11 @@
 {% endblock %}
 
 {% block body_content %}
+
+{% if docx_content_properties_array is defined %}
+<div id="data_docx_content_properties" data-cont_prop='{{docx_content_properties_array | tojson }}'></div>
+{% endif %}
+
 <section class="grid-container">
   <!-- Column 1 -->
   <section class="menu">
@@ -83,6 +89,14 @@
       </div>
     </div>
     {% endif %}
+
+    <!-- Section to display properties data -->
+    {% if docx_content_properties_array is defined %}
+    <section id = "docx_content_properties">
+    </section>
+    {% endif %}
+    
+    
   </section>
 
   <!-- Column 2 -->

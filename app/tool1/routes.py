@@ -38,9 +38,26 @@ def visualise():
             blues.append(random.randint(50, 250))
             colours = zip(unique_rsids, reds, greens, blues)
 
+        # Get the content of the DOCX
         docx_content = docx.get_zips()
+
+        # Get the properties
+        docx_content_properties_array = []
+        docx_content_properties_dict = docx.get_properties_dict()
+        # turn into dictionary for jinja2 processing
+        for hash, prop in docx_content_properties_dict.items():
+            temp = dict()
+            temp["xml"]               = str(prop.xml)
+            temp["name"]              = prop.name
+            temp["value_dict"]        = prop.value_dict
+            temp["runs"]              = prop.runs
+            temp["inheritance_array"] = prop.inheritance_array
+            docx_content_properties_array.append(temp)
+
+
         return render_template('visualise.html', form=form, unique_rsids = unique_rsids,
-            colours = colours, metadata = docx.metadata, docx_content = docx_content)
+            colours = colours, metadata = docx.metadata, docx_content = docx_content,
+            docx_content_properties_array = docx_content_properties_array)
 
     return render_template('visualise.html', form=form)
 

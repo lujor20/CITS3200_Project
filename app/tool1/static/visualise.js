@@ -1,14 +1,23 @@
-// Variable that holds index of stylesheet that describes RSID
-let RSID_STYLE_SHEETSHEET_INDEX;
+var TAG_ID_DATA_DOCX_CONTENT_PROPERTIES = "data_docx_content_properties"
+var TAG_ID_DOCX_CONTENT_PROPERTIES = "docx_content_properties"
 
-let RSID_CSS_BACKGROUNDCOLOURS;
-let RSID_HIDDENS;
+
+
+// Variable that holds index of stylesheet that describes RSID
+var RSID_STYLE_SHEETSHEET_INDEX;
+
+var RSID_CSS_BACKGROUNDCOLOURS;
+var RSID_HIDDENS;
+
+var DOCX_CONTENT_PROPERTIES_ARRAY
 
 function init_visualise() {
   find_rsid_style_index();
   populate_select();
   add_document_text_listeners();
   record_rsid_css_backgroundcolor();
+  get_DOCX_CONTENT_PROPERTIES_ARRAY();
+  display_DOCX_CONTENT_PROPERTIES_ARRAY();
 
   RSID_HIDDENS = Array(document.styleSheets[RSID_STYLE_SHEETSHEET_INDEX].cssRules.length).fill(false);
 }
@@ -181,5 +190,51 @@ function rsid_unhide_all() {
     if (RSID_HIDDENS[x] == true) {
       rsid_toggle_hidden(x)
     }
+  }
+}
+
+function get_DOCX_CONTENT_PROPERTIES_ARRAY() {
+  let div_tag = document.getElementById(TAG_ID_DATA_DOCX_CONTENT_PROPERTIES);
+  if (div_tag != null) {
+    DOCX_CONTENT_PROPERTIES_ARRAY = JSON.parse(div_tag.dataset.cont_prop);
+  }
+}
+
+function display_DOCX_CONTENT_PROPERTIES_ARRAY() {
+  let div_prop = document.getElementById(TAG_ID_DOCX_CONTENT_PROPERTIES);
+  if (div_prop == null) {
+    return;
+  }
+
+  // Iterate over each document property
+  for (let index = 0; index < DOCX_CONTENT_PROPERTIES_ARRAY.length; index++) {
+    let prop = DOCX_CONTENT_PROPERTIES_ARRAY[index];
+
+    // Define name
+    let title = document.createElement("h3");
+    title.innerHTML = prop.name;
+
+    // Give Iteratre over each property value
+    let table = document.createElement("table")
+
+    // 
+    for (let key in prop.value_dict) {
+      let tr = document.createElement("tr");
+
+      let th = document.createElement("th");
+      th.innerHTML = key;
+
+      let td = document.createElement("td");
+      td.innerHTML = prop.value_dict[key]
+
+      tr.insertAdjacentElement("beforeend", th);
+      tr.insertAdjacentElement("beforeend", td);
+      table.insertAdjacentElement("beforeend", tr);
+    }
+    // Order title - table
+    div_prop.insertAdjacentElement('beforeend', title);
+    div_prop.insertAdjacentElement('beforeend', table);
+    
+    
   }
 }

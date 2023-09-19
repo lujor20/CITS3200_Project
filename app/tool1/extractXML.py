@@ -2,7 +2,7 @@ import zipfile
 from bs4 import BeautifulSoup
 import sys
 from docx import Document
-from docx_meta import *
+from .docx_meta import *
 
 from html import escape
 
@@ -38,7 +38,16 @@ class Extract():
         self.extract_metadata(docx,self.sourcefile)
 
     def parse_xml(self, docx, document_content):
-        runCount = 0
+
+        def parse_tagPr(tagPr, inherit_from = PROPERTY.GRANDPARENT):
+            properties = []
+            for child in tagPr.children:
+                name = child.name
+                value_dict = child.attrs
+                new_property = PROPERTY(child, name, value_dict, inherit_from)
+                properties.append(new_property)
+            return properties
+
         """Create a function to parse the xml"""
         soup = BeautifulSoup(document_content, 'xml')
 
@@ -52,9 +61,14 @@ class Extract():
                 print("skipping" + child.name)
                 continue 
 
-            print(child.attrs)
+            # Set Default values
             default_rsid = child['w:rsidR']
             paragraph_id = child['w14:paraId']
+            
+            default_properties = []
+            paragraph_property = child.find("pPr")
+            if (paragraph_property is not None):
+                default_properties = parse_tagPr(paragraph_property, PROPERTY.PARENT)
 
             # Iterate for each run
             for gchild in child.children:
@@ -63,16 +77,23 @@ class Extract():
                     print("skipping" + gchild.name)
                     continue
 
+                # Get rsidR
                 if "w:rsidR" not in gchild.attrs:
                     rsid = default_rsid
                 else:
                     rsid = gchild['w:rsidR']
-                
-                for ggchild in gchild.children:
-                    if ggchild.name == "t":
-                        txt = ggchild.string
-                        docx.append_txt(paragraph_id,txt, rsid)
 
+                # Get run styling
+                run_properties = default_properties
+                run_property = gchild.find("rPr")
+                if (run_property is not None):
+                    run_properties = parse_tagPr(run_property, PROPERTY.SELF)
+
+                # Get text
+                run_txt = gchild.find("t")
+                if (run_txt is not None):
+                    txt = run_txt.string
+                    docx.append_txt(paragraph_id, rsid, run_properties, txt)
 
     def extractSettingsXML(self, docx, settings_content):
         soup = BeautifulSoup(settings_content, 'xml')
