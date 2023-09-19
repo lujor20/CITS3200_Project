@@ -1,13 +1,12 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, send_file
 from IPtoLocation import process_csv_data, shutdown_context, process_detail_data, generate_map
-from flask import Flask, render_template, send_file
 import os
 from runDemo import integrated
+from tool2 import tool2
 
-
-app = Flask(__name__)
+#app = Flask(__name__)
 # quick ip recognize
-@app.route('/', methods=['GET','POST'])
+@tool2.route('/', methods=['POST'])
 def index():
     if request.method == 'POST':
         csv_data = request.data.decode('utf-8')
@@ -15,7 +14,7 @@ def index():
         return jsonify(processed_data)
     return render_template("cheating_tool2.html")
 # details for click the rows
-@app.route('/get_user_details', methods=['POST'])
+@tool2.route('/get_user_details', methods=['POST'])
 def get_user_details():
     row_data = request.json
     detailed_data = process_detail_data(row_data)
@@ -23,20 +22,21 @@ def get_user_details():
     detailed_data['map'] = map_html
     return jsonify(detailed_data)
 
-@app.route('/favicon.ico')
+@tool2.route('/favicon.ico')
 def favicon():
-    return app.send_static_file('favicon.ico')
+    return tool2.send_static_file('favicon.ico')
 
-@app.route('/run_demo', methods=['GET','POST'])
+@tool2.route('/run_demo', methods=['GET','POST'])
 def run_demo():
     file_path = os.path.join('runDemo', 'ipwithflag.csv')
     integrated_instance = integrated.integrated()
     return send_file(file_path)
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-@app.teardown_appcontext
+@tool2.teardown_appcontext
 def handle_teardown(exception=None):
     shutdown_context(exception)
+
+if __name__ == '__main__':
+    app = Flask(__name__)
+    app.register_blueprint(tool2, url_prefix='/tool2')
+    app.run(debug=True)
