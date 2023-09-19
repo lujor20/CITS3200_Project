@@ -4,6 +4,8 @@ import os
 from .runDemo import integrated
 from . import tool2
 
+from pathlib import Path
+
 # quick ip recognize
 @tool2.route('/tool2', methods=['GET','POST'])
 def index():
@@ -22,10 +24,16 @@ def get_user_details():
     detailed_data['map'] = map_html
     return jsonify(detailed_data)
 
-@tool2.route('/tool2/run_demo', methods=['GET','POST'])
+@tool2.route('/run_demo', methods=['GET','POST'])
 def run_demo():
-    file_path = os.path.join('runDemo', 'ipwithflag.csv')
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    file_path = os.path.join(dir_path, 'runDemo/ipwithflag.csv')
     integrated_instance = integrated.integrated()
+    print("This is reading this file ", file_path)
+    
+    result_file = Path(file_path)
+    if result_file.is_file():
+        print("It exist")
     return send_file(file_path)
 
 

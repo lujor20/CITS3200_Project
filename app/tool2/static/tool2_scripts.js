@@ -147,13 +147,7 @@ resetButton.addEventListener('click', function() {
 
 // Demo Button
 runDemo.addEventListener('click', function() {
-    fetch("/run_demo")  // Assuming you have set up a route called '/run-demo' on Flask to handle this request and return CSV data.
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
+    fetch("/run_demo") 
     .then(response => response.text())
     .then(data => {
         // Update table with CSV data

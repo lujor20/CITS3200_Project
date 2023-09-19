@@ -18,6 +18,7 @@ class integrated:
     def initial(self):
         # call flagging module using the cleaned output file and passing through flagging.py with action as "initial"
         csv_path = os.path.join(dir_path, "test.csv")
+        print("this is hardcoded ",csv_path)
         with open( csv_path, newline='') as csvfile:
             
             reader = csv.DictReader(csvfile)
