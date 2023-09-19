@@ -54,7 +54,15 @@ dropzone.addEventListener('drop', function(event) {
                 newRow.insertCell().textContent = row['Username'];
                 newRow.insertCell().textContent = row['Last Edited by: IP Address'];
                 newRow.insertCell().textContent = row['Country'];
-                newRow.insertCell().textContent = row['Flag'];
+
+                const flagCell = newRow.insertCell();
+                flagCell.textContent = row['Flag'];
+                if (row['Flag'] === 'INTERNATIONAL') {
+                    flagCell.classList.add('international-flag');
+                } else if (row['Flag'] === 'SUSPICIOUS') {
+                    flagCell.classList.add('suspicious-flag');
+                }
+
                 newRow.addEventListener('click', onRowClick);
             });
         });
