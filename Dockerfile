@@ -11,7 +11,7 @@ COPY requirements.txt /docker-test/requirements.txt
 WORKDIR /docker-test
 
 # Install any dependencies
-RUN apk update
+RUN apk update && apk --no-cache --update add libffi-dev 
 RUN apk add make automake gcc g++ subversion python3-dev
 RUN pip install -r requirements.txt
 
