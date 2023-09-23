@@ -91,6 +91,32 @@ section{
     padding: 0 19%;
 }
 
+.about{
+    padding-top: 20px;
+    padding-bottom: 30px;
+    background: white
+}
+
+.divider{
+    padding: 50px;
+    background-color: #862b0dbd;
+    color: white;
+}
+
+.description{
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+.carousel-caption h5, .carousel-caption p{
+    color: black;
+    background-color: white;
+}
+
+.row{
+    padding-bottom: 50px;
+}
+
 .contacts{
     padding-top: 20px;
     padding-bottom: 30px;
