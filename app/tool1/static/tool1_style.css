@@ -13,7 +13,7 @@
 }
 
 body{
-  background-color: rgba(200, 200, 200);
+  background-color: rgb(255, 255, 255);
 }
 
 
@@ -83,4 +83,8 @@ button{
 .metadata > table .missing {
   font-style: italic;
   
+}
+
+.subnav{
+  margin: 20px;
 }
