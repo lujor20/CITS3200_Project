@@ -10,6 +10,7 @@
   ];
   rsids.shift();
 </script>
+
 <script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
 
 <link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "tool1_style.css") }}>
@@ -34,6 +35,11 @@
 {% endblock %}
 
 {% block body_content %}
+
+{% if docx_content_properties_array is defined %}
+<div id="data_docx_content_properties" data-cont_prop='{{docx_content_properties_array | tojson }}'></div>
+{% endif %}
+
 
     <!-- TRIED CHANGING LAYOUT OF BUTTONS TO HORIZONTALLY ALIGN UNDER NAVBAR - WILL MAKE CHANGES SOON 
 <div class="subnav">
@@ -113,13 +119,26 @@
       </div>
     </div>
     {% endif %}
+
+    <!-- Section to display properties data -->
+    {% if docx_content_properties_array is defined %}
+    <section id = "docx_content_properties">
+    </section>
+    {% endif %}
+    
+    
   </section>
 
   <!-- Column 2 -->
   <section class="document_text">
-  {% for rsid, text, index in packed -%}
-    <p class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
-  {%- endfor %}
+  {% for paragraph in docx_content %}
+  <div class = "paragraph">
+    {% for text, rsid, index in paragraph -%}
+      <p class='_{{rsid}}' title='{{rsid}}' data-rsid_index='{{ index }}'>{{text}}</p>
+    {%- endfor %}
+  </div>
+  {% endfor %}
+  
   </section>
 </section>
 
