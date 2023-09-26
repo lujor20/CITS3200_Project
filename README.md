@@ -91,15 +91,15 @@ curl localhost:5000
 ```
 
 ```bash
-aws lightsail create-container-service --service-name cits3200project --power small --scale 1
+aws lightsail create-container-service --service-name team21plagiarismdetection --power small --scale 1
 ```
 
 ```bash
-aws lightsail push-container-image --service-name cits3200project --label flask-container --image flask-container
+aws lightsail push-container-image --service-name team21plagiarismdetection --label flask-container --image flask-container
 ```
 
 ```bash
-aws lightsail create-container-service-deployment --service-name cits3200project --containers file://containers.json --public-endpoint file://public-endpoint.json
+aws lightsail create-container-service-deployment --service-name team21plagiarismdetection --containers file://containers.json --public-endpoint file://public-endpoint.json
 ```
 
 ```bash
