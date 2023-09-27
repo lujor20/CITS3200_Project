@@ -1,6 +1,7 @@
 var TAG_ID_DATA_DOCX_CONTENT_PROPERTIES = "data_docx_content_properties"
 var TAG_ID_DOCX_CONTENT_PROPERTIES = "docx_content_properties"
 
+var TAG_ID_DATA_UNIQUE_RSIDS = "data_docx_unique_rsids"
 
 
 // Variable that holds index of stylesheet that describes RSID
@@ -11,7 +12,11 @@ var RSID_HIDDENS;
 
 var DOCX_CONTENT_PROPERTIES_ARRAY
 
+var rsids;
+
 function init_visualise() {
+  get_UNIQUE_RSID_array()
+
   find_rsid_style_index();
   populate_select();
   add_document_text_listeners();
@@ -238,6 +243,17 @@ function display_DOCX_CONTENT_PROPERTIES_ARRAY() {
     
   }
 }
+
+function get_UNIQUE_RSID_array() {
+  let div_tag = document.getElementById(TAG_ID_DATA_UNIQUE_RSIDS);
+  if (div_tag != null) {
+    let string = div_tag.dataset.unique_rsids;
+    string = string.replaceAll("'", '"')
+    rsids = JSON.parse(string);
+  }
+
+}
+
 function pdfChangeStyle(){
   document.getElementsByTagName("nav")[0].style.display = "none";
   document.getElementsByTagName("section")[0].classList.remove("grid-container");

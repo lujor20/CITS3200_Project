@@ -2,15 +2,6 @@
 
 {% block head_content %}
 
-<script>
-  rsids = ["dummy"
-    {% for rsid in unique_rsids -%}
-    ,"{{ rsid }}"
-    {%- endfor %}
-  ];
-  rsids.shift();
-</script>
-
 <script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
 
 <link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "tool1_style.css") }}>
@@ -35,6 +26,11 @@
 {% endblock %}
 
 {% block body_content %}
+
+
+{% if unique_rsids is defined %}
+<div id ="data_docx_unique_rsids" data-unique_rsids="{{unique_rsids | safe}}"></div>
+{% endif %}
 
 {% if docx_content_properties_array is defined %}
 <div id="data_docx_content_properties" data-cont_prop='{{docx_content_properties_array | tojson }}'></div>
