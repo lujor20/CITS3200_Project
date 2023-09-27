@@ -1,9 +1,9 @@
 import os
 import random
-from flask import render_template, jsonify
+from flask import render_template, jsonify, request
 from werkzeug.utils import secure_filename
 from . import tool1
-from .forms import FileForm
+from .forms import FileForm, MultipleFileForm
 
 from .extractXML import *
 from .docx_meta import *
@@ -62,7 +62,18 @@ def visualise():
 
     return render_template('visualise.html', form=form)
 
+@tool1.route('/analyse', methods = ['GET', 'POST'])
+def analyse():
+    multipleForm = MultipleFileForm()
 
+    if multipleForm.validate_on_submit():
+        # List of files
+        files = request.files.getlist(multipleForm.multipleFile.name)
+        for file in files:
+            print(file.filename)
+    #https://stackoverflow.com/questions/53021662/multiplefilefield-wtforms
+
+    return render_template('analyse.html', multipleForm = multipleForm)
 
 
 

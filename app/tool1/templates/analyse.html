@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+{% endblock %}
+
+{% block body_content %}
+
+<section>
+  <div class="form" id="upload">
+    <p><b>Upload New File</b></p>
+    <form method='POST' action='{{ url_for('tool1.analyse') }}' enctype="multipart/form-data">
+      {{ multipleForm.csrf_token }}
+      {{ multipleForm.multipleFile.label }}
+      {{ multipleForm.multipleFile() }}
+      {% for error in multipleForm.multipleFile.errors%}
+      <p>[{{ error }}]</p>
+      {% endfor %}
+      {{multipleForm.submit() }}
+    </form>
+  </div>
+</section>
+{% endblock %}
