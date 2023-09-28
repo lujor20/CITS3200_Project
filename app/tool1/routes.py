@@ -7,6 +7,7 @@ from .forms import FileForm, MultipleFileForm
 
 from .extractXML import *
 from .docx_meta import *
+from .analyse import *
 
 #https://flask-wtf.readthedocs.io/en/1.0.x/form/
 @tool1.route('/visualise', methods = ['GET', 'POST'])
@@ -69,8 +70,16 @@ def analyse():
     if multipleForm.validate_on_submit():
         # List of files
         files = request.files.getlist(multipleForm.multipleFile.name)
-        for file in files:
-            print(file.filename)
+        analysis = ANALYSE(files)
+
+        average_char_rsid = analysis.get_dict_average_char_per_unique_rsid()
+        print(list(average_char_rsid))
+        average_char_run = analysis.get_dict_average_char_per_run()
+        print(list(average_char_run))
+
+        return render_template('analyse.html', multipleForm = multipleForm,
+        average_char_rsid=average_char_rsid,
+        average_char_run=average_char_run)
     #https://stackoverflow.com/questions/53021662/multiplefilefield-wtforms
 
     return render_template('analyse.html', multipleForm = multipleForm)
