@@ -88,3 +88,14 @@ button{
 .subnav{
   margin: 20px;
 }
+
+/*
+CSS Styling related to section class "menu". - excluding the drop zone.
+*/
+.menu h1 {
+  font-size: 1.2rem;
+}
+
+.menu label {
+  display: none;
+}

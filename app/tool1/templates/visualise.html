@@ -12,9 +12,10 @@
 </script>
 
 <script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
+<script src={{ url_for('tool1.static', filename='fileupload.js') }}></script>
 
 <link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "tool1_style.css") }}>
-
+<link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "fileupload.css") }}>
 
 <style title = "rsid_css">
   {% for rsid, red, green, blue in colours -%}
@@ -70,10 +71,14 @@
 <section class="grid-container">
   <!-- Column 1 -->
   <section class="menu">
+   
     <div class="form" id="upload">
-      <p><b>Upload New File</b></p>
+      <h1>Analyse new file</h1>
       <form method='POST' action='/visualise', enctype="multipart/form-data">
         {{ form.csrf_token }}
+        <div id="dropzone" class="dropzone_normal">
+          <p>Drop .docx file here</p>
+        </div>
         {{ form.file.label }}
         {{ form.file() }}
         {% for error in form.file.errors%}
@@ -84,6 +89,7 @@
     </div>
 
     <div class = "form" id="colour">
+      <h1>Interaction Menu</h1>
       <form>
         <label for="rsid_color">Select Colour</label>
         <input type="color" id="rsid_color" name='rsid_color' value='#ff0000'>
@@ -146,6 +152,7 @@
 
 
 <script>
-  init_visualise()
+  init_visualise();
+  
 </script>
 {% endblock %}

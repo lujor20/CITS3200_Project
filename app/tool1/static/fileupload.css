@@ -1,0 +1,22 @@
+
+
+#dropzone {
+  height: 7vh;
+  line-height: 7vh; /** Hack to vertically center txt**/
+  max-width: 100%;
+  
+  margin: auto;
+  display: block;
+
+  text-align: center;
+}
+
+.dropzone_normal {
+  border: 3px dashed #a69999;
+  background-color: #ecf0f1;
+}
+
+.dropzone_hover {
+  border-color: blue;
+  background-color: #b9b6b6;
+}
