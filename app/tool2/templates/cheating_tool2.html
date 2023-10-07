@@ -7,10 +7,20 @@
 
 {% endblock %}
 {% block body_content %}
+<!-- loader -->
+<div id="loader" class="loader hidden">
+    <div class="loader-background"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+</div>
+
 <div class="tool2">
     <!-- Dropzone -->
     <div id="dropzone">
-        <p id="drop-text">Drop CSV file here</p>
+        <p id="drop-text">Drop a CSV file here!</p>
     </div>
     <!-- Filter -->
     <select id="filter">
@@ -25,15 +35,17 @@
         <input type="text" id="searchBar" placeholder="Search by username">
         <button class="nav-buttons" id="searchButton">Search</button>
         <button class="nav-buttons" id="resetButton">Reset</button>
-        <button class="nav-buttons" id="runDemo">Demo</button>
-        </div>
+        <button class="nav-buttons" id="downloadButton">Download</button>
+        <button class="nav-buttons" id="clearButton">Clean</button>
+    </div>
 
     <!-- Table -->
     <table id="csvTable">
         <tr>
             <th>Username</th>
-            <th>IP Address</th>
-            <th>Country</th>
+            <th>IP Address 1</th>
+            <th>IP Address 2</th>
+            <th>Country(last attempt)</th>
             <th>Flag</th>
         </tr>
     </table>
@@ -43,18 +55,21 @@
             <span class="close-button" style="float: right; cursor: pointer;" onclick="closeModal()">&times;</span>
             <h2>User Details</h2>
             <p><strong>Username:</strong> <span class="username"></span></p>
-            <p><strong>IP Address:</strong> <span class="ip"></span></p>
-            <p><strong>Country</strong> <span class="country"></span></p>
-            <p><strong>City</strong> <span class="city"></span></p>
-            <p><strong>Latitude:</strong> <span class="latitude"></span></p>
-            <p><strong>Longitude:</strong> <span class="longitude"></span></p>
-            <p><strong>Flag</strong> <span class="flag"></span></p>
+            <p><strong>IP Address 1:</strong> <span class="ip1"></span></p>
+            <p><strong>Country1:</strong> <span class="country1"></span></p>
+            <p><strong>City1:</strong> <span class="city1"></span></p>
+            <p><strong>Latitude1:</strong> <span class="latitude1"></span></p>
+            <p><strong>Longitude1:</strong> <span class="longitude1"></span></p>
+            <p><strong>IP Address 2:</strong> <span class="ip2"></span></p>
+            <p><strong>Country2:</strong> <span class="country2"></span></p>
+            <p><strong>City2:</strong> <span class="city2"></span></p>
+            <p><strong>Latitude2:</strong> <span class="latitude2"></span></p>
+            <p><strong>Longitude2:</strong> <span class="longitude2"></span></p>
+            <p><strong>Distance:</strong> <span class="distance"></span></p>
+            <p><strong>Risk:</strong> <span class="risk"></span></p>
             <div id="mapContainer" style="height: 400px; max-width: 100%; overflow: hidden;"></div>
         </div>
     </div>
-    <!-- Download -->
-    <button id="downloadButton">Download</button>
-    <button id="clearButton">Clean</button>
 </div>
 {% endblock %}
 

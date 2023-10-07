@@ -10,20 +10,17 @@ const resetButton = document.getElementById("resetButton");
 // dropzone
 dropzone.addEventListener('dragover', function(event) {
     event.preventDefault();
-    dropzone.style.borderColor = 'blue';
-    dropzone.style.backgroundColor = '#b9b6b6';
+    dropzone.classList.add('dragover');
 });
 
 dropzone.addEventListener('dragleave', function(event) {
     event.preventDefault();
-    dropzone.style.borderColor = '#a69999';
-    dropzone.style.backgroundColor = 'white';
+    dropzone.classList.remove('dragover');
 });
 
 dropzone.addEventListener('drop', function(event) {
     event.preventDefault();
-    dropzone.style.borderColor = '#a69999';
-    dropzone.style.backgroundColor = 'white';
+    dropzone.classList.remove('dragover');
 
     //Check the number of files
     if(event.dataTransfer.files.length !== 1) {
@@ -39,28 +36,36 @@ dropzone.addEventListener('drop', function(event) {
         return;
     }
 
+    showLoader();
+
     const reader = new FileReader();
     reader.onload = function(event) {
         const contents = event.target.result;
-
         fetch('/tool2', {
             method: 'POST',
             body: contents
         }).then(response => response.json())
         .then(data => {
-            csvTable.innerHTML = '<tr><th>Username</th><th>IP Address</th><th>Country</th><th>Flag</th></tr>';
+
+            hideLoader();
+
+            csvTable.innerHTML = '<tr><th>Username</th><th>IP Address 1</th><th>IP Address 2</th><th>Country(last attempt)</th><th>Flag</th></tr>';
             data.forEach(row => {
                 const newRow = csvTable.insertRow();
                 newRow.insertCell().textContent = row['Username'];
-                newRow.insertCell().textContent = row['Last Edited by: IP Address'];
+                newRow.insertCell().textContent = row['IPAddress1'];
+                newRow.insertCell().textContent = row['IPAddress2'];
                 newRow.insertCell().textContent = row['Country'];
 
                 const flagCell = newRow.insertCell();
                 flagCell.textContent = row['Flag'];
+                flagCell.classList.add('flag-cell');
                 if (row['Flag'] === 'INTERNATIONAL') {
-                    flagCell.classList.add('international-flag');
+                    newRow.classList.add('international-flag');
                 } else if (row['Flag'] === 'SUSPICIOUS') {
-                    flagCell.classList.add('suspicious-flag');
+                    newRow.classList.add('suspicious-flag');
+                } else {
+                    newRow.classList.add('domestic-flag');
                 }
 
                 newRow.addEventListener('click', onRowClick);
@@ -76,10 +81,11 @@ var rows = table.getElementsByTagName("tr");
 filter.addEventListener("change", function() {
     console.log("Filter change event triggered");
     var selectedValue = this.value;
+    showLoader();
     console.log("Selected value is: ", selectedValue);
 
     for (var i = 1; i < rows.length; i++) {
-        var locationType = rows[i].getElementsByTagName("td")[3].innerText;
+        var locationType = rows[i].getElementsByTagName("td")[4].innerText;
 
         if (selectedValue === "all" || locationType === selectedValue) {
             rows[i].style.display = "";
@@ -87,7 +93,10 @@ filter.addEventListener("change", function() {
             rows[i].style.display = "none";
         }
     }
-});
+    hideLoader();
+    console.log("Exiting filter change handler");  
+}); 
+
 //download
 downloadButton.addEventListener('click', function() {
     const csvData = tableToCSV(csvTable);
@@ -121,11 +130,14 @@ function downloadCSV(csvContent, filename) {
 }
 
 clearButton.addEventListener('click', function() {
-    csvTable.innerHTML = '<tr><th>Username</th><th>IP Address</th><th>Country</th><th>Flag</th></tr>';
+    csvTable.innerHTML = '<tr><th>Username</th><th>IP Address 1</th><th>IP Address 2</th><th>Country(last attempt)</th><th>Flag</th></tr>';
     filter.value = "all";
 });
+
 //search bar
 searchButton.addEventListener('click', function() {
+    showLoader();
+
     const searchString = String(searchBar.value);
     const table = document.getElementById("csvTable");
     const rows = table.getElementsByTagName("tr");
@@ -140,8 +152,11 @@ searchButton.addEventListener('click', function() {
             rows[i].style.display = "none";
         }
     }
+
+    hideLoader();
 });
 
+//resetButton
 resetButton.addEventListener('click', function() {
     const table = document.getElementById("csvTable");
     const rows = table.getElementsByTagName("tr");
@@ -153,69 +168,14 @@ resetButton.addEventListener('click', function() {
     searchBar.value = "";  // Clear the searchBar content
 });
 
-// Demo Button
-runDemo.addEventListener('click', function() {
-    fetch("/run_demo") 
-    .then(response => response.text())
-    .then(data => {
-        // Update table with CSV data
-        updateTableWithCSVData(data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
-
-function parseCSV(csvText) {
-    const rows = csvText.trim().split("\n");
-    const headers = rows[0].split(",");
-    const data = [];
-
-    for(let i = 1; i < rows.length; i++) {
-        const rowData = rows[i].split(",");
-        const record = {};
-        headers.forEach((header, index) => {
-            record[header] = rowData[index];
-        });
-        data.push(record);
-    }
-    return data;
-}
-
-function updateTableWithCSVData(csvText) {
-    const data = parseCSV(csvText);
-    const table = document.getElementById("csvTable");
-
-    // Clear old data:
-    table.innerHTML = `<tr>
-        <th>IP</th>
-        <th>Country</th>
-        <th>City</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Flag</th>
-    </tr>`;
-
-    // Append new data to the table:
-    data.forEach(row => {
-        const tr = document.createElement("tr");
-
-        Object.values(row).forEach(cellData => {
-            const td = document.createElement("td");
-            td.innerText = cellData;
-            tr.appendChild(td);
-        });
-
-        table.appendChild(tr);
-    });
-}
-
-
 //click row
 function onRowClick(event) {
     const row = event.currentTarget;
     const username = row.cells[0].textContent;
-    const ip = row.cells[1].textContent;
+    const ip1 = row.cells[1].textContent;
+    const ip2 = row.cells[2].textContent;
+
+    showLoader();
 
     fetch('/get_user_details', {
         method: 'POST',
@@ -224,15 +184,20 @@ function onRowClick(event) {
         },
         body: JSON.stringify({
             'Username': username,
-            'Last Edited by: IP Address': ip
+            'IP Address 1': ip1,
+            'IP Address 2': ip2
         })
     })
     .then(response => response.json())
     .then(data => {
+        hideLoader();
         // data response from the flask
         showDetailsInModal(data);
     })
-    .catch(error => console.error('Error fetching user details:', error));
+    .catch(error => {
+        hideLoader();
+        console.error('Error fetching user details:', error)
+    });
 }
 
 
@@ -251,16 +216,31 @@ window.addEventListener('click', function(event) {
 function showDetailsInModal(data) {
     //user details
     document.querySelector('.username').textContent = data.Username;
-    document.querySelector('.ip').textContent = data['Last Edited by: IP Address'];
-    document.querySelector('.country').textContent = data.Country;
-    document.querySelector('.city').textContent = data.City;
-    document.querySelector('.latitude').textContent = data.Latitude;
-    document.querySelector('.longitude').textContent = data.Longitude;
-    document.querySelector('.flag').textContent = data.Flag;
+
+    // Details for IP1
+    document.querySelector('.ip1').textContent = data['IP Address 1'];
+    document.querySelector('.country1').textContent = data.Country1; 
+    document.querySelector('.city1').textContent = data.City1
+    document.querySelector('.latitude1').textContent = data.Latitude1;
+    document.querySelector('.longitude1').textContent = data.Longitude1;
+
+
+    // Details for IP2
+    document.querySelector('.ip2').textContent = data['IP Address 2'] || 'None';
+    document.querySelector('.country2').textContent = data.Country2 || 'None';
+    document.querySelector('.city2').textContent = data.City2 || 'None';
+    document.querySelector('.latitude2').textContent = data.Latitude2 || 'None';
+    document.querySelector('.longitude2').textContent = data.Longitude2 || 'None';
+
+    document.querySelector('.distance').textContent = data.distance;
+    document.querySelector('.risk').textContent = data.risk;
+
 
     // add map into model
+    const mapContainer = document.getElementById('mapContainer');
+    mapContainer.innerHTML = '';
     if(data.map_html) {
-        document.getElementById('mapContainer').innerHTML = data.map_html;
+        mapContainer.innerHTML = data.map_html;
     }
 
     // display model
@@ -271,8 +251,11 @@ function closeModal() {
     document.getElementById('detailsModal').style.display = 'none';
 }
 
+// loader
+function showLoader() {
+    document.getElementById('loader').classList.remove('hidden');
+}
 
-
-
-
-
+function hideLoader() {
+    document.getElementById('loader').classList.add('hidden');
+}

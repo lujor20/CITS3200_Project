@@ -2,6 +2,7 @@ import pandas as pd
 from io import StringIO
 from geolite2 import geolite2
 from ip2geotools.databases.noncommercial import DbIpCity
+from .distance import returnDistance
 
 #pip install folium
 import folium
@@ -41,15 +42,6 @@ def get_location_type(country):
     else:
         return 'INTERNATIONAL'
     
-def process_csv_data(csv_data):
-    data = pd.read_csv(StringIO(csv_data))
-    result = data[['Last Edited by: IP Address', 'Username']].copy()
-    result['Country'] = result['Last Edited by: IP Address'].apply(get_country)
-
-    # Create a new column to specify if the country is DOMESTIC or INTERNATIONAL
-    result['Flag'] = result['Country'].apply(get_location_type)
-
-    return result.to_dict(orient='records')
 
 def get_full_details_ip2geotools(ip):
     """
@@ -74,35 +66,54 @@ def get_full_details_ip2geotools(ip):
         }
 
 def process_detail_data(row_data):
-    """
-    Process the row data to add latitude and longitude details.
-    Args:
-    - row_data: A dictionary containing at least 'Username' and 'Last Edited by: IP Address'
-    Returns:
-    - A dictionary with added latitude and longitude details.
-    """
-    ip = row_data.get('Last Edited by: IP Address')
-    response = get_full_details_ip2geotools(ip)
-    flag = get_location_type(get_country(ip))
+    ip1 = row_data.get('IP Address 1')
+    ip2 = row_data.get('IP Address 2')
 
-    # Update the original row data with new details
-    row_data['Country'] = response['Country']
-    row_data['City'] = response['City']
-    row_data['Latitude'] = response['Latitude']
-    row_data['Longitude'] = response['Longitude']
-    row_data['Flag'] = flag
+    lat1, lon1, lat2, lon2 = None, None, None, None
 
-    map_html = generate_map(response['Latitude'], response['Longitude'])
-    row_data['map_html'] = map_html
+    if ip1:
+        response1 = get_full_details_ip2geotools(ip1)
+        row_data['Country1'] = response1['Country']
+        row_data['City1'] = response1['City']
+        lat1 = response1['Latitude']
+        lon1 = response1['Longitude']
+        row_data['Latitude1'] = lat1
+        row_data['Longitude1'] = lon1
+
+    if ip2 and ip2 != "None":
+        response2 = get_full_details_ip2geotools(ip2)
+        row_data['Country2'] = response2['Country']
+        row_data['City2'] = response2['City']
+        lat2 = response2['Latitude']
+        lon2 = response2['Longitude']
+        row_data['Latitude2'] = lat2
+        row_data['Longitude2'] = lon2
+
+    distance = returnDistance(ip1, ip2)
+    row_data['distance'] = distance
+    if distance > 50:
+        row_data['risk'] = "high risk distance"
+    else:
+        row_data['risk'] = "low risk distance"
+
+    map_html = generate_map(lat1, lon1, lat2, lon2)
+    row_data['map_html'] = map_html 
 
     return row_data
 
-def generate_map(latitude, longitude):
-    m = folium.Map(location=[latitude, longitude], zoom_start=15)
-    folium.Marker([latitude, longitude]).add_to(m)
-
+def generate_map(lat1, lon1, lat2=None, lon2=None):
+    if lat1 and lon1:
+        m = folium.Map(location=[lat1, lon1], zoom_start=10)
+        folium.Marker([lat1, lon1], tooltip='IP Address 1').add_to(m)
+    if lat2 and lon2:
+        if not lat1 and not lon1:
+            m = folium.Map(location=[lat2, lon2], zoom_start=10)
+        folium.Marker([lat2, lon2], tooltip='IP Address 2').add_to(m)
+    
     map_html = m._repr_html_()
     return map_html
+
+
 
 
 # Close the database when the application ends and catch up error if exception
