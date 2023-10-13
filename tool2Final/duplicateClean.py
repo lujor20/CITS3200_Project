@@ -1,6 +1,18 @@
 import pandas as pd
 import csv
+'''
+To summarise this code file, it takes a csv file as input (inputfile) and processes this file to identify and extract any duplicate records of student ID's with 
+different Ip addresses. Any duplicates found in the file will be placed into a newly created CSV file called "duplicate.csv". This newly created file, acts as the 
+output. 
 
+
+- This is done through csv.DictReader reading the input file 
+- specifies the important columns needed for the new output csv
+- creates structures: user_records and duplicate_users which stores the data from our duplicate analysis. This is later added into the new csv file
+- The use of the for loop in this code acts as the data read in each row of the file. 
+- The use of the if and else statements, is where the real work happens which checks if there more than one id/ ip in the file. 
+- all this data is then added into the new file, shown down below through the functions of write.header() and writerow(row)
+'''
 
 def cleanfile(inputfile):
     with open(inputfile, newline='') as csvfile:
