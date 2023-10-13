@@ -30,7 +30,7 @@ class IPtoLocation:
         counter = 0
         with open(file, newline='') as openfile:
             csvFile = csv.reader(openfile, delimiter=',', quotechar='|')
-            with open('ipInformation.csv', 'w', newline='') as outputfile:
+            with open('backendData/ipInformation.csv', 'w', newline='') as outputfile:
                 writer = csv.writer(outputfile, dialect= 'excel')
                 writer.writerow(headers)
                 for row in csvFile:

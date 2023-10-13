@@ -35,21 +35,21 @@ class integrated:
     # this is the default action, which will run the initial analysis on the raw csv file, setting up the staticInternalSave.csv file for the international and distance analysis
     def initial(self):
         initialClean.initialClean(self.rawCsv)
-        iptolocation.IPtoLocation('justIP.csv')
+        iptolocation.IPtoLocation('backendData/justIP.csv')
         print("SUCCSSS")
-        object = flag.flagging("ipinformation.csv", "initial")
+        object = flag.flagging("backendData/ipinformation.csv", "initial")
         cpy.copyOutput("output.csv")
 
     # this is one of the two optional modules which will take the extracted international IP's and determine if the international code is part of high risk country codes
     def international(self):
-        international.findinternational('staticInternalSave.csv')
-        internationalObject = flag.flagging("international.csv", "international")
+        international.findinternational('backendData/staticInternalSave.csv')
+        internationalObject = flag.flagging("backendData/international.csv", "international")
 
     # this is one of the two optional modules which will take the extracted duplicate ips and determine if the last column distance is within the parameters of feasible travel distance
     def distance(self):
-        dClean.cleanfile("staticInternalSave.csv")
-        haversine.haversineDistance("duplicate.csv")
-        distanceObject = flag.flagging("duplicate.csv", "distance")
+        dClean.cleanfile("backendData/staticInternalSave.csv")
+        haversine.haversineDistance("backendData/duplicate.csv")
+        distanceObject = flag.flagging("backendData/duplicate.csv", "distance")
 
 ''' 
 use this for internal testing
@@ -63,6 +63,6 @@ fyi, for this program to work, it requires preexisting filenames, please ensure 
 
 sample.csv is a small csv file which holds enough data and rows to sufficiently test all features of backend
 '''
-#integrated("sample.csv", "initial")
+integrated("sample.csv", "distance")
 #integrated("sample.csv", "distance")
 #integrated("sample.csv", "international")

@@ -20,7 +20,7 @@ def cleanfile(inputfile):
         columns_needed = ['id', 'ip', 'country', 'city', 'latitude', 'longitude', 'ip2', 'country2', 'city2', 'latitude2', 'longitude2', 'distance']
         user_records = {}  # To store user records with their associated IP addresses
         duplicate_users = []  # To store users with different IP addresses
-        with open('duplicate.csv', 'w', newline='') as csvfile:
+        with open('backendData/duplicate.csv', 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=columns_needed)
             for row in reader:
                 # Check if this username is already in user_records

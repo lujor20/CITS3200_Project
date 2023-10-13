@@ -17,7 +17,7 @@ def findinternational(inputfile):
                 international_rows.append(row)
 
     # Create a new file "international.csv" and write the international rows to it
-    with open('international.csv', 'w', newline='') as international_file:
+    with open('backendData/international.csv', 'w', newline='') as international_file:
         fieldnames = reader.fieldnames
         writer = csv.DictWriter(international_file, fieldnames=fieldnames)
         

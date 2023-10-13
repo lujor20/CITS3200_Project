@@ -6,7 +6,7 @@ class copyOutput:
 
     def copy(self):
         # Copy output to staticInternalSave.csv
-        shutil.copy(self.output, "staticInternalSave.csv")
+        shutil.copy(self.output, "backendData/staticInternalSave.csv")
 
 
 

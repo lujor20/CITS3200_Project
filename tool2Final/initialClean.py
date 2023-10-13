@@ -11,7 +11,7 @@ class initialClean:
 
     def __init__(self, inputFile):
         file = pd.read_csv(inputFile)
-        with open('justIP.csv', 'w', newline='') as outputfile:
+        with open('backendData/justIP.csv', 'w', newline='') as outputfile:
             writer = csv.writer(outputfile, dialect= 'excel')
             # for each index and row in the file, check if if the column in the current iterating row contains the ip address or id. when found, add such columns from row into the justIP.csv file
             for index, row in file.iterrows():
