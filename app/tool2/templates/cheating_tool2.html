@@ -7,10 +7,10 @@
 
 {% endblock %}
 {% block body_content %}
-<body>
+<div class="tool2">
     <!-- Dropzone -->
     <div id="dropzone">
-        <p>Drop CSV file here</p>
+        <p id="drop-text">Drop CSV file here</p>
     </div>
     <!-- Filter -->
     <select id="filter">
@@ -19,11 +19,15 @@
         <option value="INTERNATIONAL">INTERNATIONAL</option>
         <option value="SUSPICIOUS">SUSPICIOUS</option>
     </select>
-    <!-- Search bar -->
-    <input type="text" id="searchBar" placeholder="Search by username">
-    <button id="searchButton">Search</button>
-    <button id="resetButton">Reset</button>
-    <button id="runDemo">Demo</button>
+
+    <div class="navigation-buttons">
+        <!-- Search bar -->
+        <input type="text" id="searchBar" placeholder="Search by username">
+        <button class="nav-buttons" id="searchButton">Search</button>
+        <button class="nav-buttons" id="resetButton">Reset</button>
+        <button class="nav-buttons" id="runDemo">Demo</button>
+        </div>
+
     <!-- Table -->
     <table id="csvTable">
         <tr>
@@ -51,6 +55,6 @@
     <!-- Download -->
     <button id="downloadButton">Download</button>
     <button id="clearButton">Clean</button>
-</body>
+</div>
 {% endblock %}
 

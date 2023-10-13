@@ -13,7 +13,7 @@
 }
 
 body{
-  background-color: rgba(200, 200, 200);
+  background-color: rgb(255, 255, 255);
 }
 
 
@@ -51,11 +51,10 @@ button{
   grid-row: 1;
   grid-column: 2;
   padding: 3%;
+  max-width: 100%;
 }
 
-.document_text > p {
-  display:inline;
-}
+
 
 .menu {
   align-self: start;
@@ -84,3 +83,57 @@ button{
   font-style: italic;
   
 }
+
+.subnav{
+  margin: 20px;
+}
+
+/*
+CSS Styling related to section class "menu". - excluding the drop zone.
+*/
+.menu h1 {
+  font-size: 1.2rem;
+}
+
+.menu section {
+  margin: 0.1rem auto;
+}
+
+.menu h1 {
+  margin: 0.1rem auto;
+}
+
+/* For "Analyse new file" */
+.menu label {
+  display: none;
+}
+
+#file {
+  width: 100%;
+  display:block;
+  background-color: #ecf0f1;
+  border: 1px solid black;
+}
+
+#submit {
+  width: 100%;
+}
+
+/* For "interaction menu */
+
+
+
+.document_text > .paragraph > p {
+  display: inline;
+}
+
+.paragraph {
+  margin: 1rem 0;
+}
+
+.collapse_structure > .paragraph {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+

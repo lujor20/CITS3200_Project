@@ -8,3 +8,7 @@ def home():
 @main.route("/contacts", methods = ['GET'])
 def contacts():
   return render_template('contacts.html')
+
+@main.route("/about", methods = ['GET'])
+def about():
+  return render_template('about.html')
