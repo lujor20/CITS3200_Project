@@ -42,7 +42,6 @@ class IPtoLocation:
                     writer.writerow(information)
 
 
-IPtoLocation('justIP.csv')
 
 
 
