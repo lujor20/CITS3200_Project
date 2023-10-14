@@ -63,6 +63,6 @@ fyi, for this program to work, it requires preexisting filenames, please ensure 
 
 sample.csv is a small csv file which holds enough data and rows to sufficiently test all features of backend
 '''
-#integrated("sample.csv", "international")
+integrated("test.csv", "international")
 #integrated("sample.csv", "distance")
 #integrated("sample.csv", "international")
