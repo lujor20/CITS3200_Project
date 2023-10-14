@@ -198,6 +198,10 @@ section{
     margin-bottom: 50px;
 }
 
+#h2-accordion{
+    margin-bottom: 40px;
+}
+
 @media(max-width: 1535px){
     nav{
         padding: 15px 3%;

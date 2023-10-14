@@ -12,7 +12,7 @@
     <h5>TEAM 21</h5>
     <h4>CITS3200 - Professional Computing</h4>    
     <h1>JOKITOT</h1>
-    <p>A cheating detection tool that analyses docx documents for its XML constituent parts and metadata</p>
+    <p>A cheating detection tool that examines docx documents for its XML constituent parts, metadata, and analyses submission log file</p>
     <a href="/visualise"> Tool1 </a>
     <a href="/tool2" class="ctaa">Tool2</a>
   </div>
@@ -69,7 +69,7 @@
   <div class="row">
     <div class="col">
       <h4>Tool 2</h4>
-      <p>Examines .docx document for metadata and analyse its constituent XML parts. Each run (single editing session) is colour coded to provide a visualisation into how the document was written. </p> <p>In a genuine document, the number of words will have a positive correlation to the number of runs present. Large documents will on average have higher number of saves and edits, thus, increasing the number of RSID values recorded</p>
+      <p>Analyzes the log submission file and highlights suspicious findings.</p> <p>Submissions coming from outside of Australia will be flagged as well as multiple submissions with unrealistic distance between them. Result is presented in a tabular output that could be downloaded as a CSV file for further analysis and investigation.</p>
     </div>
     <div class="col">
       <img src={{ url_for('main.static', filename='tool2example.png')}} class="d-block w-100" alt="...">
