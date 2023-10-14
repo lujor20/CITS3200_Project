@@ -36,9 +36,9 @@ class integrated:
     def initial(self):
         initialClean.initialClean(self.rawCsv)
         iptolocation.IPtoLocation('backendData/justIP.csv')
-        print("SUCCSSS")
         object = flag.flagging("backendData/ipinformation.csv", "initial")
         cpy.copyOutput("output.csv")
+        print("INITIAL")
 
     # this is one of the two optional modules which will take the extracted international IP's and determine if the international code is part of high risk country codes
     def international(self):
@@ -63,6 +63,6 @@ fyi, for this program to work, it requires preexisting filenames, please ensure 
 
 sample.csv is a small csv file which holds enough data and rows to sufficiently test all features of backend
 '''
-integrated("sample.csv", "distance")
+#integrated("sample.csv", "international")
 #integrated("sample.csv", "distance")
 #integrated("sample.csv", "international")

@@ -57,7 +57,7 @@ class IPtoLocation:
                          print("ERROR: ip geolocation failure. likely daily ip lookup limit reached")
                          break
 
-IPtoLocation("backendData/justIP.csv")
+
 
 
 
