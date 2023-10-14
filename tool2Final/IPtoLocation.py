@@ -20,9 +20,18 @@ if looking to further improve the performance of tool 2, this is definitely the 
 class IPtoLocation: 
     @staticmethod
     # this function performs a search through the external database for find matches and returns the details of the ip address
-    def returnDetails(ip, counter ): 
+    def returnDetails(ip): 
             res = DbIpCity.get(ip, api_key="free")
             return [res.ip_address, res.country, res.city, res.latitude, res.longitude]
+    
+    def count_csv_rows(self, file):
+        with open(file, newline='') as openfile:
+            csvFile = csv.reader(openfile, delimiter=',', quotechar='|')
+            rows = 0
+            for row in csvFile:
+                rows += 1
+            return rows
+
 
     # this function will take the name of the csv file with the ip addresses to be geolocated and output a csv file with the geolocation of each ip address termed ipInformation.csv
     def __init__(self, file):
@@ -30,17 +39,25 @@ class IPtoLocation:
         counter = 0
         with open(file, newline='') as openfile:
             csvFile = csv.reader(openfile, delimiter=',', quotechar='|')
+            rows = self.count_csv_rows(file)
             with open('backendData/ipInformation.csv', 'w', newline='') as outputfile:
                 writer = csv.writer(outputfile, dialect= 'excel')
                 writer.writerow(headers)
                 for row in csvFile:
                     if row[1] == "ip":
                         continue
-                    information = IPtoLocation.returnDetails(row[1], counter)
-                    information = [row[0]] + information
-                    counter += 1
-                    writer.writerow(information)
+                    try:
+                        information = IPtoLocation.returnDetails(row[1])
+                        information = [row[0]] + information
+                        counter += 1
+                        writer.writerow(information)
+                        print("GEOLOCATING: ", counter, "/", rows," (", round((counter/rows)*100, 2),"%)")
 
+                    except:
+                         print("ERROR: ip geolocation failure. likely daily ip lookup limit reached")
+                         break
+
+IPtoLocation("backendData/justIP.csv")
 
 
 
