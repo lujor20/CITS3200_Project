@@ -72,7 +72,13 @@ pip install -r requirements.txt
 flask run
 ```
 
-## Running the tool using AWS Lightsail for the first time
+## Using AWS lightsail
+
+**Note:** This is not required to run the code on a single machine!! This will deploy the website using AWS so the website can be accessed by anyone.
+
+Once all the the requirements are installed and the code within this repo downloaded, we can start the steps below.
+
+### Requirements
 
 In order for the tool to be deployed using Lightsail, the requirements needed are:
 
@@ -87,10 +93,6 @@ In order for the tool to be deployed using Lightsail, the requirements needed ar
   + <https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software>
 
 **Note: If installing on a university computer, you will need to contact the University IT department for temporary admin privileges in order to install the above requirements**
-
-### Using AWS lightsail
-
-Once all the the requirements are installed and the code within this repo downloaded, we can start the steps below.
 
 ### 1. Delete the virtual environment
 
@@ -160,23 +162,73 @@ The container will appear as "team21plagiarismdetection" in the lightsail websit
 
 ### 5. Push image to Lightsail
 
+This will upload the docker image to the AWS container. It may take from 5 mins to 10 mins.
+
 ```bash
 aws lightsail push-container-image --service-name team21plagiarismdetection --label flask-container --image flask-container
 ```
 
-### 6. Deploy the image
+If successful, it will output:
 
-This will upload the docker image to the AWS container. It may take from 5 mins to 10 mins.
+![Image push](ReadMe_photos/image_push.png)
+
+Take a note of the output. In this case, it tells me I should refer to this image as **:team21plagiarismdetection.flask-container.7**
+
+### 6. Change deployment version
+
+Open the file "containers.json" in the folder containing the code (with notepad)
+
+![Old containers.json file](ReadMe_photos/containers_json_old.png)
+
+Edit the line
+
+**"image": ":cits3200project.flask-container.6"**
+
+and replace with the deployment version the terminal just outputted from the step above. In my case, this is my new file.
+
+![New containers.json file](ReadMe_photos/containers_json_new.png)
+
+### 7. Deploy the image
+
+This will make the website for you. This could take from 5 mins to 10 mins.
 
 ```bash
 aws lightsail create-container-service-deployment --service-name team21plagiarismdetection --containers file://containers.json --public-endpoint file://public-endpoint.json
 ```
 
-#### (Optional) Get status from terminal 
+### 8. Check status
 
-```bash
-aws lightsail get-container-services --service-name flask-service
-```
+Open the Lightsail website 
+
+<https://lightsail.aws.amazon.com/ls/webapp/home/instances>
+
+Navigate to the containers and click on the container. You will see in the deployments tab (when you scroll to the bottom) that the status is deploying
+
+![Deploying](ReadMe_photos/deploying.png)
+
+Wait until it is active. Takes around 3 mins.
+
+![Deployment finish](ReadMe_photos/deployment_finish.png)
+
+### 9. Open website
+
+At the top of the page, there is a hyperlink labelled "public domain:".
+
+![Public domain](ReadMe_photos/public_domain.png)
+
+Clicking on the link will lead you to the website.
+
+![Website](ReadMe_photos/website.png)
+
+**IMPORTANT!!** By having a container (either running or disabled), you will pay a monthly fee ($15 aud/month for this particular one). The only way to stop paying is to delete the container, which is outlined below.
+
+### (Optional) Delete container
+
+To delete the container, go to the container menu on the Lightsail website, click the three dots and choose delete.
+
+![Delete container](ReadMe_photos/delete_container.png)
+
+This is irreversible and can only be installed again by following the iinstructions.
 
 ## Tool 1 Findings
 
