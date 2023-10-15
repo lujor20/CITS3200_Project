@@ -72,11 +72,39 @@ pip install -r requirements.txt
 flask run
 ```
 
-## Useful Commands (Delete later)
+## Running the tool using AWS Lightsail for the first time
 
-+ Update requirements.txt `pip freeze | Out-File -Encoding UTF8 requirements.txt`
+In order for the tool to be deployed using Lightsail, the requirements needed are:
 
-### To put everything on AWS lightsail
++ AWS account
+  + <https://aws.amazon.com/getting-started/guides/setup-environment/>
+  + You will need to use a debit/credit card when creating your account.
++ Configured AWS Command Line Interface (CLI)
+  + <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html>
++ Docker installation
+  + <https://docs.docker.com/engine/install/>
++ Lightsail control (lightsailctl) plugin
+  + <https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software>
+
+**Note: If installing on a university computer, you will need to contact the University IT department for temporary admin privileges in order to install the above requirements**
+
+### Using AWS lightsail
+
+Once all the the requirements are installed and the code within this repo downloaded, we can start the steps below.
+
+### 1. Delete the virtual environment
+
+We will no longer need the virtual environment since building the docker container will download all the requirements again.
+
+**Delete the folder called dev-env from the folder containing the code**
+
+### 2. Navigate to the folder containing the code in your terminal
+
+I have my code stored in the folder CITS3200_Project
+
+![Terminal](ReadMe_photos/terminal.png)
+
+### 3. Build docker container
 
 ```bash
 docker build -t flask-container .
