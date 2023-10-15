@@ -7,14 +7,18 @@
 
 {% endblock %}
 {% block body_content %}
+
 <!-- loader -->
 <div id="loader" class="loader hidden">
     <div class="loader-background"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
+    <div class="dots-container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <p id="progressText">Loading...</p> 
 </div>
 
 <div class="tool2">
@@ -24,7 +28,7 @@
     </div>
 
     <!-- click prompt -->
-    <p id="tablePrompt">Click on a row for more details!</p>
+    <p id="tablePrompt">Click on a row for map shown!</p>
 
     <div class="navigation">
         <!-- Search bar -->
@@ -32,23 +36,28 @@
 
         <!-- buttons -->
         <button class="nav-buttons" id="searchButton">Search</button>
-        <button class="nav-buttons" id="resetButton">Reset</button>
         <button class="nav-buttons" id="downloadButton">Download</button>
-        <button class="nav-buttons" id="clearButton">Clean</button>
         <button class="nav-buttons" id="internationalAnalysis">InternationalAnalysis</button>
         <button class="nav-buttons" id="distanceAnalysis">DistanceAnalysis</button>
+        <button class="nav-buttons" id="clearButton">Clean</button>
 
         <!-- Filter -->
         <select id="filter">
             <option value="all">All</option>
-            <option value="DOMESTIC">DOMESTIC</option>
-            <option value="INTERNATIONAL">INTERNATIONAL</option>
-            <option value="SUSPICIOUS">SUSPICIOUS</option>
+            <option value="domestic">domestic</option>
+            <option value="international">international</option>
+            <option value="suspicous">suspicous</option>
         </select>
     </div>
 
     <!-- Table -->
     <table id="csvTable">
+        <thead>
+            <!-- Headers-->
+        </thead>
+        <tbody>
+            <!-- Data rows-->
+        </tbody>
     </table>
 
     <!-- Modal -->
@@ -56,7 +65,7 @@
         <div style="width: 70%; margin: 5% auto; background: #fff; padding: 20px; border-radius: 5px; overflow-y: auto; max-height: 80vh;">
             <span class="close-button" style="float: right; cursor: pointer;" onclick="closeModal()">&times;</span>
             <h2>Details</h2>
-            <p><strong>UserID</strong> <span class="id"></span></p>
+            <div id="userDataContainer"></div>
             <div id="mapContainer" style="height: 400px; max-width: 100%; overflow: hidden;"></div>
         </div>
     </div>

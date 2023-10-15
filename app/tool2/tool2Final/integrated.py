@@ -1,4 +1,3 @@
-
 from . import haversineDistance as haversine
 from . import flagging as flag
 from . import duplicateClean as dClean
@@ -34,11 +33,11 @@ class integrated:
 
     # this is the default action, which will run the initial analysis on the raw csv file, setting up the staticInternalSave.csv file for the international and distance analysis
     def initial(self):
-        initialClean.initialClean(self.rawCsv)
-        iptolocation.IPtoLocation('app/tool2/tool2Final/backendData/justIP.csv')
-        print("SUCCSSS")
+        #initialClean.initialClean(self.rawCsv)
+        #iptolocation.IPtoLocation('app/tool2/tool2Final/backendData/justIP.csv')
         object = flag.flagging("app/tool2/tool2Final/backendData/ipinformation.csv", "initial")
         cpy.copyOutput("output.csv")
+        #print("INITIAL")
 
     # this is one of the two optional modules which will take the extracted international IP's and determine if the international code is part of high risk country codes
     def international(self):
@@ -63,7 +62,6 @@ fyi, for this program to work, it requires preexisting filenames, please ensure 
 
 sample.csv is a small csv file which holds enough data and rows to sufficiently test all features of backend
 '''
-
+#integrated("test.csv", "international")
 #integrated("sample.csv", "distance")
 #integrated("sample.csv", "international")
-#integrated("sample.csv", "distance")

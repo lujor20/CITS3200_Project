@@ -5,6 +5,7 @@
     margin-top: 20px;
 }
 
+/* dropzone */
 #dropzone {
     border: 3px dashed #b1a6a6;
     padding: 30px;
@@ -31,6 +32,7 @@
     font-weight: 500;
 }
 
+/* prompt box */
 #tablePrompt {
     font-size: 15px; 
     text-align: center;
@@ -49,6 +51,7 @@
     color: #A0522D;
 }
 
+/* navigation area */
 .navigation {
     display: flex;
     justify-content: flex-start;
@@ -93,6 +96,7 @@
     border-color: #974f3f;
 }
 
+/* table css */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -120,14 +124,14 @@ td {
 
 tr {
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+    transition: background-color 1s, transform 1s;
 }
 
 tr:hover {
     transform: translateY(-1px);
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
 }
-
+/* initial */
 tr.international-flag:hover {
     background-color: #e3effa;
     background-image: linear-gradient(135deg, #e3effa, #bac8df);
@@ -141,7 +145,6 @@ tr.suspicious-flag:hover {
 tr.domestic-flag:hover {
     background-color: #e7ffe7;
     background-image: linear-gradient(135deg, #e7ffe7, #c1dfc1);
-
 }
 .international-flag .flag-cell{
     color: #2465ba;
@@ -155,6 +158,56 @@ tr.domestic-flag:hover {
 
 .domestic-flag .flag-cell{
     color: #26b440;
+    font-weight: bold;
+}
+/* international */
+tr.high-risk-code:hover {
+    background-color: #f6dddd;
+    background-image: linear-gradient(135deg, #f6dddd, #d5b3b3);
+}
+
+tr.low-risk-code:hover {
+    background-color: #e7ffe7;
+    background-image: linear-gradient(135deg, #e7ffe7, #c1dfc1);
+}
+
+.high-risk-code .risk-cell-internationl{
+    color: #b61e1e;
+    font-weight: bold;
+}
+
+.low-risk-code .risk-cell-internationl{
+    color: #26b440;
+    font-weight: bold;
+}
+/* distance */
+tr.medium-risk:hover {
+    background-color: #e3effa;
+    background-image: linear-gradient(135deg, #e3effa, #bac8df);
+}
+
+tr.high-risk:hover {
+    background-color: #f6dddd;
+    background-image: linear-gradient(135deg, #f6dddd, #d5b3b3);
+}
+
+tr.low-risk:hover {
+    background-color: #e7ffe7;
+    background-image: linear-gradient(135deg, #e7ffe7, #c1dfc1);
+}
+
+.low-risk .risk-cell{
+    color: #26b440;
+    font-weight: bold;
+}
+
+.medium-risk .risk-cell{
+    color: #2465ba; 
+    font-weight: bold;
+}
+
+.high-risk .risk-cell{
+    color: #b61e1e;
     font-weight: bold;
 }
 
@@ -172,6 +225,7 @@ tr.domestic-flag:hover {
     z-index: 1000;
     display: flex;
     justify-content: center;
+    flex-direction: column-reverse;
     align-items: center;
 }
 
@@ -184,6 +238,12 @@ tr.domestic-flag:hover {
     background: rgba(0, 0, 0, 0.1); 
     backdrop-filter: blur(2px); 
     z-index: -1;
+}
+
+.dots-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dot {
@@ -229,4 +289,12 @@ tr.domestic-flag:hover {
         transform: scale(1.5);
     }
 }
+
+#progressText {
+    color: rgb(96, 64, 64);
+    font-size: 24px; 
+    margin-bottom: 10px;
+    text-align: center;
+}
+
 

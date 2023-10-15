@@ -8,6 +8,17 @@ const searchButton = document.getElementById("searchButton");
 const resetButton = document.getElementById("resetButton");
 const internationalAnalysis = document.getElementById("internationalAnalysis");
 const distanceAnalysis = document.getElementById("distanceAnalysis");
+const modal = document.getElementById('detailsModal');
+const closeButton = modal.querySelector('.close-button');
+
+// loader
+function showLoader() {
+    document.getElementById('loader').classList.remove('hidden');
+}
+
+function hideLoader() {
+    document.getElementById('loader').classList.add('hidden');
+}
 
 // dropzone
 dropzone.addEventListener('dragover', function(event) {
@@ -20,46 +31,18 @@ dropzone.addEventListener('dragleave', function(event) {
     dropzone.classList.remove('dragover');
 });
 
-function uploadFile(file, url, onSuccess) {
-    const xhr = new XMLHttpRequest();
-    xhr.upload.addEventListener('progress', function(e) {
-        if (e.lengthComputable) {
-            const percentComplete = (e.loaded / e.total) * 100;
-            document.getElementById('uploadProgress').innerText = percentComplete.toFixed(1) + '%';
-        }
-    }, false);
-    xhr.addEventListener('load', function() {
-        if (xhr.status == 200) {
-            const response = JSON.parse(xhr.responseText);
-            onSuccess(response);
-        } else {
-            console.error('Upload failed:', xhr.statusText);
-        }
-        hideLoader();
-    });
-    xhr.addEventListener('error', function() {
-        console.error('Upload failed.');
-        hideLoader();
-    });
-    xhr.open('POST', url, true);
-    xhr.setRequestHeader('Content-Type', 'text/csv');
-
-    showLoader();
-    xhr.send(file);
-}
-
 dropzone.addEventListener('drop', function(event) {
     event.preventDefault();
     dropzone.classList.remove('dragover');
 
-    //Check the number of files
+    // Check the number of files
     if(event.dataTransfer.files.length !== 1) {
         alert("please drop only one file");
         return;
     }
     const file = event.dataTransfer.files[0];
 
-    //Check the file type
+    // Check the file type
     const fileType = file.name.split('.').pop().toLowerCase();
     if (fileType !== 'csv') {
         alert('please drop CSV file');
@@ -79,36 +62,62 @@ dropzone.addEventListener('drop', function(event) {
         .then(response => response.json())
         .then(data => {
             hideLoader();
-            let tableHTML = '<tr>';
-
-            // Generate table headers
+            // generate header
+            let headerHTML = '<tr>';
             data.headers.forEach(header => {
-                tableHTML += `<th>${header}</th>`;
+                headerHTML += `<th>${header}</th>`;
             });
-            tableHTML += '</tr>';
-
-            // Generate table rows
+            headerHTML += '</tr>';
+            document.querySelector('#csvTable thead').innerHTML = headerHTML;
+            
+            
+            // generate table rows
+            let tableHTML = '';
             data.data.forEach(row => {
-            tableHTML += '<tr>';
-            data.headers.forEach(header => {
-                tableHTML += `<td>${row[header]}</td>`;
-            });
-            tableHTML += '</tr>';
-        });
-        // Insert the generated table HTML into your page
-        document.getElementById('csvTable').innerHTML = tableHTML;
+                let flagClass = '';
 
-        // Add click event listeners to each table row
-        data.data.forEach((row, index) => {
-        document.querySelectorAll('#csvTable tr')[index + 1].addEventListener('click', onRowClick);
-        });
+                if (row.flag === 'international') {
+                    flagClass = 'international-flag';
+                } else if (row.flag === 'suspicious') {
+                    flagClass = 'suspicious-flag';
+                } else if (row.flag === 'domestic') {
+                    flagClass = 'domestic-flag';
+                }
+
+                tableHTML += `<tr class="${flagClass}">`;
+            // add class for css
+            data.headers.forEach(header => {
+                let tdClass = '';
+
+                if (header === 'flag') {
+                    tdClass = 'flag-cell';
+                }
+                tableHTML += `<td class="${tdClass}">${row[header]}</td>`;
+            });
+                tableHTML += '</tr>';
+            });
+            document.querySelector('#csvTable tbody').innerHTML = tableHTML;
+
+            // add event listeners of click rows
+            data.data.forEach((row, index) => {
+                document.querySelectorAll('#csvTable tbody tr')[index].addEventListener('click', onRowClick);
+            });
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            hideLoader();
+            alert('An error occurred while processing the CSV file.');
         });
     };
     reader.readAsText(file);
-});   
+});
+
 
 //international analysis
 internationalAnalysis.addEventListener('click', function() {
+
+    filter.style.display = 'none'
+
     fetch('/international_analysis', {
         method: 'POST',
         headers: {
@@ -117,23 +126,43 @@ internationalAnalysis.addEventListener('click', function() {
     })
     .then(response => response.json())
     .then(data => {
-        let tableHTML = '<tr>';
-        // Generate table headers
+        // generate header
+        let headerHTML = '<tr>';
         data.headers.forEach(header => {
-            tableHTML += `<th>${header}</th>`;
+            headerHTML += `<th>${header}</th>`;
         });
-        tableHTML += '</tr>';
-        
-        // Generate table rows
-        data.data.forEach(row => {
-            tableHTML += '<tr>';
-            data.headers.forEach(header => {
-                tableHTML += `<td>${row[header]}</td>`;
-            });
-            tableHTML += '</tr>';
-        });
+        headerHTML += '</tr>';
+        document.querySelector('#csvTable thead').innerHTML = headerHTML;
 
-        document.getElementById('csvTable').innerHTML = tableHTML;
+        let tableHTML = '';
+        // generate table rows
+        data.data.forEach(row => {
+            let flagClass = '';
+
+            if (row.flag === 'low risk code') {
+                flagClass = 'low-risk-code';
+            } else if (row.flag === 'high risk code') {
+                flagClass = 'high-risk-code';
+            }
+
+            tableHTML += `<tr class="${flagClass}">`;
+            // class for css
+            data.headers.forEach(header => {
+                let tdClass = '';
+                if (header === 'flag') {
+                    tdClass = 'risk-cell-internationl';
+                }
+                tableHTML += `<td class="${tdClass}">${row[header]}</td>`;
+            });
+                tableHTML += '</tr>';
+            });
+
+        document.querySelector('#csvTable tbody').innerHTML = tableHTML;
+
+
+        data.data.forEach((row, index) => {
+            document.querySelectorAll('#csvTable tbody tr')[index].addEventListener('click', onRowClick);
+        });
     })
     .catch(error => {
         console.error('There was an error with the fetch operation', error);
@@ -142,6 +171,9 @@ internationalAnalysis.addEventListener('click', function() {
 
 //distance analysis
 distanceAnalysis.addEventListener('click', function() {
+    // hide filter
+    filter.style.display = 'none'
+
     fetch('/distance_analysis', {
         method: 'POST',
         headers: {
@@ -150,23 +182,43 @@ distanceAnalysis.addEventListener('click', function() {
     })
     .then(response => response.json())
     .then(data => {
-        let tableHTML = '<tr>';
-        // Generate table headers
+        let headerHTML = '<tr>';
+
         data.headers.forEach(header => {
-            tableHTML += `<th>${header}</th>`;
+            headerHTML += `<th>${header}</th>`;
         });
-        tableHTML += '</tr>';
-        
+        headerHTML += '</tr>';
+        document.querySelector('#csvTable thead').innerHTML = headerHTML;
+
         // Generate table rows
+        let tableHTML = '';
         data.data.forEach(row => {
-            tableHTML += '<tr>';
-            data.headers.forEach(header => {
-                tableHTML += `<td>${row[header]}</td>`;
-            });
+            let flagClass = '';
+
+            if (row.flag === 'medium risk') {
+                flagClass = 'medium-risk';
+            } else if (row.flag === 'high risk') {
+                flagClass = 'high-risk';
+            } else if (row.flag === 'low risk') {
+                flagClass = 'low-risk';
+            }
+
+            tableHTML += `<tr class="${flagClass}">`;
+
+        data.headers.forEach(header => {
+            let tdClass = '';
+            if (header === 'flag') {
+                tdClass = 'risk-cell';
+            }
+            tableHTML += `<td class="${tdClass}">${row[header]}</td>`;
+        });
             tableHTML += '</tr>';
         });
 
-        document.getElementById('csvTable').innerHTML = tableHTML;
+        document.querySelector('#csvTable tbody').innerHTML = tableHTML;
+        data.data.forEach((row, index) => {
+            document.querySelectorAll('#csvTable tr')[index + 1].addEventListener('click', onRowClick);
+        });
     })
     .catch(error => {
         console.error('There was an error with the fetch operation', error);
@@ -177,32 +229,23 @@ distanceAnalysis.addEventListener('click', function() {
 var table = document.getElementById("csvTable");
 var rows = table.getElementsByTagName("tr");
 filter.addEventListener("change", function() {
-    console.log("Filter change event triggered");
     var selectedValue = this.value;
-    console.log("Selected value is: ", selectedValue);
 
     showLoader();
 
-    // Ensure that the loader gets shown before filtering begins
-    requestAnimationFrame(function() {
-        // Start filtering after the loader has been shown
-        requestAnimationFrame(function() {
-            for (var i = 1; i < rows.length; i++) {
-                var locationType = rows[i].getElementsByTagName("td")[6].innerText;
-
-                if (selectedValue === "all" || locationType === selectedValue) {
-                    rows[i].style.display = "";
-                } else {
-                    rows[i].style.display = "none";
-                }
-            }
-            hideLoader();
-            console.log("Exiting filter change handler");
-        });
+    let rows = document.querySelectorAll('#csvTable tbody tr');
+    rows.forEach(row => {
+        if (selectedValue === "all" || row.classList.contains(selectedValue + '-flag')) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
     });
+    hideLoader();
 });
 
-//download
+
+//download output.csv
 downloadButton.addEventListener('click', () => {
     fetch('/download')
         .then(response => response.blob())
@@ -233,8 +276,8 @@ searchButton.addEventListener('click', function() {
     const table = document.getElementById("csvTable");
     const rows = table.getElementsByTagName("tr");
 
-    for (let i = 1; i < rows.length; i++) { // i=1 to skip the header row
-        const usernameCell = rows[i].getElementsByTagName("td")[0]; // assuming Username is the first column
+    for (let i = 1; i < rows.length; i++) { // skip the header row
+        const usernameCell = rows[i].getElementsByTagName("td")[0];
         const username = String(usernameCell.textContent || usernameCell.innerText);
 
         if (username.toLowerCase().indexOf(searchString) !== -1) {
@@ -247,28 +290,19 @@ searchButton.addEventListener('click', function() {
     hideLoader();
 });
 
-//resetButton
-resetButton.addEventListener('click', function() {
-    const table = document.getElementById("csvTable");
-    const rows = table.getElementsByTagName("tr");
-
-    for (let i = 1; i < rows.length; i++) {
-        rows[i].style.display = "";  // Show all rows
-    }
-
-    searchBar.value = "";  // Clear the searchBar content
-
-    filter.value = "all";
-});
-
 //click row
 function onRowClick(event) {
     const row = event.currentTarget;
-    const id = row.cells[0].textContent;
-    const longtitude = row.cells[4].textContent;
-    const latitude = row.cells[5].textContent;
+    // get coordinates
+    const latitude1 = row.cells[4].textContent; 
+    const longitude1 = row.cells[5].textContent; 
+    const latitude2 = row.cells[9]?.textContent || null; 
+    const longitude2 = row.cells[10]?.textContent || null; 
 
-    showLoader();
+    const coordinates = [{'latitude': latitude1, 'longitude': longitude1}];
+    if (latitude2 && longitude2) {
+        coordinates.push({'latitude': latitude2, 'longitude': longitude2});
+    }
 
     fetch('/get_user_details', {
         method: 'POST',
@@ -276,26 +310,22 @@ function onRowClick(event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'id': id,
-            'longitude': longtitude,
-            'latitude': latitude
+            'coordinates': coordinates
         })
     })
     .then(response => response.json())
     .then(data => {
-        hideLoader();
-        // data response from the flask
-        showDetailsInModal(data);
+        // add map 
+        const mapContainer = document.getElementById('mapContainer');
+        mapContainer.innerHTML = data.map_html || '';
+
+        // display the entire row data in the modal
+        showDetailsInModal(row);
     })
     .catch(error => {
-        hideLoader();
         console.error('Error fetching user details:', error)
     });
 }
-
-
-const modal = document.getElementById('detailsModal');
-const closeButton = modal.querySelector('.close-button');
 
 closeButton.addEventListener('click', function() {
     modal.style.display = 'none';
@@ -305,16 +335,17 @@ window.addEventListener('click', function(event) {
         modal.style.display = 'none';
     }
 });
+// add data to model
+function showDetailsInModal(row) {
+    const headers = document.querySelectorAll('table thead th'); 
+    const detailContainer = document.getElementById('userDataContainer');
+    detailContainer.innerHTML = ''; 
 
-function showDetailsInModal(data) {
-    //user details
-    document.querySelector('.id').textContent = data.id;
-
-    // add map into model
-    const mapContainer = document.getElementById('mapContainer');
-    mapContainer.innerHTML = '';
-    if(data.map_html) {
-        mapContainer.innerHTML = data.map_html;
+    for (let i = 0; i < row.cells.length; i++) {
+        const para = document.createElement('p');
+        const headerText = headers[i].textContent.toUpperCase();
+        para.innerHTML = `<strong>${headerText}</strong>: ${row.cells[i].textContent}`;
+        detailContainer.appendChild(para);
     }
 
     // display model
@@ -325,11 +356,3 @@ function closeModal() {
     document.getElementById('detailsModal').style.display = 'none';
 }
 
-// loader
-function showLoader() {
-    document.getElementById('loader').classList.remove('hidden');
-}
-
-function hideLoader() {
-    document.getElementById('loader').classList.add('hidden');
-}

@@ -23,8 +23,8 @@ class flagging:
 
     # this function is used to determine if the ip is domestic or international by checking if the country code is AU. 
     def initial(self, readFile, writeFile):
-        print("begin initial flagging option")
-        headers = ["id", "ip", "country", "city", "longitude", "latitude", "flag"]
+        #print("begin initial flagging option")
+        headers = ["id", "ip", "country", "city", "latitude", "longitude", "flag"]
         writeFile.writerow(headers)
         counter = 0
         for row in readFile:
@@ -55,9 +55,11 @@ class flagging:
                 continue
             row = list(row)
             flag = ''
-            if (row[1] != "AU"):
+            if (row[2] != "AU"):
+                print(row[2])
                 for i in sus:
-                    if (row[1] == i):
+                    print(i)
+                    if (row[2] == i):
                         flag = "high risk code"
                         break
                 else:
@@ -75,13 +77,14 @@ class flagging:
             flag = ''
             try:
                 if (float(row[-1]) <float(10)):
-                    flag = "low risk distance"
+                    flag = "low risk"
                 elif (float(row[-1]) <=float(20)):
-                    flag = "medium risk distance"
+                    flag = "medium risk"
                 elif (float(row[-1]) >float(20)):
-                    flag = "high risk distance"            
-            except:
+                    flag = "high risk"            
+            except ValueError as e:
                 print("error in distance flagging")
+                print(e)
             row.append(flag)
             writeFile.writerow(row)
 
