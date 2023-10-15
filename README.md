@@ -72,7 +72,7 @@ pip install -r requirements.txt
 flask run
 ```
 
-## Using AWS lightsail
+## Creating AWS lightsail service
 
 **Note:** This is not required to run the code on a single machine!! This will deploy the website using AWS so the website can be accessed by anyone.
 
@@ -229,6 +229,26 @@ To delete the container, go to the container menu on the Lightsail website, clic
 ![Delete container](ReadMe_photos/delete_container.png)
 
 This is irreversible and can only be installed again by following the instructions.
+
+## Updating AWS Lightsail
+
+Go through these steps **ONLY** to update Lightsail to a newer version of the code
+
+### 1. Download the new code from the repository
+
+The new version of the code can be found at
+
+<https://github.com/lujor20/CITS3200_Project/tree/main>
+
+Click Code (Green button), then download zip
+
+![Download zip](ReadMe_photos/download_code.png)
+
+Extract the folder from the zip format and store the folder in a permanent location.
+
+### 2. Follow the steps from create AWS Lightsail service
+
+The next steps are exactly the same as the steps to set up the AWS Lightsail service EXCEPT for step 4, which can be skipped. To clarify, **follow steps 1, 2, 3, 5, 6, 7, 8 and 9**.
 
 ## Tool 1 Findings
 
