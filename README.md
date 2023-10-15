@@ -228,7 +228,7 @@ To delete the container, go to the container menu on the Lightsail website, clic
 
 ![Delete container](ReadMe_photos/delete_container.png)
 
-This is irreversible and can only be installed again by following the iinstructions.
+This is irreversible and can only be installed again by following the instructions.
 
 ## Tool 1 Findings
 
