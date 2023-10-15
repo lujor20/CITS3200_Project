@@ -96,7 +96,8 @@ Once all the the requirements are installed and the code within this repo downlo
 
 We will no longer need the virtual environment since building the docker container will download all the requirements again.
 
-**Delete the folder called dev-env from the folder containing the code**
+**Delete the folder called dev-env from the folder containing the code.**
+If you don't have this folder, skip this step
 
 ### 2. Navigate to the folder containing the code in your terminal
 
@@ -106,36 +107,75 @@ I have my code stored in the folder CITS3200_Project
 
 ### 3. Build docker container
 
+Run the command in the terminal
+
 ```bash
 docker build -t flask-container .
 ```
+
+This may take from 15 mins to 30 mins to finish.
+
+If you see this error:
+
+![Docker error](ReadMe_photos/docker_error.png)
+
+Open the docker application and run the command again.
+
+![Docker Application](ReadMe_photos/docker_application.png)
+
+This is what will be displayed if successful
+![Docker build success](ReadMe_photos/docker_success.png)
+
+#### (Optional) Test the docker build
+
+To test the build, run the following command
 
 ```bash
 docker run -p 5000:5000 flask-container
 ```
 
-```bash
-curl localhost:5000
-```
+Click on the <http://127.0.0.1:5000> and the website should work as intended.
+![Docker Test](ReadMe_photos/docker_test.png)
+
+Close the server by clicking the stop (square) button in the docker application.
+![Docker Stop](ReadMe_photos/docker_stop.png)
+
+### 4. Create container service
+
+This step will create a container on your Lightsail account. The name of the container is team21plagiarismdetection.
 
 ```bash
 aws lightsail create-container-service --service-name team21plagiarismdetection --power small --scale 1
 ```
 
+If it responds with a configuration error, make sure to configure (login) to the AWS CLI first and run the command again. (This is extremely complicated and there are guides that explains it better on the internet). See below websites for more detail.
+
++ <https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html>
++ <https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html>
+
+The container will appear as "team21plagiarismdetection" in the lightsail website <https://lightsail.aws.amazon.com/ls/webapp/home/containers>
+**The "cits3200project" container was created previously**
+
+![Container creation](ReadMe_photos/container_creation.png)
+
+### 5. Push image to Lightsail
+
 ```bash
 aws lightsail push-container-image --service-name team21plagiarismdetection --label flask-container --image flask-container
 ```
+
+### 6. Deploy the image
+
+This will upload the docker image to the AWS container. It may take from 5 mins to 10 mins.
 
 ```bash
 aws lightsail create-container-service-deployment --service-name team21plagiarismdetection --containers file://containers.json --public-endpoint file://public-endpoint.json
 ```
 
-```bash
-aws lightsail get-container-services --service-name flask-service
-```
+#### (Optional) Get status from terminal 
 
 ```bash
-aws lightsail delete-container-service --service-name flask-service
+aws lightsail get-container-services --service-name flask-service
 ```
 
 ## Tool 1 Findings
