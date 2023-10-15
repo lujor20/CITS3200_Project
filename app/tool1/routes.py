@@ -32,6 +32,7 @@ def visualise():
         reds = []
         greens = []
         blues = []
+        colours = []
         for rsid in unique_rsids:
             reds.append(random.randint(50, 250))
             greens.append(random.randint(50, 250))

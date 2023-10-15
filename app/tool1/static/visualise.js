@@ -253,3 +253,46 @@ function pdfChangeStyle(){
   document.getElementById("colour").style.display = "block";
   document.getElementById("pdf").style.display = "block";
 }
+
+function toggleParagraphStructure () {
+  let documentText = document.getElementsByClassName("document_text")[0];
+  if (documentText.classList.contains("collapse_structure")) {
+    documentText.classList.remove("collapse_structure");
+  } else {
+    documentText.classList.add("collapse_structure");
+  }
+}
+
+let font_size = 1;
+function increase_fontsize () {
+  let documentText = document.getElementsByClassName("document_text")[0];
+  font_size *=1.1;
+  documentText.style.fontSize = font_size.toString().concat("rem");
+
+  paragraphs = documentText.getElementsByClassName("paragraph");
+  for (let x = 0; x < paragraphs.length; x++) {
+    paragraphs[x].style.margin = font_size.toString().concat("rem 0");
+  }
+}
+
+function  decrease_fontsize () {
+  let documentText = document.getElementsByClassName("document_text")[0];
+  font_size /= 1.1;
+  documentText.style.fontSize = font_size.toString().concat("rem");
+
+  paragraphs = documentText.getElementsByClassName("paragraph");
+  for (let x = 0; x < paragraphs.length; x++) {
+    paragraphs[x].style.margin = font_size.toString().concat("rem 0");
+  }
+}
+
+function reset_fontsize () {
+  let documentText = document.getElementsByClassName("document_text")[0];
+  font_size = 1;
+  documentText.style.fontSize = font_size.toString().concat("rem");
+
+  paragraphs = documentText.getElementsByClassName("paragraph");
+  for (let x = 0; x < paragraphs.length; x++) {
+    paragraphs[x].style.margin = font_size.toString().concat("rem 0");
+  }
+}
