@@ -1,0 +1,2 @@
+id,ip,country,city,latitude,longitude,ip2,country2,city2,latitude2,longitude2,distance,flag
+73152231,1.159.239.145,AU,Perth,115.8605855,-31.9558933,1.159.239.140,AU,Perth,115.8605855,-31.9558933,0.0,low risk distance

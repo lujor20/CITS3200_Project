@@ -10,7 +10,7 @@
     padding: 30px;
     height: 200px;
     background-color: #ecf0f1;
-    margin-bottom: 20px;
+    margin-bottom: 3px;
     border-radius: 10px; 
     transition: border-color 0.3s, background-color 0.3s;
     display: flex; 
@@ -31,13 +31,66 @@
     font-weight: 500;
 }
 
-.navigation-buttons{
-    margin: 10px;
+#tablePrompt {
+    font-size: 15px; 
+    text-align: center;
+    font-weight: 600; 
+    color: #8B4513; 
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #faf3e5; 
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#tablePrompt:hover {
+    background-color: #FFE4B5; 
+    color: #A0522D;
+}
+
+.navigation {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; 
+    margin-bottom: 10px;
+}
+
+#filter, #searchBar {
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+#filter {
+    margin-left: auto;
+    width: 90px;
 }
 
 .nav-buttons{
     border-radius: 5px;
     padding: 5px;
+    cursor: pointer;
+}
+
+.nav-buttons:hover {
+    background-color: #ffffff;
+}
+
+.nav-buttons:active, #searchBar:focus{
+    background-color: #e8e6e6;
+}
+
+#searchBar {
+    width: 170px;
+    outline: none;
+    margin-right: 0px; 
+}
+
+#searchBar:focus {
+    border-color: #974f3f;
 }
 
 table {
@@ -65,16 +118,30 @@ td {
     border-bottom: 1px solid #ddd;
 }
 
+tr {
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+tr:hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
 tr.international-flag:hover {
     background-color: #e3effa;
+    background-image: linear-gradient(135deg, #e3effa, #bac8df);
 }
 
 tr.suspicious-flag:hover {
     background-color: #f6dddd;
+    background-image: linear-gradient(135deg, #f6dddd, #d5b3b3);
 }
 
 tr.domestic-flag:hover {
     background-color: #e7ffe7;
+    background-image: linear-gradient(135deg, #e7ffe7, #c1dfc1);
+
 }
 .international-flag .flag-cell{
     color: #2465ba;
@@ -89,17 +156,6 @@ tr.domestic-flag:hover {
 .domestic-flag .flag-cell{
     color: #26b440;
     font-weight: bold;
-}
-
-
-
-#searchBar, #searchButton {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-#filter{
-    float: right;
 }
 
 /* Loader CSS */

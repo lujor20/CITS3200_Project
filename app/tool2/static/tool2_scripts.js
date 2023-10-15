@@ -6,6 +6,8 @@ const downloadButton = document.getElementById('downloadButton');
 const searchBar = document.getElementById('searchBar');
 const searchButton = document.getElementById("searchButton");
 const resetButton = document.getElementById("resetButton");
+const internationalAnalysis = document.getElementById("internationalAnalysis");
+const distanceAnalysis = document.getElementById("distanceAnalysis");
 
 // dropzone
 dropzone.addEventListener('dragover', function(event) {
@@ -17,6 +19,34 @@ dropzone.addEventListener('dragleave', function(event) {
     event.preventDefault();
     dropzone.classList.remove('dragover');
 });
+
+function uploadFile(file, url, onSuccess) {
+    const xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener('progress', function(e) {
+        if (e.lengthComputable) {
+            const percentComplete = (e.loaded / e.total) * 100;
+            document.getElementById('uploadProgress').innerText = percentComplete.toFixed(1) + '%';
+        }
+    }, false);
+    xhr.addEventListener('load', function() {
+        if (xhr.status == 200) {
+            const response = JSON.parse(xhr.responseText);
+            onSuccess(response);
+        } else {
+            console.error('Upload failed:', xhr.statusText);
+        }
+        hideLoader();
+    });
+    xhr.addEventListener('error', function() {
+        console.error('Upload failed.');
+        hideLoader();
+    });
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'text/csv');
+
+    showLoader();
+    xhr.send(file);
+}
 
 dropzone.addEventListener('drop', function(event) {
     event.preventDefault();
@@ -41,38 +71,106 @@ dropzone.addEventListener('drop', function(event) {
     const reader = new FileReader();
     reader.onload = function(event) {
         const contents = event.target.result;
+
         fetch('/tool2', {
             method: 'POST',
             body: contents
-        }).then(response => response.json())
+        })
+        .then(response => response.json())
         .then(data => {
-
             hideLoader();
+            let tableHTML = '<tr>';
 
-            csvTable.innerHTML = '<tr><th>Username</th><th>IP Address 1</th><th>IP Address 2</th><th>Country(last attempt)</th><th>Flag</th></tr>';
-            data.forEach(row => {
-                const newRow = csvTable.insertRow();
-                newRow.insertCell().textContent = row['Username'];
-                newRow.insertCell().textContent = row['IPAddress1'];
-                newRow.insertCell().textContent = row['IPAddress2'];
-                newRow.insertCell().textContent = row['Country'];
-
-                const flagCell = newRow.insertCell();
-                flagCell.textContent = row['Flag'];
-                flagCell.classList.add('flag-cell');
-                if (row['Flag'] === 'INTERNATIONAL') {
-                    newRow.classList.add('international-flag');
-                } else if (row['Flag'] === 'SUSPICIOUS') {
-                    newRow.classList.add('suspicious-flag');
-                } else {
-                    newRow.classList.add('domestic-flag');
-                }
-
-                newRow.addEventListener('click', onRowClick);
+            // Generate table headers
+            data.headers.forEach(header => {
+                tableHTML += `<th>${header}</th>`;
             });
+            tableHTML += '</tr>';
+
+            // Generate table rows
+            data.data.forEach(row => {
+            tableHTML += '<tr>';
+            data.headers.forEach(header => {
+                tableHTML += `<td>${row[header]}</td>`;
+            });
+            tableHTML += '</tr>';
+        });
+        // Insert the generated table HTML into your page
+        document.getElementById('csvTable').innerHTML = tableHTML;
+
+        // Add click event listeners to each table row
+        data.data.forEach((row, index) => {
+        document.querySelectorAll('#csvTable tr')[index + 1].addEventListener('click', onRowClick);
+        });
         });
     };
     reader.readAsText(file);
+});   
+
+//international analysis
+internationalAnalysis.addEventListener('click', function() {
+    fetch('/international_analysis', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        let tableHTML = '<tr>';
+        // Generate table headers
+        data.headers.forEach(header => {
+            tableHTML += `<th>${header}</th>`;
+        });
+        tableHTML += '</tr>';
+        
+        // Generate table rows
+        data.data.forEach(row => {
+            tableHTML += '<tr>';
+            data.headers.forEach(header => {
+                tableHTML += `<td>${row[header]}</td>`;
+            });
+            tableHTML += '</tr>';
+        });
+
+        document.getElementById('csvTable').innerHTML = tableHTML;
+    })
+    .catch(error => {
+        console.error('There was an error with the fetch operation', error);
+    });
+});
+
+//distance analysis
+distanceAnalysis.addEventListener('click', function() {
+    fetch('/distance_analysis', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        let tableHTML = '<tr>';
+        // Generate table headers
+        data.headers.forEach(header => {
+            tableHTML += `<th>${header}</th>`;
+        });
+        tableHTML += '</tr>';
+        
+        // Generate table rows
+        data.data.forEach(row => {
+            tableHTML += '<tr>';
+            data.headers.forEach(header => {
+                tableHTML += `<td>${row[header]}</td>`;
+            });
+            tableHTML += '</tr>';
+        });
+
+        document.getElementById('csvTable').innerHTML = tableHTML;
+    })
+    .catch(error => {
+        console.error('There was an error with the fetch operation', error);
+    });
 });
 
 //filter
@@ -81,56 +179,49 @@ var rows = table.getElementsByTagName("tr");
 filter.addEventListener("change", function() {
     console.log("Filter change event triggered");
     var selectedValue = this.value;
-    showLoader();
     console.log("Selected value is: ", selectedValue);
 
-    for (var i = 1; i < rows.length; i++) {
-        var locationType = rows[i].getElementsByTagName("td")[4].innerText;
+    showLoader();
 
-        if (selectedValue === "all" || locationType === selectedValue) {
-            rows[i].style.display = "";
-        } else {
-            rows[i].style.display = "none";
-        }
-    }
-    hideLoader();
-    console.log("Exiting filter change handler");  
-}); 
+    // Ensure that the loader gets shown before filtering begins
+    requestAnimationFrame(function() {
+        // Start filtering after the loader has been shown
+        requestAnimationFrame(function() {
+            for (var i = 1; i < rows.length; i++) {
+                var locationType = rows[i].getElementsByTagName("td")[6].innerText;
 
-//download
-downloadButton.addEventListener('click', function() {
-    const csvData = tableToCSV(csvTable);
-    downloadCSV(csvData, 'data.csv');
+                if (selectedValue === "all" || locationType === selectedValue) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+            hideLoader();
+            console.log("Exiting filter change handler");
+        });
+    });
 });
 
-function tableToCSV(table) {
-    const rows = Array.from(table.querySelectorAll('tr'));
-    let csvContent = '';
+//download
+downloadButton.addEventListener('click', () => {
+    fetch('/download')
+        .then(response => response.blob())
+        .then(blob => {
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = window.URL.createObjectURL(blob);
+            a.download = 'output.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        })
+        .catch(e => console.error('Fetch error:', e));
+});
 
-    rows.forEach(row => {
-        const rowData = Array.from(row.querySelectorAll('td, th')).map(cell => '"' + cell.textContent.replace(/"/g, '""') + '"');
-        csvContent += rowData.join(',') + '\n';
-    });
 
-    return csvContent;
-}
-
-function downloadCSV(csvContent, filename) {
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-
-    link.setAttribute("href", url);
-    link.setAttribute("download", filename);
-    link.style.visibility = 'hidden';
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
+//clean button
 clearButton.addEventListener('click', function() {
-    csvTable.innerHTML = '<tr><th>Username</th><th>IP Address 1</th><th>IP Address 2</th><th>Country(last attempt)</th><th>Flag</th></tr>';
+    csvTable.innerHTML = '';
     filter.value = "all";
 });
 
@@ -166,14 +257,16 @@ resetButton.addEventListener('click', function() {
     }
 
     searchBar.value = "";  // Clear the searchBar content
+
+    filter.value = "all";
 });
 
 //click row
 function onRowClick(event) {
     const row = event.currentTarget;
-    const username = row.cells[0].textContent;
-    const ip1 = row.cells[1].textContent;
-    const ip2 = row.cells[2].textContent;
+    const id = row.cells[0].textContent;
+    const longtitude = row.cells[4].textContent;
+    const latitude = row.cells[5].textContent;
 
     showLoader();
 
@@ -183,9 +276,9 @@ function onRowClick(event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            'Username': username,
-            'IP Address 1': ip1,
-            'IP Address 2': ip2
+            'id': id,
+            'longitude': longtitude,
+            'latitude': latitude
         })
     })
     .then(response => response.json())
@@ -215,26 +308,7 @@ window.addEventListener('click', function(event) {
 
 function showDetailsInModal(data) {
     //user details
-    document.querySelector('.username').textContent = data.Username;
-
-    // Details for IP1
-    document.querySelector('.ip1').textContent = data['IP Address 1'];
-    document.querySelector('.country1').textContent = data.Country1; 
-    document.querySelector('.city1').textContent = data.City1
-    document.querySelector('.latitude1').textContent = data.Latitude1;
-    document.querySelector('.longitude1').textContent = data.Longitude1;
-
-
-    // Details for IP2
-    document.querySelector('.ip2').textContent = data['IP Address 2'] || 'None';
-    document.querySelector('.country2').textContent = data.Country2 || 'None';
-    document.querySelector('.city2').textContent = data.City2 || 'None';
-    document.querySelector('.latitude2').textContent = data.Latitude2 || 'None';
-    document.querySelector('.longitude2').textContent = data.Longitude2 || 'None';
-
-    document.querySelector('.distance').textContent = data.distance;
-    document.querySelector('.risk').textContent = data.risk;
-
+    document.querySelector('.id').textContent = data.id;
 
     // add map into model
     const mapContainer = document.getElementById('mapContainer');
