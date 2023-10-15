@@ -33,8 +33,8 @@ class integrated:
 
     # this is the default action, which will run the initial analysis on the raw csv file, setting up the staticInternalSave.csv file for the international and distance analysis
     def initial(self):
-        #initialClean.initialClean(self.rawCsv)
-        #iptolocation.IPtoLocation('app/tool2/tool2Final/backendData/justIP.csv')
+        initialClean.initialClean(self.rawCsv)
+        iptolocation.IPtoLocation('app/tool2/tool2Final/backendData/justIP.csv')
         object = flag.flagging("app/tool2/tool2Final/backendData/ipinformation.csv", "initial")
         cpy.copyOutput("output.csv")
         #print("INITIAL")
