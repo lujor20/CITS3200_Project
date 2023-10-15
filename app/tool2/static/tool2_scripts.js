@@ -102,6 +102,7 @@ dropzone.addEventListener('drop', function(event) {
             data.data.forEach((row, index) => {
                 document.querySelectorAll('#csvTable tbody tr')[index].addEventListener('click', onRowClick);
             });
+
         })
         .catch(err => {
             console.error('Error:', err);
@@ -261,10 +262,10 @@ downloadButton.addEventListener('click', () => {
         .catch(e => console.error('Fetch error:', e));
 });
 
-
-//clean button
+// clean button
 clearButton.addEventListener('click', function() {
-    csvTable.innerHTML = '';
+    document.querySelector('#csvTable thead').innerHTML = '';
+    document.querySelector('#csvTable tbody').innerHTML = '';
     filter.value = "all";
 });
 
