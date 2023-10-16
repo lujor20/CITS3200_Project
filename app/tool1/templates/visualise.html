@@ -90,14 +90,13 @@
       <div class = "metadata">
         <table>
           {% for key, value in metadata.items() %}
-              <tr>
-                <th>{{ key }}</th>
-                {% if value == "" or value == None%}
-                <td class = "missing">Not avaliable.</td>
-                {% else %}
-                <td>{{value}}</td>
-                {% endif %}
-              </tr>
+            {% if value == "" or value == None%}
+            {% else %}
+            <tr>
+            <th>{{ key }}</th>
+            <td>{{value}}</td>
+            </tr>
+            {% endif %}
           {% endfor %}
         </table>
       </div>
