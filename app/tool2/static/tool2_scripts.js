@@ -226,6 +226,19 @@ distanceAnalysis.addEventListener('click', function() {
     });
 });
 
+//resetButton
+resetButton.addEventListener('click', function() {
+    const tableBody = document.querySelector("#csvTable tbody");
+    const rows = tableBody.getElementsByTagName("tr");
+
+    for (let i = 0; i < rows.length; i++) {
+        rows[i].style.display = "";  // Show all rows
+    }
+
+    searchBar.value = "";  // Clear the searchBar content
+    filter.value = "all";
+});
+
 //filter
 var table = document.getElementById("csvTable");
 var rows = table.getElementsByTagName("tr");
