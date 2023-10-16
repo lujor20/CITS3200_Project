@@ -241,6 +241,7 @@ function display_DOCX_CONTENT_PROPERTIES_ARRAY() {
 function pdfChangeStyle(){
   document.getElementsByTagName("nav")[0].style.display = "none";
   document.getElementsByTagName("section")[0].classList.remove("grid-container");
+  document.getElementsByTagName("section")[0].style.padding ="0 5%";
   document.getElementsByTagName("section")[1].classList.remove("menu");
   document.getElementById("upload").style.display = "none";
   document.getElementById("colour").style.display = "none";
@@ -248,6 +249,7 @@ function pdfChangeStyle(){
   window.print();
   document.getElementsByTagName("nav")[0].style.display = "block";
   document.getElementsByTagName("section")[0].classList.add("grid-container");
+  // document.getElementsByTagName("section")[0].style.padding = "0 19%";
   document.getElementsByTagName("section")[1].classList.add("menu");
   document.getElementById("upload").style.display = "block";
   document.getElementById("colour").style.display = "block";

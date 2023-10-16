@@ -27,12 +27,11 @@ button{
   padding: 5px;
 }
 
-
 /*
  Makes grid pattern.
 */
 .grid-container {
-  padding: 0;
+  padding: 0 5%;
 
   display: grid;
   column-gap: 1vw;
@@ -65,6 +64,9 @@ button{
   top: 2vh;
 }
 
+.metadata{
+  font-size: 0.9rem;
+}
 
 .metadata > table {
   width: 100%;
@@ -121,7 +123,9 @@ CSS Styling related to section class "menu". - excluding the drop zone.
 
 /* For "interaction menu */
 
-
+.document_text{
+  font-size: 0.9rem;
+}
 
 .document_text > .paragraph > p {
   display: inline;
