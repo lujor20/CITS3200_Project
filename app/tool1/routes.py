@@ -56,7 +56,19 @@ def visualise():
             temp["inheritance_array"] = prop.inheritance_array
             docx_content_properties_array.append(temp)
 
-
+        # Quick analysis - see if average exceeds threshold
+        docx_stat = DOCX_DATA(docx)
+        if docx_stat.average_num_char_per_unique_rsid < 200:
+            heading = "Average number of characters per RSID"
+        else:
+            heading = "Average number of characters per RSID (Suspicious)"
+        docx.metadata[heading] = docx_stat.average_num_char_per_unique_rsid
+        if docx_stat.average_num_char_per_run < 120:
+            heading = "Average number of characters per Run"
+        else:
+            heading = "Average number of characters per Run (Suspicious)"
+        docx.metadata[heading] = docx_stat.average_num_char_per_run
+        
         return render_template('visualise.html', form=form, unique_rsids = unique_rsids,
             colours = colours, metadata = docx.metadata, docx_content = docx_content,
             docx_content_properties_array = docx_content_properties_array)
