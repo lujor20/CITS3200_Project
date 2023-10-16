@@ -3,7 +3,34 @@ import csv
 from . import tool2
 from .tool2Final.integrated import integrated
 import folium
+'''
+This module serves as the main interaction point between the frontend and backend for the "Tool 2" feature. 
 
+index(): 
+Handles the initial CSV file drop into the drop zone.
+Invokes the integrated function from the backend to process the uploaded CSV.
+Returns cleaned data(output.csv) to the frontend after processing.
+
+international_analysis():
+Processes the uploaded CSV data specifically for international analysis.
+Invokes the integrated function with "international". Focus on the ID with international flag.
+Returns the processed data(output.csv) with international analysis results to the frontend.
+
+distance_analysis():
+Processes the uploaded CSV data specifically for distance analysis.
+Invokes the integrated function with "distance" type. Focus on the dupicated ID.
+Returns the processed data(output.csv) with distance analysis results to the frontend.
+
+get_user_details():
+Retrieves the user details by processing the clicked row's coordinates.
+Generates a map visualizing these coordinates.
+
+generate_map():
+A utility function that uses the `folium` library to generate an HTML map based on a set of coordinates.
+
+download_file():
+Provides an endpoint for users to download the processed 'output.csv' file.
+'''
 # initial
 @tool2.route('/tool2', methods=['GET','POST'])
 def index():

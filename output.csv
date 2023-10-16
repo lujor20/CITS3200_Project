@@ -1,2 +1,2 @@
-id,ip,country,city,latitude,longitude,ip2,country2,city2,latitude2,longitude2,distance,flag
-73152231,1.159.239.145,AU,Perth,-31.9558933,115.8605855,1.159.239.140,AU,Perth,-31.9558933,115.8605855,0.0,low risk
+id,ip,country,city,latitude,longitude,origin,flag
+73492890,66.115.147.73,CA,St. Albert,53.633239,-113.628845,international,low risk code

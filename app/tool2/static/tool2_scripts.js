@@ -255,6 +255,7 @@ filter.addEventListener("change", function() {
             row.style.display = "none";
         }
     });
+    
     hideLoader();
 });
 
