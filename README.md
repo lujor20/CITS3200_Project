@@ -72,43 +72,183 @@ pip install -r requirements.txt
 flask run
 ```
 
-## Useful Commands (Delete later)
+## Creating AWS lightsail service
 
-+ Update requirements.txt `pip freeze | Out-File -Encoding UTF8 requirements.txt`
+**Note:** This is not required to run the code on a single machine!! This will deploy the website using AWS so the website can be accessed by anyone.
 
-### To put everything on AWS lightsail
+Once all the the requirements are installed and the code within this repo downloaded, we can start the steps below.
+
+### Requirements
+
+In order for the tool to be deployed using Lightsail, the requirements needed are:
+
++ AWS account
+  + <https://aws.amazon.com/getting-started/guides/setup-environment/>
+  + You will need to use a debit/credit card when creating your account.
++ Configured AWS Command Line Interface (CLI)
+  + <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html>
++ Docker installation
+  + <https://docs.docker.com/engine/install/>
++ Lightsail control (lightsailctl) plugin
+  + <https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software>
+
+**Note: If installing on a university computer, you will need to contact the University IT department for temporary admin privileges in order to install the above requirements**
+
+### 1. Delete the virtual environment
+
+We will no longer need the virtual environment since building the docker container will download all the requirements again.
+
+**Delete the folder called dev-env from the folder containing the code.**
+If you don't have this folder, skip this step
+
+### 2. Navigate to the folder containing the code in your terminal
+
+I have my code stored in the folder CITS3200_Project
+
+![Terminal](ReadMe_photos/terminal.png)
+
+### 3. Build docker container
+
+Run the command in the terminal
 
 ```bash
 docker build -t flask-container .
 ```
 
+This may take from 15 mins to 30 mins to finish.
+
+If you see this error:
+
+![Docker error](ReadMe_photos/docker_error.png)
+
+Open the docker application and run the command again.
+
+![Docker Application](ReadMe_photos/docker_application.png)
+
+This is what will be displayed if successful
+![Docker build success](ReadMe_photos/docker_success.png)
+
+#### (Optional) Test the docker build
+
+To test the build, run the following command
+
 ```bash
 docker run -p 5000:5000 flask-container
 ```
 
-```bash
-curl localhost:5000
-```
+Click on the <http://127.0.0.1:5000> and the website should work as intended.
+![Docker Test](ReadMe_photos/docker_test.png)
+
+Close the server by clicking the stop (square) button in the docker application.
+![Docker Stop](ReadMe_photos/docker_stop.png)
+
+### 4. Create container service
+
+This step will create a container on your Lightsail account. The name of the container is team21plagiarismdetection.
 
 ```bash
 aws lightsail create-container-service --service-name team21plagiarismdetection --power small --scale 1
 ```
 
+If it responds with a configuration error, make sure to configure (login) to the AWS CLI first and run the command again. (This is extremely complicated and there are guides that explains it better on the internet). See below websites for more detail.
+
++ <https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html>
++ <https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html>
+
+The container will appear as "team21plagiarismdetection" in the lightsail website <https://lightsail.aws.amazon.com/ls/webapp/home/containers>
+**The "cits3200project" container was created previously**
+
+![Container creation](ReadMe_photos/container_creation.png)
+
+### 5. Push image to Lightsail
+
+This will upload the docker image to the AWS container. It may take from 5 mins to 10 mins.
+
 ```bash
 aws lightsail push-container-image --service-name team21plagiarismdetection --label flask-container --image flask-container
 ```
+
+If successful, it will output:
+
+![Image push](ReadMe_photos/image_push.png)
+
+Take a note of the output. In this case, it tells me I should refer to this image as **:team21plagiarismdetection.flask-container.7**
+
+### 6. Change deployment version
+
+Open the file "containers.json" in the folder containing the code (with notepad)
+
+![Old containers.json file](ReadMe_photos/containers_json_old.png)
+
+Edit the line
+
+**"image": ":cits3200project.flask-container.6"**
+
+and replace with the deployment version the terminal just outputted from the step above. In my case, this is my new file.
+
+![New containers.json file](ReadMe_photos/containers_json_new.png)
+
+### 7. Deploy the image
+
+This will make the website for you. This could take from 5 mins to 10 mins.
 
 ```bash
 aws lightsail create-container-service-deployment --service-name team21plagiarismdetection --containers file://containers.json --public-endpoint file://public-endpoint.json
 ```
 
-```bash
-aws lightsail get-container-services --service-name flask-service
-```
+### 8. Check status
 
-```bash
-aws lightsail delete-container-service --service-name flask-service
-```
+Open the Lightsail website 
+
+<https://lightsail.aws.amazon.com/ls/webapp/home/instances>
+
+Navigate to the containers and click on the container. You will see in the deployments tab (when you scroll to the bottom) that the status is deploying
+
+![Deploying](ReadMe_photos/deploying.png)
+
+Wait until it is active. Takes around 3 mins.
+
+![Deployment finish](ReadMe_photos/deployment_finish.png)
+
+### 9. Open website
+
+At the top of the page, there is a hyperlink labelled "public domain:".
+
+![Public domain](ReadMe_photos/public_domain.png)
+
+Clicking on the link will lead you to the website.
+
+![Website](ReadMe_photos/website.png)
+
+**IMPORTANT!!** By having a container (either running or disabled), you will pay a monthly fee ($15 aud/month for this particular one). The only way to stop paying is to delete the container, which is outlined below.
+
+### (Optional) Delete container
+
+To delete the container, go to the container menu on the Lightsail website, click the three dots and choose delete.
+
+![Delete container](ReadMe_photos/delete_container.png)
+
+This is irreversible and can only be installed again by following the instructions.
+
+## Updating AWS Lightsail
+
+Go through these steps **ONLY** to update Lightsail to a newer version of the code
+
+### 1. Download the new code from the repository
+
+The new version of the code can be found at
+
+<https://github.com/lujor20/CITS3200_Project/tree/main>
+
+Click Code (Green button), then download zip
+
+![Download zip](ReadMe_photos/download_code.png)
+
+Extract the folder from the zip format and store the folder in a permanent location.
+
+### 2. Follow the steps from create AWS Lightsail service
+
+The next steps are exactly the same as the steps to set up the AWS Lightsail service EXCEPT for step 4, which can be skipped. To clarify, **follow steps 1, 2, 3, 5, 6, 7, 8 and 9**.
 
 ## Tool 1 Findings
 
