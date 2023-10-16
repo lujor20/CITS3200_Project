@@ -76,8 +76,6 @@ flask run
 
 **Note:** This is not required to run the code on a single machine!! This will deploy the website using AWS so the website can be accessed by anyone.
 
-Once all the the requirements are installed and the code within this repo downloaded, we can start the steps below.
-
 ### Requirements
 
 In order for the tool to be deployed using Lightsail, the requirements needed are:
@@ -93,6 +91,8 @@ In order for the tool to be deployed using Lightsail, the requirements needed ar
   + <https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-install-software>
 
 **Note: If installing on a university computer, you will need to contact the University IT department for temporary admin privileges in order to install the above requirements**
+
+Once all the requirements are installed and the code within this repo downloaded, we can start the steps below.
 
 ### 1. Delete the virtual environment
 
