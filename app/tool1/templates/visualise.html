@@ -2,15 +2,6 @@
 
 {% block head_content %}
 
-<script>
-  rsids = ["dummy"
-    {% for rsid in unique_rsids -%}
-    ,"{{ rsid }}"
-    {%- endfor %}
-  ];
-  rsids.shift();
-</script>
-
 <script src= {{ url_for('tool1.static', filename='visualise.js') }}></script>
 <script src={{ url_for('tool1.static', filename='fileupload.js') }}></script>
 
@@ -37,6 +28,11 @@
 
 {% block body_content %}
 
+
+{% if unique_rsids is defined %}
+<div id ="data_docx_unique_rsids" data-unique_rsids="{{unique_rsids | safe}}"></div>
+{% endif %}
+
 {% if docx_content_properties_array is defined %}
 <div id="data_docx_content_properties" data-cont_prop='{{docx_content_properties_array | tojson }}'></div>
 {% endif %}
@@ -44,7 +40,7 @@
 <section class="grid-container">
   <!-- Column 1 -->
   <section class="menu">
-   
+    <a href={{ url_for('tool1.analyse') }}>Link to analyse multiple documents</a>
     <div class="form" id="upload">
       <h1>Analyse new file</h1>
       <form method='POST' action='/visualise', enctype="multipart/form-data">
@@ -123,6 +119,6 @@
 
 <script>
   init_visualise();
-  
+
 </script>
 {% endblock %}
