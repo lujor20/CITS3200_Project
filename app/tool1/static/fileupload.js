@@ -2,11 +2,11 @@ const CSS_DROPZONE_HOVER = "dropzone_hover"
 
 document.addEventListener('DOMContentLoaded', function() {
   init_fileupload();
-}, false);
+  }, false);
 
 function init_fileupload () {
   const dropzone = document.getElementById("dropzone");
-  const file_input = document.getElementById("file");
+const file_input = document.getElementById("file");
 
   dropzone.addEventListener('dragover', function(event) {
     event.preventDefault();
@@ -30,7 +30,7 @@ function init_fileupload () {
     reader.onload = function (e) {
       let container = new DataTransfer();
       container.items.add(file);
-
+      
       file_input.files = container.files;
     }
     reader.onerror = function (e) {
