@@ -67,6 +67,20 @@ class ANALYSE:
       averages[docx_name] = docx_data.average_num_char_per_run
     return averages
 
+  def get_dict_char_per_unique_rsid(self):
+    counts = {}
+    for docx_data in self.array_docx_data:
+      docx_name = docx_data.docx_name
+      counts[docx_name] = docx_data.char_per_unique_rsid
+    return counts
+  
+  def get_dict_char_per_run(self):
+    counts = {}
+    for docx_data in self.array_docx_data:
+      docx_name = docx_data.docx_name
+      counts[docx_name] = docx_data.char_per_run
+    return counts
+
 
 
 
@@ -81,6 +95,8 @@ class DOCX_DATA:
     self.docx_name = docx.docx_name
     self.average_num_char_per_unique_rsid = self.get_average_num_char_per_unique_rsid(docx)
     self.average_num_char_per_run = self.get_average_num_char_per_run(docx)
+    self.char_per_unique_rsid = self.get_list_char_per_unique_rsid(docx)
+    self.char_per_run = self.get_list_char_per_run(docx)
 
 
   def get_average_num_char_per_unique_rsid(self, docx):
@@ -111,6 +127,26 @@ class DOCX_DATA:
       return average
     else:
       return 0
+    
+  def get_list_char_per_unique_rsid(self, docx):
+    rsid_char_count_dict= dict()
+    for key, paragraph in docx.paragraphs.items():
+      txt_array = paragraph.txt_array
+      rsid_array = paragraph.rsid_array
+      for txt, rsid in zip(txt_array, rsid_array):
+        if rsid not in rsid_char_count_dict:
+          rsid_char_count_dict[rsid] = 0
+        rsid_char_count_dict[rsid] += len(txt)
+    return list(rsid_char_count_dict.values())
 
+  def get_list_char_per_run(self, docx):
+    for key, paragraph in docx.paragraphs.items():
+      count_char_txt = []
+      txt_array = paragraph.txt_array
+      for txt in txt_array:
+        count = len(txt)
+        count_char_txt.append(count)
+
+    return count_char_txt
 
   

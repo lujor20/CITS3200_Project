@@ -72,14 +72,13 @@ def analyse():
         files = request.files.getlist(multipleForm.multipleFile.name)
         analysis = ANALYSE(files)
 
-        average_char_rsid = analysis.get_dict_average_char_per_unique_rsid()
-        print(list(average_char_rsid))
-        average_char_run = analysis.get_dict_average_char_per_run()
-        print(list(average_char_run))
+        char_per_unique_rsid = analysis.get_dict_char_per_unique_rsid()
+        char_per_run = analysis.get_dict_char_per_run()
+        print(char_per_run)
 
         return render_template('analyse.html', multipleForm = multipleForm,
-        average_char_rsid=average_char_rsid,
-        average_char_run=average_char_run)
+        char_per_unique_rsid=char_per_unique_rsid,
+        char_per_run=char_per_run)
     #https://stackoverflow.com/questions/53021662/multiplefilefield-wtforms
 
     return render_template('analyse.html', multipleForm = multipleForm)

@@ -1,14 +1,23 @@
 {% extends "base.html" %}
 
 {% block head_content %}
+<script src="https://cdn.plot.ly/plotly-2.26.0.min.js" charset="utf-8"></script>
+<script src={{ url_for('tool1.static', filename='graph.js') }}></script>
+<link rel="stylesheet" type="text/css" href={{ url_for('tool1.static', filename = "tool1_style.css") }}>
+
 {% endblock %}
 
 {% block body_content %}
 
 <section>
+  <a href={{ url_for('tool1.visualise')}}>Click to go back</a>
   <div class="form" id="upload">
     <p><b>Upload New File</b></p>
-    <form method='POST' action='{{ url_for('tool1.analyse') }}' enctype="multipart/form-data">
+    <p>
+      Tip : You can select multiple files by holding ctrl and clicking the files in the folder. Alternatively
+      you can hold shift and click two files to select those files, and all those files inbetween.
+    </p>
+        <form method='POST' action='{{ url_for('tool1.analyse') }}' enctype="multipart/form-data">
       {{ multipleForm.csrf_token }}
       {{ multipleForm.multipleFile.label }}
       {{ multipleForm.multipleFile() }}
@@ -20,34 +29,25 @@
   </div>
 </section>
 
+{%if char_per_unique_rsid is defined %}
 <section>
-  {%if average_char_rsid is defined %}
-  <section>
-    <h3>Average number of char per RSID</h3>
-    <table>
-      {% for filename, average in average_char_rsid.items()%}
-      <tr>
-        <th>{{ filename }}</th>
-        <td>{{ average }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </section>
-  {% endif %}
-
-  {%if average_char_run is defined %}
-  <section>
-    <h3>Average number of char per RUN</h3>
-    <table>
-      {% for filename, average in average_char_run.items()%}
-      <tr>
-        <th>{{ filename }}</th>
-        <td>{{ average }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </section>
-  {% endif %}
+  <div id="char_per_unique_rsid" data-data="{{char_per_unique_rsid | safe}}"></div>
+  <h3>Graph of count of char per unique RSID in a given document</h3>
+  <p> Typically values above the range of 300 - 400 chars for a given .docx file warrants further investigation</p>
+  <div id="graph1"></div>
 </section>
+{% endif %}
+{%if char_per_run is defined %}
+<section>
+  <div id="char_per_run" data-data="{{char_per_run | safe }}"></div>
+  <h3>Graph of count of char per run in a given document</h3>
+  <p> Typically entries above the range of 75 - 100 chars for a given .docx file warrants further investigation</p>
+  <div id="graph2"></div>
+</section>
+{% endif %}
+
+<script>
+  init_graph()
+</script>
 
 {% endblock %}
