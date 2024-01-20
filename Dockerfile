@@ -1,5 +1,5 @@
 # Set base image (host OS)
-FROM python:3.8-alpine
+FROM python:3.13.0a3-alpine
 
 # By default, listen on port 5000
 EXPOSE 5000/tcp
